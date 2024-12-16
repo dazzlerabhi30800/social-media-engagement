@@ -1,12 +1,17 @@
-import { UserButton } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
+import Header from "./Header";
+import { useSocialContext } from "../../context/SocialContext";
+import { useEffect } from "react";
 
 const FeedPage = () => {
+  const { registerNewUser } = useSocialContext();
+  const { user } = useUser();
+  useEffect(() => {
+    user && registerNewUser();
+  }, [user]);
   return (
-    <div>
-      <button className="p-3 px-8 font-semibold bg-darkGrey rounded-[30px] text-white hover:brightness-125">
-        Logout
-      </button>
-      <UserButton />
+    <div className="w-full">
+      <Header />
     </div>
   );
 };

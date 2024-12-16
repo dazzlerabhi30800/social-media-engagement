@@ -9,11 +9,16 @@ function App() {
   const { user } = useUser();
   return (
     <>
-      <Routes>
-        <Route path="/" element={user ? <Navigate to={"/feed"} /> : <Home />} />
-        <Route path="/feed" element={<FeedPage />} />
-        <Route path="/sign-in" element={<SignInPage />} />
-      </Routes>
+      <main className="flex w-full py-6 px-10">
+        <Routes>
+          <Route
+            path="/"
+            element={user ? <Navigate to={"/feed"} /> : <Home />}
+          />
+          <Route path="/feed" element={<FeedPage />} />
+          <Route path="/sign-in" element={<SignInPage />} />
+        </Routes>
+      </main>
     </>
   );
 }

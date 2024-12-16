@@ -10,3 +10,7 @@
 body {
   background: rgb(243, 225, 228);
 }
+.cl-avatarBox {
+  width: 2.5rem;
+  height: 2.5rem;
+}
