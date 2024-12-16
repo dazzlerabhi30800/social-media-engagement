@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/clerk-react";
 import Header from "./Header";
-import { useSocialContext } from "../../context/SocialContext";
 import { useEffect } from "react";
+import { useSocialContext } from "../../context/SocialContext";
 
 const FeedPage = () => {
   const { registerNewUser } = useSocialContext();
