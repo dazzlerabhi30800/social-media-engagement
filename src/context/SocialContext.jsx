@@ -7,8 +7,9 @@ const socialContext = createContext();
 
 export default function SocialContextProvider({ children }) {
   const { user } = useUser();
-  const [filesPath, setFilesPath] = useState([]);
   const [files, setFiles] = useState();
+  const [title, setTitle] = useState("");
+  const [posts, setPosts] = useState([]);
 
   // Save New user to database
   const registerNewUser = async () => {
@@ -18,7 +19,7 @@ export default function SocialContextProvider({ children }) {
       .eq("email", user?.primaryEmailAddress?.emailAddress)
       .limit(1);
     if (data.length === 0) {
-      let { data, error } = await supabase.from("users").insert([
+      let { error } = await supabase.from("users").insert([
         {
           id: user?.id,
           name: user?.fullName,
@@ -37,6 +38,11 @@ export default function SocialContextProvider({ children }) {
       return;
     }
 
+    if (title.length < 5) {
+      alert("your title is too short!");
+      return;
+    }
+
     const isFileOkay = checkFiles(files);
     if (!isFileOkay) {
       alert("You can't upload more than 1 video files");
@@ -52,27 +58,53 @@ export default function SocialContextProvider({ children }) {
       const { data, error } = await supabase.storage
         .from("post-imgs")
         .upload(`posts/${fileName}`, files[i]);
-      console.log(data);
       if (data) {
-        // alert(error);
         const { data: fileUrl } = supabase.storage
           .from("post-imgs")
           .getPublicUrl(data?.path);
-        // console.log(fileUrl?.publicUrl);
         fileLinks.push(fileUrl?.publicUrl);
       }
       if (error) {
-        consle.log(error);
+        console.log(error);
       }
     }
-    setFilesPath(fileLinks);
     setFiles();
+    const { data: postCreated, error: postError } = await savePosts(fileLinks);
+    return { postCreated, postError };
   };
-  console.log(files);
+
+  // to save post in supabase
+  const savePosts = async (fileLinks) => {
+    if (fileLinks.length < 1) {
+      alert("you don't have any files");
+    }
+    const { data, error } = await supabase
+      .from("posts")
+      .insert([
+        {
+          title: title,
+          created_by: user?.fullName,
+          user_photo: user?.imageUrl,
+          likes: [],
+          post_url: fileLinks,
+        },
+      ])
+      .select();
+    return { data, error };
+  };
 
   return (
     <socialContext.Provider
-      value={{ registerNewUser, saveToCloudStorage, setFiles, files }}
+      value={{
+        registerNewUser,
+        saveToCloudStorage,
+        setFiles,
+        files,
+        title,
+        setTitle,
+        posts,
+        setPosts,
+      }}
     >
       {children}
     </socialContext.Provider>

@@ -1,10 +1,25 @@
-import React from "react";
 import { FaArrowLeft, FaCamera, FaFile } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSocialContext } from "../../context/SocialContext";
 
 const CreatePost = () => {
-  const { saveToCloudStorage, files, setFiles } = useSocialContext();
+  const { saveToCloudStorage, files, setFiles, title, setTitle } =
+    useSocialContext();
+  const navigate = useNavigate();
+
+  // save post
+
+  const handleAddPost = async () => {
+    if (!files) return;
+    const { postError: error } = await saveToCloudStorage();
+    if (!error) {
+      navigate("/feed");
+    }
+    if (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-1 w-full relative">
       <div className="flex items-center gap-5 text-black">
@@ -16,6 +31,8 @@ const CreatePost = () => {
       <div className="flex flex-col mt-10 flex-1">
         <textarea
           type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           placeholder="What's on your mind?"
           rows={8}
           className="bg-red-100 rounded-md p-4 w-full placeholder:text-gray-600"
@@ -59,7 +76,7 @@ const CreatePost = () => {
           </div>
         </div>
         <button
-          onClick={() => files && saveToCloudStorage(files)}
+          onClick={files && handleAddPost}
           className="absolute bottom-0 mb-auto p-3 bg-black text-white w-full hover:bg-gray-800 rounded-3xl shadow-md font-bold md:text-lg"
         >
           Submit

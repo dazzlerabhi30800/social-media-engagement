@@ -1,9 +1,8 @@
-import { SignIn, SignUp } from "@clerk/clerk-react";
-import React from "react";
+import { SignIn } from "@clerk/clerk-react";
 
 const SignInPage = () => {
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="h-screen flex w-full justify-center items-center">
       <SignIn fallbackRedirectUrl="/feed" signUpFallbackRedirectUrl="/feed" />
     </div>
   );
