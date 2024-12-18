@@ -29,11 +29,20 @@ const ProfileInfo = () => {
         <div>
           {/* Profile Img */}
           <div className="flex gap-2 md:gap-4 items-center justify-between relative bottom-10">
-            <img
-              src={userInfo?.photoUrl}
-              alt={userInfo?.name}
-              className="w-28 h-28 rounded-[50%]"
-            />
+            {userInfo &&
+              (typeof userInfo.photoUrl === "object" ? (
+                <img
+                  src={userInfo.photoUrl.fileUrl}
+                  alt={userInfo?.name}
+                  className="w-28 h-28 rounded-[50%]"
+                />
+              ) : (
+                <img
+                  src={userInfo.photoUrl}
+                  alt={userInfo?.name}
+                  className="w-28 h-28 rounded-[50%]"
+                />
+              ))}
             <button
               onClick={() => navigate(`/edit/${userInfo?.id}`)}
               className="flex-1 h-fit mt-7 w-full p-2 md:p-3 rounded-3xl border md:border-2 border-gray-500 text-gray-500 font-medium max-w-72 transition-all hover:text-gray-800 hover:border-gray-800"

@@ -45,13 +45,24 @@ const PostComp = ({ post }) => {
           modules={[Pagination]}
           className={`mySwiper h-full w-full overflow-hidden`}
         >
-          {post?.post_url.map((img, index) => (
+          {post?.post_url.map((link, index) => (
             <SwiperSlide key={index} className="w-full">
-              <img
-                src={img}
-                alt={index}
-                className="w-full h-full rounded-xl object-cover"
-              />
+              {link.includes(".mp4") ? (
+                <video
+                  src={link}
+                  width="100%"
+                  className="w-full h-full"
+                  controls
+                  loop
+                  autoPlay={false}
+                />
+              ) : (
+                <img
+                  src={link}
+                  alt={index}
+                  className="w-full h-full rounded-xl object-cover"
+                />
+              )}
             </SwiperSlide>
           ))}
         </Swiper>

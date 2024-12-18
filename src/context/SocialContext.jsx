@@ -59,14 +59,16 @@ export default function SocialContextProvider({ children }) {
 
     let fileLinks = [];
     for (let i = 0; i < files.length; i++) {
-      const fileName = files[i].name;
+      const fileName = files[i].name + "-" + Date.now();
       const { data, error } = await supabase.storage
         .from("post-imgs")
         .upload(`posts/${fileName}`, files[i]);
       if (data) {
+        console.log(data);
         const { data: fileUrl } = supabase.storage
           .from("post-imgs")
           .getPublicUrl(data?.path);
+        console.log(fileUrl?.publicUrl);
         fileLinks.push(fileUrl?.publicUrl);
       }
       if (error) {
@@ -96,7 +98,7 @@ export default function SocialContextProvider({ children }) {
         },
       ])
       .select();
-    return { data, error };
+    return { data: data ? data : null, error: error ? error : null };
   };
 
   return (

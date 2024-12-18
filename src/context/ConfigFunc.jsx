@@ -31,7 +31,8 @@ export default function ConfigFunc() {
       console.log(error);
     } else {
       let bannerImg = JSON.parse(data[0]?.banner_img);
-      setUserInfo({ ...data[0], banner_img: bannerImg });
+      let profileData = JSON.parse(data[0]?.photoUrl);
+      setUserInfo({ ...data[0], banner_img: bannerImg, photoUrl: profileData });
       getUserPosts(id);
     }
   };
@@ -204,6 +205,16 @@ export default function ConfigFunc() {
 
   const paddingStyles = "p-6 md:px-10";
 
+  const fetchImage = (image) => {
+    if (!image) {
+      return false;
+    }
+    let imageData = JSON.parse(image);
+    if (typeof imageData === "object") {
+      return imageData?.fileUrl;
+    }
+    return imageData;
+  };
   return {
     fetchFeed,
     formatTime,
@@ -211,5 +222,6 @@ export default function ConfigFunc() {
     paddingStyles,
     saveUserEditedBio,
     getUserInfoWithoutFeeds,
+    fetchImage,
   };
 }
