@@ -30,7 +30,8 @@ export default function ConfigFunc() {
     if (error) {
       console.log(error);
     } else {
-      setUserInfo(data[0]);
+      let bannerImg = JSON.parse(data[0]?.banner_img);
+      setUserInfo({ ...data[0], banner_img: bannerImg });
       getUserPosts(id);
     }
   };
@@ -64,45 +65,74 @@ export default function ConfigFunc() {
   };
 
   // save file to cloud storage
-  const saveToCloudStorage = async (file) => {
+  const saveToCloudStorage = async (file, prevBanner) => {
     if (!file) {
       return false;
     }
-    const { data, error } = await supabase.storage
-      .from("post-imgs")
-      .upload(`posts/${file.name}`, file);
-    if (data) {
-      const { data: fileUrl } = supabase.storage
+    if (!prevBanner) {
+      const { data, error } = await supabase.storage
         .from("post-imgs")
-        .getPublicUrl(data?.path);
-      return fileUrl?.publicUrl;
+        .upload(`posts/${file.name}`, file, {
+          cacheControl: "200",
+        });
+      if (data) {
+        const { data: fileUrl } = supabase.storage
+          .from("post-imgs")
+          .getPublicUrl(data?.path);
+        const info = {
+          path: data?.path,
+          fileUrl: fileUrl?.publicUrl,
+        };
+        return info;
+      } else {
+        console.log(error);
+        return false;
+      }
     } else {
-      console.log(error);
-      return false;
+      const { data, error } = await supabase.storage
+        .from("post-imgs")
+        .update(prevBanner, file, {
+          cacheControl: "0",
+          upsert: true,
+        });
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(data);
+        const { data: fileUrl } = supabase.storage
+          .from("post-imgs")
+          .getPublicUrl(data?.path);
+        const info = {
+          path: data?.path,
+          fileUrl: fileUrl?.publicUrl,
+        };
+        return info;
+      }
     }
   };
 
   //  save user edited bio
-  const saveUserEditedBio = async (id, name, bio, bannerFile) => {
+  const saveUserEditedBio = async (id, name, bio, bannerFile, prevBanner) => {
     if (!id || !name || !bio) {
       alert("Please fill all the required fields");
     }
 
-    const fileUrl = await saveToCloudStorage(bannerFile);
+    const fileUrl = await saveToCloudStorage(bannerFile, prevBanner);
 
     const { data, error } = await supabase
       .from("users")
       .update({
         name: name,
         bio: bio,
-        banner_img: fileUrl ? fileUrl : null,
+        banner_img: fileUrl ? fileUrl : {},
       })
       .eq("id", id)
       .select();
     if (error) {
       console.log(error);
     } else {
-      console.log(data);
+      // console.log(data);
+      alert("Profile Updated Succesfully");
     }
   };
 

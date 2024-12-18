@@ -18,19 +18,17 @@ const EditProfile = () => {
   async function fetchUserInfo(id) {
     let data = await getUserInfoWithoutFeeds(id);
     if (data) {
+      let bannerData = JSON.parse(data.banner_img);
       setBio(data?.bio === "" ? "Add Bio Now!!" : data?.bio);
       setName(data?.name);
-      setBannerImg(data?.banner_img ? data?.banner_img : "");
-      setUserInfo(data);
+      setBannerImg(bannerData ? bannerData?.fileUrl : null);
+      setUserInfo({ ...data, banner_img: bannerData });
     }
   }
-
   const [bio, setBio] = useState("");
   const [name, setName] = useState("");
   const [bannerImg, setBannerImg] = useState("");
   const [imageFile, setImageFile] = useState();
-  console.log(bannerImg);
-
   return (
     <div className="w-full flex-1 flex flex-col h-full">
       <div
@@ -102,7 +100,15 @@ const EditProfile = () => {
             </div>
           </div>
           <button
-            onClick={() => saveUserEditedBio(id, name, bio, imageFile)}
+            onClick={() =>
+              saveUserEditedBio(
+                id,
+                name,
+                bio,
+                imageFile,
+                userInfo?.banner_img?.path
+              )
+            }
             className="p-3 bg-black text-white w-full hover:bg-gray-800 rounded-3xl shadow-md font-bold md:text-lg"
           >
             Save

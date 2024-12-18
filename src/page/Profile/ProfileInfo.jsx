@@ -10,11 +10,11 @@ const ProfileInfo = () => {
   return (
     <div className="w-full">
       <div
-        className="w-full h-[200px] md:h-[250px] rounded-b-2xl p-5"
+        className="w-full h-[200px] md:h-[250px] rounded-b-2xl p-5 bg-center bg-cover bg-no-repeat"
         style={{
-          background: userInfo?.banner_img
-            ? `url(${userInfo?.banner_img})`
-            : "gray",
+          backgroundImage: userInfo?.banner_img
+            ? `url(${userInfo?.banner_img?.fileUrl})`
+            : "url('https://img.freepik.com/premium-photo/free-photo-background-dark-gradient_854787-16.jpg?semt=ais_hybrid')",
         }}
       >
         <button

@@ -10,8 +10,8 @@ export default function SocialContextProvider({ children }) {
   const [files, setFiles] = useState();
   const [title, setTitle] = useState("");
   const [posts, setPosts] = useState([]);
-  const [userInfo, setUserInfo] = useState();
-  const [userPosts, setUserPosts] = useState();
+  const [userInfo, setUserInfo] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
 
   // Save New user to database
   const registerNewUser = async () => {
