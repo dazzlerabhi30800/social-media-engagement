@@ -7,14 +7,14 @@ import Posts from "./Posts";
 
 const FeedPage = () => {
   const { registerNewUser } = useSocialContext();
-  const { fetchFeed } = ConfigFunc();
+  const { fetchFeed, paddingStyles } = ConfigFunc();
   const { user } = useUser();
   useEffect(() => {
     user && registerNewUser();
     fetchFeed();
   }, [user]);
   return (
-    <div className="w-full">
+    <div className={`w-full ${paddingStyles}`}>
       <Header />
       <Posts />
     </div>

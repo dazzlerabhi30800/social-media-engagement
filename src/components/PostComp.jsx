@@ -1,4 +1,3 @@
-import moment from "moment";
 import React from "react";
 import { FaHeart } from "react-icons/fa";
 import { IoPaperPlane } from "react-icons/io5";

@@ -10,6 +10,8 @@ export default function SocialContextProvider({ children }) {
   const [files, setFiles] = useState();
   const [title, setTitle] = useState("");
   const [posts, setPosts] = useState([]);
+  const [userInfo, setUserInfo] = useState();
+  const [userPosts, setUserPosts] = useState();
 
   // Save New user to database
   const registerNewUser = async () => {
@@ -53,7 +55,6 @@ export default function SocialContextProvider({ children }) {
 
     let fileLinks = [];
     for (let i = 0; i < files.length; i++) {
-      console.log(files[i]);
       const fileName = files[i].name;
       const { data, error } = await supabase.storage
         .from("post-imgs")
@@ -87,6 +88,7 @@ export default function SocialContextProvider({ children }) {
           user_photo: user?.imageUrl,
           likes: [],
           post_url: fileLinks,
+          user_id: user?.id,
         },
       ])
       .select();
@@ -104,6 +106,10 @@ export default function SocialContextProvider({ children }) {
         setTitle,
         posts,
         setPosts,
+        userInfo,
+        setUserInfo,
+        userPosts,
+        setUserPosts,
       }}
     >
       {children}

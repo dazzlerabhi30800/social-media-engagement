@@ -5,12 +5,14 @@ import FeedPage from "./page/Feed/Feed";
 import SignInPage from "./page/SignIn/SignIn";
 import { useUser } from "@clerk/clerk-react";
 import CreatePost from "./page/createPost/CreatePost";
+import UserProfile from "./page/Profile/UserProfile";
+import EditProfile from "./page/Edit/EditProfile";
 
 function App() {
   const { user } = useUser();
   return (
     <>
-      <main className="flex w-full p-4 sm:p-6 md:px-10">
+      <main className="flex w-full ">
         <Routes>
           <Route
             path="/"
@@ -20,6 +22,8 @@ function App() {
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/feed" element={<FeedPage />} />
           <Route path="/sign-in" element={<SignInPage />} />
+          <Route path="/profile/:id" element={<UserProfile />} />
+          <Route path="/edit/:id" element={<EditProfile />} />
         </Routes>
       </main>
     </>
