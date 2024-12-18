@@ -34,7 +34,10 @@ const ProfileInfo = () => {
               alt={userInfo?.name}
               className="w-28 h-28 rounded-[50%]"
             />
-            <button className="flex-1 h-fit mt-7 w-full p-2 md:p-3 rounded-3xl border md:border-2 border-gray-500 text-gray-500 font-medium max-w-72 transition-all hover:text-gray-800 hover:border-gray-800">
+            <button
+              onClick={() => navigate(`/edit/${userInfo?.id}`)}
+              className="flex-1 h-fit mt-7 w-full p-2 md:p-3 rounded-3xl border md:border-2 border-gray-500 text-gray-500 font-medium max-w-72 transition-all hover:text-gray-800 hover:border-gray-800"
+            >
               Edit Profile
             </button>
           </div>
@@ -53,10 +56,7 @@ const ProfileInfo = () => {
           <h4 className="font-semibold text-2xl">My Posts</h4>
           <div className="gap-5 user--posts--wrapper mt-5">
             {userPosts?.map((post, index) => (
-              <div
-                className="w-full h-auto group"
-                key={index}
-              >
+              <div className="w-full h-auto group" key={index}>
                 <div
                   style={{ backgroundImage: `url(${post?.post_url[0]})` }}
                   className="w-full min-h-[180px] h-auto object-cover rounded-3xl bg-center bg-cover bg-no-repeat flex justify-center items-center p-5 group-hover:brightness-75 transition-all"

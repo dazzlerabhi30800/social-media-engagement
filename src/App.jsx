@@ -12,7 +12,7 @@ function App() {
   const { user } = useUser();
   return (
     <>
-      <main className="flex w-full ">
+      <main className="flex w-full flex-1 h-inherit">
         <Routes>
           <Route
             path="/"

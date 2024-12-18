@@ -31,7 +31,7 @@ const CreatePost = () => {
           </button>
           <h2 className="font-bold text-xl">New Post</h2>
         </div>
-        <div className="flex flex-col mt-10 flex-1">
+        <div className="flex flex-col mt-10 flex-1 bg-red-200">
           <textarea
             type="text"
             value={title}

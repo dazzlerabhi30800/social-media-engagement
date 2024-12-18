@@ -35,6 +35,20 @@ export default function ConfigFunc() {
     }
   };
 
+  // NOTE: function to fetch user info on profile page
+  const getUserInfoWithoutFeeds = async (id) => {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", id)
+      .limit(1);
+    if (error) {
+      console.log(error);
+    } else {
+      return data[0];
+    }
+  };
+
   // NOTE: get user posts for profile page
   const getUserPosts = async (id) => {
     const { data, error } = await supabase
@@ -49,6 +63,49 @@ export default function ConfigFunc() {
     }
   };
 
+  // save file to cloud storage
+  const saveToCloudStorage = async (file) => {
+    if (!file) {
+      return false;
+    }
+    const { data, error } = await supabase.storage
+      .from("post-imgs")
+      .upload(`posts/${file.name}`, file);
+    if (data) {
+      const { data: fileUrl } = supabase.storage
+        .from("post-imgs")
+        .getPublicUrl(data?.path);
+      return fileUrl?.publicUrl;
+    } else {
+      console.log(error);
+      return false;
+    }
+  };
+
+  //  save user edited bio
+  const saveUserEditedBio = async (id, name, bio, bannerFile) => {
+    if (!id || !name || !bio) {
+      alert("Please fill all the required fields");
+    }
+
+    const fileUrl = await saveToCloudStorage(bannerFile);
+
+    const { data, error } = await supabase
+      .from("users")
+      .update({
+        name: name,
+        bio: bio,
+        banner_img: fileUrl ? fileUrl : null,
+      })
+      .eq("id", id)
+      .select();
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(data);
+    }
+  };
+
   const formatTime = (time) => {
     if (!time) return;
     const formatted = moment(time).startOf("hour").fromNow();
@@ -58,5 +115,12 @@ export default function ConfigFunc() {
 
   const paddingStyles = "p-4 sm:p-6 md:px-10";
 
-  return { fetchFeed, formatTime, getUserInfo, paddingStyles };
+  return {
+    fetchFeed,
+    formatTime,
+    getUserInfo,
+    paddingStyles,
+    saveUserEditedBio,
+    getUserInfoWithoutFeeds,
+  };
 }
