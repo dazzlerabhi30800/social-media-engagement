@@ -10,7 +10,7 @@ const CreateButton = () => {
       to="/create-post"
       className={`${
         blackList.includes(location.pathname) ? "hidden" : "block"
-      } w-12 h-12 rounded-[50%] flex justify-center items-center fixed bottom-10 right-10 z-40 bg-darkGrey hover:bg-black hover:text-white text-gray-200`}
+      } w-12 h-12 rounded-[50%] flex justify-center items-center fixed bottom-10 right-10 md:right-[20%] lg:right-[30%] xl:right-[32%] z-40 bg-darkGrey hover:bg-black hover:text-white text-gray-200`}
     >
       <FaPlus size={25} />
     </Link>
