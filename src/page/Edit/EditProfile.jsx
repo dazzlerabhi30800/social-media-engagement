@@ -11,6 +11,14 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const { saveUserEditedBio, getUserInfoWithoutFeeds } = ConfigFunc();
 
+  const [bio, setBio] = useState("");
+  const [name, setName] = useState("");
+  const [bannerImg, setBannerImg] = useState("");
+  const [imageFile, setImageFile] = useState();
+  const [profileImg, setProfileImg] = useState("");
+  const [newProfileImg, setNewProfileImg] = useState("");
+  // console.log(bannerImg);
+
   useEffect(() => {
     id && fetchUserInfo(id);
   }, []);
@@ -19,16 +27,16 @@ const EditProfile = () => {
     let data = await getUserInfoWithoutFeeds(id);
     if (data) {
       let bannerData = JSON.parse(data.banner_img);
+      let profileUrl = JSON.parse(data?.photoUrl);
       setBio(data?.bio === "" ? "Add Bio Now!!" : data?.bio);
       setName(data?.name);
       setBannerImg(bannerData ? bannerData?.fileUrl : null);
-      setUserInfo({ ...data, banner_img: bannerData });
+      setUserInfo({ ...data, banner_img: bannerData, photoUrl: profileUrl });
+      setProfileImg(
+        typeof profileUrl === "object" ? profileUrl?.fileUrl : profileUrl
+      );
     }
   }
-  const [bio, setBio] = useState("");
-  const [name, setName] = useState("");
-  const [bannerImg, setBannerImg] = useState("");
-  const [imageFile, setImageFile] = useState();
   return (
     <div className="w-full flex-1 flex flex-col h-full">
       <div
@@ -48,11 +56,36 @@ const EditProfile = () => {
           </button>
           <p className="text-lg font-semibold text-white">Edit Profile</p>
         </div>
-        <img
-          src={userInfo?.photoUrl}
-          alt={userInfo?.name}
-          className="absolute left-6 -bottom-12 md:-bottom-14 w-24 h-24 md:w-28 md:h-28 rounded-[50%]"
-        />
+        <div
+          style={{
+            backgroundImage: profileImg
+              ? `url(${profileImg})`
+              : "url('https://img.freepik.com/premium-photo/free-photo-background-dark-gradient_854787-16.jpg?semt=ais_hybrid')",
+          }}
+          className="absolute left-6 -bottom-12 md:-bottom-14 w-24 h-24 md:w-28 md:h-28 rounded-[50%] bg-center bg-cover bg-no-repeat flex items-end justify-end"
+        >
+          {/* <img
+            src={userInfo?.photoUrl}
+            alt={userInfo?.name}
+            className=""
+          /> */}
+          <input
+            onChange={(e) => {
+              const generated = URL.createObjectURL(e.target.files[0]);
+              setProfileImg(generated);
+              setNewProfileImg(e.target.files[0]);
+            }}
+            type="file"
+            id="profileImg"
+            className="hidden"
+          />
+          <label
+            className="text-darkGrey w-8 h-8 shadow-md flex justify-center items-center rounded-[50%] text-base font-bold mb-4 bg-slate-200 hover:bg-slate-300 relative left-2 cursor-pointer"
+            htmlFor="profileImg"
+          >
+            <FaPencil />
+          </label>
+        </div>
         <div className="absolute bottom-5 right-5 ">
           <label
             htmlFor="bannerImg"
@@ -106,7 +139,9 @@ const EditProfile = () => {
                 name,
                 bio,
                 imageFile,
-                userInfo?.banner_img?.path
+                userInfo?.banner_img?.path,
+                userInfo?.photoUrl,
+                newProfileImg
               )
             }
             className="p-3 bg-black text-white w-full hover:bg-gray-800 rounded-3xl shadow-md font-bold md:text-lg"

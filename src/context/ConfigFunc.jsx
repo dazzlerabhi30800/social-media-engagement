@@ -70,9 +70,10 @@ export default function ConfigFunc() {
       return false;
     }
     if (!prevBanner) {
+      const fileName = `posts/${file.name}-${Date.now()}`;
       const { data, error } = await supabase.storage
         .from("post-imgs")
-        .upload(`posts/${file.name}`, file, {
+        .upload(fileName, file, {
           cacheControl: "200",
         });
       if (data) {
@@ -111,13 +112,70 @@ export default function ConfigFunc() {
     }
   };
 
+  // check the user profile photo url
+  const updateUserProfileImg = async (currentImg, newImg) => {
+    if (!currentImg || !newImg) {
+      return false;
+    }
+    if (typeof currentImg !== Object) {
+      const fileName = `posts/${newImg.name}-${Date.now()}`;
+      const { data, error } = await supabase.storage
+        .from("post-imgs")
+        .upload(fileName, newImg, {
+          cacheControl: "200",
+        });
+      if (data) {
+        const { data: fileUrl } = supabase.storage
+          .from("post-imgs")
+          .getPublicUrl(data?.path);
+        const info = {
+          path: data?.path,
+          fileUrl: fileUrl?.publicUrl,
+        };
+        return info;
+      } else {
+        console.log(error);
+        return false;
+      }
+    } else {
+      const { data, error } = await supabase.storage
+        .from("post-imgs")
+        .update(prevBanner.path, file, {
+          cacheControl: "0",
+          upsert: true,
+        });
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(data);
+        const { data: fileUrl } = supabase.storage
+          .from("post-imgs")
+          .getPublicUrl(data?.path);
+        const info = {
+          path: data?.path,
+          fileUrl: fileUrl?.publicUrl,
+        };
+        return info;
+      }
+    }
+  };
+
   //  save user edited bio
-  const saveUserEditedBio = async (id, name, bio, bannerFile, prevBanner) => {
+  const saveUserEditedBio = async (
+    id,
+    name,
+    bio,
+    bannerFile,
+    prevBanner,
+    profileImg,
+    newProfileImg
+  ) => {
     if (!id || !name || !bio) {
       alert("Please fill all the required fields");
     }
 
     const fileUrl = await saveToCloudStorage(bannerFile, prevBanner);
+    const profileInfo = await updateUserProfileImg(profileImg, newProfileImg);
 
     const { data, error } = await supabase
       .from("users")
@@ -125,6 +183,7 @@ export default function ConfigFunc() {
         name: name,
         bio: bio,
         banner_img: fileUrl ? fileUrl : {},
+        photoUrl: profileInfo ? profileInfo : profileImg,
       })
       .eq("id", id)
       .select();
