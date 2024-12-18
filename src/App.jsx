@@ -7,12 +7,16 @@ import { useUser } from "@clerk/clerk-react";
 import CreatePost from "./page/createPost/CreatePost";
 import UserProfile from "./page/Profile/UserProfile";
 import EditProfile from "./page/Edit/EditProfile";
+import "swiper/css";
+import "swiper/css/pagination";
+import CreateButton from "./components/CreateButton";
 
 function App() {
   const { user } = useUser();
   return (
     <>
-      <main className="flex w-full flex-1 h-inherit">
+      <main className="flex w-full flex-1 h-inherit relative">
+        <CreateButton />
         <Routes>
           <Route
             path="/"

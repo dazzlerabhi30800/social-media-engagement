@@ -3,3 +3,12 @@
 @tailwind utilities;
 
 /* ... */
+
+.swiper {
+  overflow: hidden;
+
+  --swiper-pagination-bullet-inactive-opacity: 0.7;
+  --swiper-pagination-bullet-inactive-color: #bcbcbc;
+  --swiper-pagination-color: #fff;
+  --swiper-pagination-bullet-size: 10px;
+}

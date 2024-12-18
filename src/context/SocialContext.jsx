@@ -51,6 +51,10 @@ export default function SocialContextProvider({ children }) {
       return;
     }
 
+    if (files.length >= 4) {
+      alert("You can't post more than 3 files");
+    }
+
     // check if files doesn't contain more than one Video;
 
     let fileLinks = [];

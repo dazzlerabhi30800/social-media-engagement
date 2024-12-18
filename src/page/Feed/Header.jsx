@@ -18,12 +18,12 @@ const Header = () => {
           </h4>
         </Link>
       </div>
-      <Link
+      {/* <Link
         to="/create-post"
         className="flex items-center gap-1 text-white py-2 px-4 rounded-lg bg-darkGrey hover:bg-gray-600"
       >
         <FaPlus size={12} /> Create
-      </Link>
+      </Link> */}
     </header>
   );
 };

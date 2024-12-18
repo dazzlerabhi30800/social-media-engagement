@@ -143,7 +143,7 @@ export default function ConfigFunc() {
     return formatted;
   };
 
-  const paddingStyles = "p-4 sm:p-6 md:px-10";
+  const paddingStyles = "p-6 md:px-10";
 
   return {
     fetchFeed,
