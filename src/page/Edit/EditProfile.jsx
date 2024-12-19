@@ -13,8 +13,10 @@ const EditProfile = () => {
 
   const [bio, setBio] = useState("");
   const [name, setName] = useState("");
+
   const [bannerImg, setBannerImg] = useState("");
-  const [imageFile, setImageFile] = useState();
+  const [bannerImageFile, setBannerImageFile] = useState();
+
   const [profileImg, setProfileImg] = useState("");
   const [newProfileImg, setNewProfileImg] = useState("");
   // console.log(bannerImg);
@@ -26,17 +28,15 @@ const EditProfile = () => {
   async function fetchUserInfo(id) {
     let data = await getUserInfoWithoutFeeds(id);
     if (data) {
-      let bannerData = JSON.parse(data.banner_img);
-      let profileUrl = JSON.parse(data?.photoUrl);
+      // check everything is ok with data;
       setBio(data?.bio === "" ? "Add Bio Now!!" : data?.bio);
       setName(data?.name);
-      setBannerImg(bannerData ? bannerData?.fileUrl : null);
-      setUserInfo({ ...data, banner_img: bannerData, photoUrl: profileUrl });
-      setProfileImg(
-        typeof profileUrl === "object" ? profileUrl?.fileUrl : profileUrl
-      );
+      setBannerImg(data?.banner_img ? data?.banner_img.fileUrl : null);
+      setUserInfo(data);
+      setProfileImg(data?.photoUrl.fileUrl);
     }
   }
+  console.log(profileImg);
   return (
     <div className="w-full flex-1 flex flex-col h-full">
       <div
@@ -64,11 +64,6 @@ const EditProfile = () => {
           }}
           className="absolute left-6 -bottom-12 md:-bottom-14 w-24 h-24 md:w-28 md:h-28 rounded-[50%] bg-center bg-cover bg-no-repeat flex items-end justify-end"
         >
-          {/* <img
-            src={userInfo?.photoUrl}
-            alt={userInfo?.name}
-            className=""
-          /> */}
           <input
             onChange={(e) => {
               const generated = URL.createObjectURL(e.target.files[0]);
@@ -100,7 +95,7 @@ const EditProfile = () => {
             onChange={(e) => {
               const generated = URL.createObjectURL(e.target.files[0]);
               setBannerImg(generated);
-              setImageFile(e.target.files[0]);
+              setBannerImageFile(e.target.files[0]);
             }}
           />
         </div>
@@ -138,7 +133,7 @@ const EditProfile = () => {
                 id,
                 name,
                 bio,
-                imageFile,
+                bannerImageFile,
                 userInfo?.banner_img?.path,
                 userInfo?.photoUrl,
                 newProfileImg

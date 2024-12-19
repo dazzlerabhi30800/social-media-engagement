@@ -3,13 +3,13 @@ import { supabase } from "../config/supabaseConfig";
 import { useSocialContext } from "./SocialContext";
 
 export default function ConfigFunc() {
-  const { setPosts, setUserInfo, setUserPosts } = useSocialContext();
+  const { setPosts, setUserInfo, setUserPosts, userInfo } = useSocialContext();
 
   // NOTE: fucntion to fetch Post
   const fetchFeed = async () => {
     const { data, error } = await supabase
       .from("posts")
-      .select("*")
+      .select("*, users(photoUrl, name)")
       .order("created_at", { ascending: false })
       .limit(20);
     if (data) {
@@ -30,9 +30,11 @@ export default function ConfigFunc() {
     if (error) {
       console.log(error);
     } else {
-      let bannerImg = JSON.parse(data[0]?.banner_img);
-      let profileData = JSON.parse(data[0]?.photoUrl);
-      setUserInfo({ ...data[0], banner_img: bannerImg, photoUrl: profileData });
+      // let bannerImg = JSON.parse(data[0]?.banner_img);
+      // let profileData = JSON.parse(data[0]?.photoUrl);
+      // setUserInfo({ ...data[0], banner_img: bannerImg, photoUrl: profileData });
+      console.log(data[0]);
+      setUserInfo(data[0]);
       getUserPosts(id);
     }
   };
@@ -118,7 +120,7 @@ export default function ConfigFunc() {
     if (!currentImg || !newImg) {
       return false;
     }
-    if (typeof currentImg !== Object) {
+    if (!currentImg.path) {
       const fileName = `posts/${newImg.name}-${Date.now()}`;
       const { data, error } = await supabase.storage
         .from("post-imgs")

@@ -15,7 +15,7 @@ function App() {
   const { user } = useUser();
   return (
     <>
-      <main className="flex w-full flex-1 h-inherit">
+      <main className="flex w-full flex-1 h-inherit relative">
         <CreateButton />
         <Routes>
           <Route

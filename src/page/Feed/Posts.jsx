@@ -4,6 +4,7 @@ import PostComp from "../../components/PostComp";
 
 const Posts = () => {
   const { posts } = useSocialContext();
+  console.log(posts);
   return (
     <div className="mt-10">
       <h2 className="font-bold text-black text-2xl">Feed</h2>

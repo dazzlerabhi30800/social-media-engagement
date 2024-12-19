@@ -12,24 +12,30 @@ export default function SocialContextProvider({ children }) {
   const [posts, setPosts] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
+  const [feedViewInfo, setFeedViewInfo] = useState(null);
 
   // Save New user to database
   const registerNewUser = async () => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("users")
-      .select("email")
+      .select("*")
       .eq("email", user?.primaryEmailAddress?.emailAddress)
       .limit(1);
+    console.log(data);
     if (data.length === 0) {
-      let { error } = await supabase.from("users").insert([
+      const { error } = await supabase.from("users").insert([
         {
           id: user?.id,
           name: user?.fullName,
           email: user?.primaryEmailAddress?.emailAddress,
-          photoUrl: user?.imageUrl,
+          photoUrl: { fileUrl: user?.imageUrl, path: null },
         },
       ]);
-      console.log(error);
+      if (!error) {
+        await registerNewUser();
+      }
+    } else {
+      setUserInfo(data[0]);
     }
   };
 
@@ -64,11 +70,9 @@ export default function SocialContextProvider({ children }) {
         .from("post-imgs")
         .upload(`posts/${fileName}`, files[i]);
       if (data) {
-        console.log(data);
         const { data: fileUrl } = supabase.storage
           .from("post-imgs")
           .getPublicUrl(data?.path);
-        console.log(fileUrl?.publicUrl);
         fileLinks.push(fileUrl?.publicUrl);
       }
       if (error) {
@@ -116,6 +120,8 @@ export default function SocialContextProvider({ children }) {
         setUserInfo,
         userPosts,
         setUserPosts,
+        feedViewInfo,
+        setFeedViewInfo,
       }}
     >
       {children}

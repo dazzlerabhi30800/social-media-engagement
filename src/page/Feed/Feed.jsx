@@ -6,13 +6,14 @@ import ConfigFunc from "../../context/ConfigFunc";
 import Posts from "./Posts";
 
 const FeedPage = () => {
-  const { registerNewUser } = useSocialContext();
+  const { registerNewUser, userInfo } = useSocialContext();
   const { fetchFeed, paddingStyles } = ConfigFunc();
   const { user } = useUser();
   useEffect(() => {
     user && registerNewUser();
     fetchFeed();
   }, [user]);
+  if (!userInfo) return <div>Loading...</div>;
   return (
     <div className={`w-full ${paddingStyles}`}>
       <Header />

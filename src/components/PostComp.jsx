@@ -11,12 +11,12 @@ const PostComp = ({ post }) => {
     <div className="p-5 rounded-[26px] shadow-md bg-slate-100 flex flex-col">
       <div className="flex items-center gap-2">
         <img
-          src={post?.user_photo}
-          alt={post?.created_by}
+          src={post?.users?.photoUrl?.fileUrl}
+          alt={post?.users?.name}
           className="w-12 h-12 object-cover rounded-[50%]"
         />
         <div className="flex flex-col gap-1 text-xs">
-          <h3 className="text-base font-bold">{post?.created_by}</h3>
+          <h3 className="text-base font-bold">{post?.users?.name}</h3>
           <p className="text-gray-500">{formatTime(post?.created_at)}</p>
         </div>
       </div>
@@ -29,17 +29,6 @@ const PostComp = ({ post }) => {
           pagination={{
             clickable: true,
           }}
-          // breakpoints={{
-          //   560: {
-          //     slidesPerView: 1.5,
-          //   },
-          //   700: {
-          //     slidesPerView: 2,
-          //   },
-          //   1040: {
-          //     slidesPerView: 1,
-          //   },
-          // }}
           slidesPerView={post?.post_url.length > 1 ? 1.5 : 1}
           slidesPerGroup={1}
           modules={[Pagination]}
