@@ -26,7 +26,6 @@ export default function SocialContextProvider({ children }) {
       .select("*")
       .eq("email", user?.primaryEmailAddress?.emailAddress)
       .limit(1);
-    console.log(data);
     if (data.length === 0) {
       const { error } = await supabase.from("users").insert([
         {

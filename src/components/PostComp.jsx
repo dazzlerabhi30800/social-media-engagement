@@ -4,6 +4,7 @@ import { IoPaperPlane } from "react-icons/io5";
 import ConfigFunc from "../context/ConfigFunc";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import HighlighHashtags from "./HighlighHashtags";
 
 const PostComp = ({ post }) => {
   const { formatTime } = ConfigFunc();
@@ -20,8 +21,10 @@ const PostComp = ({ post }) => {
           <p className="text-gray-500">{formatTime(post?.created_at)}</p>
         </div>
       </div>
-      <p className="text-lg mt-5 font-bold">{post?.title}</p>
-      <div className="flex flex-wrap gap-2 w-full mt-7">
+      <div className="mt-5">
+        <HighlighHashtags title={post?.title} />
+      </div>
+      <div className="flex flex-wrap gap-2 w-full mt-5">
         <Swiper
           spaceBetween={10}
           loop={false}
