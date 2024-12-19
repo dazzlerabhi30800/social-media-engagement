@@ -1,18 +1,23 @@
 import { createContext, useContext, useState } from "react";
 import { supabase } from "../config/supabaseConfig";
-import { useUser } from "@clerk/clerk-react";
+import { useClerk, useUser } from "@clerk/clerk-react";
 import { checkFiles } from "../config/utilFunc";
 
 const socialContext = createContext();
 
 export default function SocialContextProvider({ children }) {
   const { user } = useUser();
+  const { signOut } = useClerk();
+
+  // HOOKS
   const [files, setFiles] = useState();
   const [title, setTitle] = useState("");
   const [posts, setPosts] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
   const [feedViewInfo, setFeedViewInfo] = useState(null);
+
+  // Functions
 
   // Save New user to database
   const registerNewUser = async () => {
@@ -105,6 +110,13 @@ export default function SocialContextProvider({ children }) {
     return { data: data ? data : null, error: error ? error : null };
   };
 
+  // logout
+  const logoutSession = async () => {
+    await signOut({ redirectUrl: "/" });
+    setUserInfo([]);
+    setPosts([]);
+  };
+
   return (
     <socialContext.Provider
       value={{
@@ -122,6 +134,7 @@ export default function SocialContextProvider({ children }) {
         setUserPosts,
         feedViewInfo,
         setFeedViewInfo,
+        logoutSession,
       }}
     >
       {children}

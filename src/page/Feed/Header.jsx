@@ -1,15 +1,12 @@
-import { UserButton, useUser } from "@clerk/clerk-react";
 import React from "react";
-import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSocialContext } from "../../context/SocialContext";
 
 const Header = () => {
-  const { user } = useUser();
-  const { userInfo } = useSocialContext();
+  const { userInfo, logoutSession } = useSocialContext();
   return (
     <header className="w-full flex items-center justify-between">
-      <Link to={`/profile/${user?.id}`} className="flex items-center gap-4">
+      <Link to={`/profile/${userInfo?.id}`} className="flex items-center gap-4">
         {userInfo && (
           <img
             src={userInfo?.photoUrl?.fileUrl}
@@ -26,6 +23,12 @@ const Header = () => {
           </h4>
         </div>
       </Link>
+      <button
+        onClick={logoutSession}
+        className="text-white bg-darkGrey py-2 px-6 rounded-md hover:bg-gray-600"
+      >
+        Logout
+      </button>
     </header>
   );
 };

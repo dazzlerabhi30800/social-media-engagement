@@ -11,7 +11,7 @@ const FeedView = () => {
   const { formatTime } = ConfigFunc();
   return (
     <div
-      className={`h-auto w-[500px] absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2  ${
+      className={`h-auto min-w-[300px] w-[95%] max-w-[500px] absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2  ${
         feedViewInfo ? "scale-100 z-40" : "scale-0 -z-40"
       } transition-all`}
     >

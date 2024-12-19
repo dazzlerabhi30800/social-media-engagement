@@ -25,9 +25,9 @@ body {
   height: 2.5rem;
 }
 
-.user--posts--wrapper {
-  columns: 2;
-}
+/* .user--posts--wrapper {
+  columns: 200px;
+} */
 
 .user--posts--wrapper > div {
   margin-bottom: 10px;

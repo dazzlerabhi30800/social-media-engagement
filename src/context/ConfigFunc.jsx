@@ -217,6 +217,8 @@ export default function ConfigFunc() {
     }
     return imageData;
   };
+  
+
   return {
     fetchFeed,
     formatTime,
