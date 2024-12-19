@@ -35,7 +35,7 @@ const PostComp = ({ post }) => {
           slidesPerView={post?.post_url.length > 1 ? 1.5 : 1}
           slidesPerGroup={1}
           modules={[Pagination]}
-          className="mySwiper pb-10 h-[270px] sm:h-[300px]"
+          className="mySwiper h-[270px] sm:h-[300px]"
         >
           {post?.post_url.map((link, index) => (
             <SwiperSlide key={index}>
@@ -59,7 +59,7 @@ const PostComp = ({ post }) => {
           ))}
         </Swiper>
       </div>
-      <div className="mt-7 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between">
         <button>
           <FaHeart className="text-gray-500 text-xl hover:text-red-500" />
         </button>

@@ -11,7 +11,7 @@
   --swiper-pagination-color: #100f0f;
   --swiper-pagination-bullet-size: 9px;
   /* --swiper-pagination-bullet-active: 20px; */
-  --swiper-pagination-bottom: 0px;
+  --swiper-pagination-bottom: -5px;
 }
 
 .swiper-pagination-bullet-active {
@@ -19,7 +19,7 @@
 }
 
 .swiper-slide {
-  padding-bottom: 30px;
+  padding-bottom: 25px;
 }
 
 .swiper-pagination {
