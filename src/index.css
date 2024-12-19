@@ -5,10 +5,23 @@
 /* ... */
 
 .swiper {
-  overflow: hidden;
-
+  overflow: visible;
   --swiper-pagination-bullet-inactive-opacity: 0.7;
-  --swiper-pagination-bullet-inactive-color: #bcbcbc;
-  --swiper-pagination-color: #fff;
-  --swiper-pagination-bullet-size: 10px;
+  --swiper-pagination-bullet-inactive-color: #9d9c9e;
+  --swiper-pagination-color: #100f0f;
+  --swiper-pagination-bullet-size: 9px;
+  /* --swiper-pagination-bullet-active: 20px; */
+  --swiper-pagination-bottom: 0px;
+}
+
+.swiper-pagination-bullet-active {
+  --swiper-pagination-bullet-size: 11px;
+}
+
+.swiper-slide {
+  padding-bottom: 30px;
+}
+
+.swiper-pagination {
+  align-items: center;
 }

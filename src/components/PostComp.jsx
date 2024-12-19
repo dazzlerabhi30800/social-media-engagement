@@ -21,7 +21,7 @@ const PostComp = ({ post }) => {
         </div>
       </div>
       <p className="text-lg mt-5 font-bold">{post?.title}</p>
-      <div className="h-[200px] sm:h-[250px] flex flex-wrap gap-2 w-full mt-7">
+      <div className="flex flex-wrap gap-2 w-full mt-7">
         <Swiper
           spaceBetween={10}
           loop={false}
@@ -32,15 +32,15 @@ const PostComp = ({ post }) => {
           slidesPerView={post?.post_url.length > 1 ? 1.5 : 1}
           slidesPerGroup={1}
           modules={[Pagination]}
-          className={`mySwiper h-full w-full overflow-hidden`}
+          className="mySwiper pb-10 h-[270px] sm:h-[300px]"
         >
           {post?.post_url.map((link, index) => (
-            <SwiperSlide key={index} className="w-full">
+            <SwiperSlide key={index}>
               {link.includes(".mp4") ? (
                 <video
                   src={link}
                   width="100%"
-                  className="w-full h-full"
+                  className="w-full h-full rounded-xl object-cover"
                   controls
                   loop
                   autoPlay={false}
@@ -56,7 +56,7 @@ const PostComp = ({ post }) => {
           ))}
         </Swiper>
       </div>
-      <div className="mt-5 flex items-center justify-between">
+      <div className="mt-7 flex items-center justify-between">
         <button>
           <FaHeart className="text-gray-500 text-xl hover:text-red-500" />
         </button>

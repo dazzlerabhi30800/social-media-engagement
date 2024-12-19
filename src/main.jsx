@@ -5,6 +5,8 @@ import App from "./App.jsx";
 import SocialContextProvider from "./context/SocialContext.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { ClerkProvider } from "@clerk/clerk-react";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
