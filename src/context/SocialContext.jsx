@@ -114,6 +114,7 @@ export default function SocialContextProvider({ children }) {
     await signOut({ redirectUrl: "/" });
     setUserInfo([]);
     setPosts([]);
+    setUserPosts([]);
   };
 
   return (

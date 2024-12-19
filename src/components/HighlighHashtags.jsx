@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const HighlighHashtags = ({ title }) => {
+  if (!title) return;
   const highlightComp = title.split(/\s/).map((word, index) => {
     const hashtagRegex = /(^|\n)(^|\s)(#[a-z\d-]+)/gi;
     const urlRegex =
@@ -32,7 +33,7 @@ const HighlighHashtags = ({ title }) => {
     }
   });
   return (
-    <div className="flex text-lg font-medium items-center gap-2">
+    <div className="flex text-lg font-medium items-center gap-[5px]">
       {highlightComp}
     </div>
   );

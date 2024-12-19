@@ -65,14 +65,16 @@ const ProfileInfo = () => {
               >
                 <div
                   style={{ backgroundImage: `url(${post?.post_url[0]})` }}
-                  className="w-full min-h-[180px] h-auto object-cover rounded-3xl bg-center bg-cover bg-no-repeat flex flex-col gap-2 justify-center items-center p-5 group-hover:brightness-75 transition-all"
+                  className="w-full min-h-[180px] h-auto object-cover rounded-3xl bg-center bg-cover bg-no-repeat flex justify-center items-center  group-hover:brightness-75 transition-all"
                 >
-                  <p className="text-white text-lg flex items-center gap-1 font-bold">
-                    {post.title}
-                  </p>
-                  <p className="text-white flex items-center gap-1">
-                    <FaHeart /> {post?.likes.length}
-                  </p>
+                  <div className="flex flex-col items-center bg-black/40 backdrop-blur-md gap-2 py-2 px-5 rounded-xl">
+                    <p className="text-white flex items-center gap-1 font-medium">
+                      {post.title}
+                    </p>
+                    <p className="text-white flex items-center gap-1">
+                      <FaHeart /> {post?.likes.length}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}

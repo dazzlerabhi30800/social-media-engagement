@@ -33,7 +33,6 @@ export default function ConfigFunc() {
       // let bannerImg = JSON.parse(data[0]?.banner_img);
       // let profileData = JSON.parse(data[0]?.photoUrl);
       // setUserInfo({ ...data[0], banner_img: bannerImg, photoUrl: profileData });
-      console.log(data[0]);
       setUserInfo(data[0]);
       getUserPosts(id);
     }
@@ -58,6 +57,7 @@ export default function ConfigFunc() {
     const { data, error } = await supabase
       .from("posts")
       .select("*")
+      .order("created_at", { ascending: false })
       .eq("user_id", id);
     if (error) {
       // console.log(error);
@@ -217,7 +217,6 @@ export default function ConfigFunc() {
     }
     return imageData;
   };
-  
 
   return {
     fetchFeed,

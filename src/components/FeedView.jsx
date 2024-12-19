@@ -5,6 +5,7 @@ import { Pagination } from "swiper/modules";
 import { FaHeart } from "react-icons/fa";
 import { IoPaperPlane, IoClose } from "react-icons/io5";
 import ConfigFunc from "../context/ConfigFunc";
+import HighlighHashtags from "./HighlighHashtags";
 
 const FeedView = () => {
   const { feedViewInfo, setFeedViewInfo } = useSocialContext();
@@ -35,7 +36,9 @@ const FeedView = () => {
             </p>
           </div>
         </div>
-        <p className="text-lg mt-5 font-bold">{feedViewInfo?.title}</p>
+        <div className="mt-5">
+          <HighlighHashtags title={feedViewInfo?.title} />
+        </div>
         <div className="h-[200px] sm:h-[250px] flex flex-wrap gap-2 w-full mt-7">
           <Swiper
             spaceBetween={10}
