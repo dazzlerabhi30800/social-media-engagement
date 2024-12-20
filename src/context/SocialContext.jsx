@@ -21,7 +21,7 @@ export default function SocialContextProvider({ children }) {
   const [showConfirmPostDialog, setShowConfirmPostDialog] = useState(false);
   // hook for keep count of posts
   const [totalPosts, setTotalPosts] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
 
   // use effect
 
@@ -48,6 +48,7 @@ export default function SocialContextProvider({ children }) {
       }
     } else {
       setUserInfo(data[0]);
+      return data[0];
     }
   };
 

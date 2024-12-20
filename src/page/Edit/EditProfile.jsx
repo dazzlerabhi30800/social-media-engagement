@@ -36,7 +36,7 @@ const EditProfile = () => {
       setProfileImg(data?.photoUrl.fileUrl);
     }
   }
-  console.log(profileImg);
+  // console.log(profileImg);
   return (
     <div className="w-full flex-1 flex flex-col h-full">
       <div
@@ -134,7 +134,7 @@ const EditProfile = () => {
                 name,
                 bio,
                 bannerImageFile,
-                userInfo?.banner_img?.path,
+                userInfo?.banner_img,
                 userInfo?.photoUrl,
                 newProfileImg
               )

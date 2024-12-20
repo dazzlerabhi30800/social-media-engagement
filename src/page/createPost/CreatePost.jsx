@@ -106,7 +106,6 @@ const CreatePost = () => {
             </div>
           </div>
           <button
-            // onClick={files && handleAddPost}
             onClick={() => setShowConfirmPostDialog(true)}
             className="absolute bottom-0 mb-auto p-3 bg-black text-white w-full hover:bg-gray-800 rounded-3xl shadow-md font-bold md:text-lg"
           >

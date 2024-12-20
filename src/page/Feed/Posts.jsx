@@ -11,22 +11,28 @@ const Posts = () => {
   return (
     <div className="mt-10">
       <h2 className="font-bold text-black text-2xl">Feed</h2>
-      <InfiniteScroll
-        dataLength={posts.length}
-        next={fetchMoreFeeds}
-        hasMore={hasMore}
-        loader={
-          <div className="my-10 w-full flex justify-center items-center font-semibold text-lg">
-            <RiLoader3Fill className="animate-spin" size={45} />
+      {posts.length > 0 ? (
+        <InfiniteScroll
+          dataLength={posts.length}
+          next={fetchMoreFeeds}
+          hasMore={hasMore}
+          loader={
+            <div className="my-10 w-full flex justify-center items-center font-semibold text-lg">
+              <RiLoader3Fill className="animate-spin" size={45} />
+            </div>
+          }
+        >
+          <div className="flex flex-col gap-10 mt-8">
+            {posts?.map((post, index) => (
+              <PostComp post={post} key={index} />
+            ))}
           </div>
-        }
-      >
-        <div className="flex flex-col gap-10 mt-8">
-          {posts?.map((post, index) => (
-            <PostComp post={post} key={index} />
-          ))}
+        </InfiniteScroll>
+      ) : (
+        <div className="flex w-full items-center justify-center text-xl font-medium mt-10">
+          There are no posts to show!!
         </div>
-      </InfiniteScroll>
+      )}
     </div>
   );
 };
