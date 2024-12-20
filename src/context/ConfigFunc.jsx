@@ -36,6 +36,7 @@ export default function ConfigFunc() {
   //NOTE: function for infinite scrolling component to fetch more feeds
   const fetchMoreFeeds = () => {
     let pageCount = getPages();
+    console.log(pageCount);
     if (page >= pageCount) {
       setHasMore(false);
     } else {
@@ -46,7 +47,7 @@ export default function ConfigFunc() {
 
   // NOTE: get exact no of pages based on the length of posts
   const getPages = () => {
-    let pageNo = totalPosts / 2;
+    let pageNo = Math.floor(totalPosts / 2);
     let remainingPages = totalPosts % 2;
     const totalPages = pageNo + remainingPages;
     return totalPages;

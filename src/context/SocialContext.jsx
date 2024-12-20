@@ -10,13 +10,14 @@ export default function SocialContextProvider({ children }) {
   const { signOut } = useClerk();
 
   // HOOKS
-  const [files, setFiles] = useState();
+  const [files, setFiles] = useState([]);
   const [title, setTitle] = useState("");
   const [posts, setPosts] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
   const [feedViewInfo, setFeedViewInfo] = useState(null);
   const [page, setPage] = useState(1);
+  const [showConfirmPostDialog, setShowConfirmPostDialog] = useState(false);
   // hook for keep count of posts
   const [totalPosts, setTotalPosts] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -51,7 +52,7 @@ export default function SocialContextProvider({ children }) {
 
   // Save uploaded files to cloud storage
   const saveToCloudStorage = async () => {
-    if (!files) {
+    if (!files || files.length === 0) {
       alert("You've not uploaded any file");
       return;
     }
@@ -89,7 +90,7 @@ export default function SocialContextProvider({ children }) {
         console.log(error);
       }
     }
-    setFiles();
+    setFiles([]);
     const { data: postCreated, error: postError } = await savePosts(fileLinks);
     return { postCreated, postError };
   };
@@ -150,6 +151,8 @@ export default function SocialContextProvider({ children }) {
         setTotalPosts,
         hasMore,
         setHasMore,
+        showConfirmPostDialog,
+        setShowConfirmPostDialog,
       }}
     >
       {children}

@@ -5,7 +5,7 @@
 /* ... */
 
 .swiper {
-  overflow: visible;
+  overflow: hidden;
   --swiper-pagination-bullet-inactive-opacity: 0.7;
   --swiper-pagination-bullet-inactive-color: #9d9c9e;
   --swiper-pagination-color: #100f0f;
@@ -14,8 +14,6 @@
   --swiper-pagination-bottom: -5px;
 }
 
-
 .swiper-slide {
   padding-bottom: 25px;
 }
-

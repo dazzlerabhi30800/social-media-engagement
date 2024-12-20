@@ -2,17 +2,25 @@ import { FaArrowLeft, FaCamera, FaFile } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSocialContext } from "../../context/SocialContext";
 import ConfigFunc from "../../context/ConfigFunc";
+import ConfirmCreatePost from "../confirmPost/ConfirmCreatePost";
 
 const CreatePost = () => {
-  const { saveToCloudStorage, files, setFiles, title, setTitle } =
-    useSocialContext();
+  const {
+    saveToCloudStorage,
+    files,
+    setFiles,
+    title,
+    setTitle,
+    setShowConfirmPostDialog,
+    showConfirmPostDialog,
+  } = useSocialContext();
   const { paddingStyles } = ConfigFunc();
   const navigate = useNavigate();
 
   // save post
 
   const handleAddPost = async () => {
-    if (!files) return;
+    if (!files || files.length === 0) return;
     const { postError: error } = await saveToCloudStorage();
     if (!error) {
       navigate("/feed");
@@ -23,7 +31,7 @@ const CreatePost = () => {
   };
 
   return (
-    <div className={`${paddingStyles} w-full flex`}>
+    <div className={`${paddingStyles} w-full flex relative`}>
       <div className={`flex flex-col gap-1 w-full relative`}>
         <div className="flex items-center gap-5 text-black">
           <button onClick={() => navigate(-1)}>
@@ -44,7 +52,15 @@ const CreatePost = () => {
           <div className="flex flex-col mt-12 gap-8 text-xl font-bold">
             <div className="w-full">
               <input
-                onChange={(e) => setFiles(e.target.files)}
+                onChange={(e) => {
+                  const newFiles = e.target.files;
+                  const filesArr = [];
+                  for (let i = 0; i < newFiles.length; i++) {
+                    filesArr.push(newFiles[i]);
+                  }
+                  console.log(filesArr);
+                  setFiles(filesArr);
+                }}
                 type="file"
                 multiple
                 id="files"
@@ -65,7 +81,15 @@ const CreatePost = () => {
                 accept="image/*;capture=camera"
                 capture="environment"
                 className="hidden"
-                onChange={(e) => setFiles(e.target.files)}
+                onChange={(e) => {
+                  const newFiles = e.target.files;
+                  const filesArr = [];
+                  for (let i = 0; i < newFiles.length; i++) {
+                    filesArr.push(newFiles[i]);
+                  }
+                  console.log(filesArr);
+                  setFiles(filesArr);
+                }}
               />
               <label
                 htmlFor="cameraFile"
@@ -79,13 +103,17 @@ const CreatePost = () => {
             </div>
           </div>
           <button
-            onClick={files && handleAddPost}
+            // onClick={files && handleAddPost}
+            onClick={() => setShowConfirmPostDialog(true)}
             className="absolute bottom-0 mb-auto p-3 bg-black text-white w-full hover:bg-gray-800 rounded-3xl shadow-md font-bold md:text-lg"
           >
             Submit
           </button>
         </div>
       </div>
+      {showConfirmPostDialog && (
+        <ConfirmCreatePost handleAddPost={handleAddPost} />
+      )}
     </div>
   );
 };
