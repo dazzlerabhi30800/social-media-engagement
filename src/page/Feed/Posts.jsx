@@ -3,7 +3,6 @@ import { useSocialContext } from "../../context/SocialContext";
 import PostComp from "../../components/PostComp";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ConfigFunc from "../../context/ConfigFunc";
-// import Spinner from "../../components/Spinner";
 import { RiLoader3Fill } from "react-icons/ri";
 
 const Posts = () => {

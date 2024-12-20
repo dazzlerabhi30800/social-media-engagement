@@ -10,6 +10,7 @@ export default function SocialContextProvider({ children }) {
   const { signOut } = useClerk();
 
   // HOOKS
+  const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
   const [title, setTitle] = useState("");
   const [posts, setPosts] = useState([]);
@@ -62,6 +63,7 @@ export default function SocialContextProvider({ children }) {
       return;
     }
 
+    // check if files doesn't contain more than one Video;
     const isFileOkay = checkFiles(files);
     if (!isFileOkay) {
       alert("You can't upload more than 1 video files");
@@ -72,7 +74,7 @@ export default function SocialContextProvider({ children }) {
       alert("You can't post more than 3 files");
     }
 
-    // check if files doesn't contain more than one Video;
+    setLoading(true);
 
     let fileLinks = [];
     for (let i = 0; i < files.length; i++) {
@@ -87,7 +89,8 @@ export default function SocialContextProvider({ children }) {
         fileLinks.push(fileUrl?.publicUrl);
       }
       if (error) {
-        console.log(error);
+        alert(error.message);
+        setLoading(false);
       }
     }
     setFiles([]);
@@ -153,6 +156,8 @@ export default function SocialContextProvider({ children }) {
         setHasMore,
         showConfirmPostDialog,
         setShowConfirmPostDialog,
+        loading,
+        setLoading,
       }}
     >
       {children}

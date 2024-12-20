@@ -5,10 +5,16 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import HighlighHashtags from "../../components/HighlighHashtags";
 import { FaArrowLeft } from "react-icons/fa";
+import { RiLoader3Fill } from "react-icons/ri";
 
 const ConfirmCreatePost = ({ handleAddPost }) => {
-  const { title, files, showConfirmPostDialog, setShowConfirmPostDialog } =
-    useSocialContext();
+  const {
+    title,
+    files,
+    showConfirmPostDialog,
+    setShowConfirmPostDialog,
+    loading,
+  } = useSocialContext();
   const { paddingStyles } = ConfigFunc();
   return (
     <div
@@ -52,8 +58,10 @@ const ConfirmCreatePost = ({ handleAddPost }) => {
       </div>
       <button
         onClick={handleAddPost}
-        className="py-3 px-6 rounded-[30px] bg-darkGrey text-white w-full text-lg hover:bg-gray-700"
+        disabled={loading}
+        className="flex items-center gap-5 justify-center py-3 px-6 rounded-[30px] bg-darkGrey text-white w-full text-lg hover:bg-gray-700 disabled:opacity-70"
       >
+        {loading && <RiLoader3Fill className="animate-spin" size={30} />}
         Create Post
       </button>
     </div>

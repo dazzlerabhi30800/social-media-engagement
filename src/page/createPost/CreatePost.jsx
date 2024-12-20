@@ -13,6 +13,7 @@ const CreatePost = () => {
     setTitle,
     setShowConfirmPostDialog,
     showConfirmPostDialog,
+    setLoading,
   } = useSocialContext();
   const { paddingStyles } = ConfigFunc();
   const navigate = useNavigate();
@@ -24,9 +25,11 @@ const CreatePost = () => {
     const { postError: error } = await saveToCloudStorage();
     if (!error) {
       navigate("/feed");
+      setLoading(false);
     }
     if (error) {
-      console.log(error);
+      alert(error.message);
+      setLoading(false);
     }
   };
 
