@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSocialContext } from "../../context/SocialContext";
 import ConfigFunc from "../../context/ConfigFunc";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import HighlighHashtags from "../../components/HighlighHashtags";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaFile, FaTrash } from "react-icons/fa";
 import { RiLoader3Fill } from "react-icons/ri";
 
 const ConfirmCreatePost = ({ handleAddPost }) => {
@@ -14,8 +14,18 @@ const ConfirmCreatePost = ({ handleAddPost }) => {
     showConfirmPostDialog,
     setShowConfirmPostDialog,
     loading,
+    setFiles,
   } = useSocialContext();
   const { paddingStyles } = ConfigFunc();
+  const handleRemoveFiles = (index) => {
+    if (files.length === 1) {
+      alert("you have to upload at least 1 file");
+      return;
+    }
+    const fileArr = [...files];
+    fileArr.splice(index, 1);
+    setFiles(fileArr);
+  };
   return (
     <div
       className={`w-full flex-1 h-inherit gap-10 ${paddingStyles} ${
@@ -42,15 +52,76 @@ const ConfirmCreatePost = ({ handleAddPost }) => {
             >
               {files?.map((file, index) => (
                 <SwiperSlide key={index} className="w-full">
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={index}
-                    className="w-full h-full rounded-xl object-cover"
-                  />
+                  {file.type.includes("video") ? (
+                    <video
+                      src={URL.createObjectURL(file)}
+                      width="100%"
+                      className="w-full h-full rounded-xl object-cover"
+                      controls
+                      loop
+                      autoPlay={false}
+                    />
+                  ) : (
+                    <div className="h-full w-full relative">
+                      <span className="absolute top-5 right-5 text-sm font-bold text-black bg-white py-1 px-3 rounded-2xl">
+                        {index + 1}/{files.length}
+                      </span>
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={index}
+                        className="w-full h-full rounded-xl object-cover"
+                      />
+                      <button
+                        onClick={() => handleRemoveFiles(index)}
+                        className="absolute bottom-3 right-3 bg-black/60 rounded-[50%] p-2 text-lg text-white"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  )}
                 </SwiperSlide>
               ))}
             </Swiper>
           </div>
+        )}
+        {files.length === 1 && files[0].type.includes("video") ? (
+          <span>You can't upload files</span>
+        ) : (
+          files.length !== 3 && (
+            <div className="w-full">
+              <input
+                onChange={(e) => {
+                  const newFiles = e.target.files;
+                  const filesArr = [...files];
+                  console.log(filesArr);
+                  for (let i = 0; i < newFiles.length; i++) {
+                    filesArr.push(newFiles[i]);
+                  }
+                  if (filesArr.length > 3) {
+                    alert("you can't upload more than 3 image files!!");
+                    return;
+                  }
+                  console.log(filesArr);
+                  setFiles(filesArr);
+                }}
+                type="file"
+                multiple
+                id="updateFiles"
+                className="hidden"
+              />
+              <label
+                htmlFor="updateFiles"
+                className="flex items-center gap-4 text-black cursor-pointer"
+              >
+                <FaFile size={25} className="text-red-400" />{" "}
+                {files.length > 0
+                  ? files.length < 3
+                    ? files.length + " files, Add More"
+                    : "You can't add more files"
+                  : "Choose the file"}
+              </label>
+            </div>
+          )
         )}
         <h3 className="w-full rounded-xl p-4 bg-slate-200">
           <HighlighHashtags title={title} />

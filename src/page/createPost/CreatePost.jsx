@@ -26,6 +26,8 @@ const CreatePost = () => {
     if (!error) {
       navigate("/feed");
       setLoading(false);
+      setShowConfirmPostDialog(false);
+      setTitle("");
     }
     if (error) {
       alert(error.message);

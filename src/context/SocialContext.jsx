@@ -71,7 +71,7 @@ export default function SocialContextProvider({ children }) {
     // check if files doesn't contain more than one Video;
     const isFileOkay = checkFiles(files);
     if (!isFileOkay) {
-      alert("You can't upload more than 1 video files");
+      alert("You can't upload more than 1 files with video");
       return;
     }
 
