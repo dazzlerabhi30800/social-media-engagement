@@ -5,9 +5,11 @@ import ConfigFunc from "../context/ConfigFunc";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import HighlighHashtags from "./HighlighHashtags";
+import { useSocialContext } from "../context/SocialContext";
 
 const PostComp = ({ post }) => {
   const { formatTime } = ConfigFunc();
+  const { setSharePostData } = useSocialContext();
   return (
     <div className="p-5 rounded-[26px] shadow-md bg-slate-100 flex flex-col">
       <div className="flex items-center gap-2">
@@ -24,7 +26,7 @@ const PostComp = ({ post }) => {
       <div className="mt-5">
         <HighlighHashtags title={post?.title} />
       </div>
-      <div className="flex flex-wrap gap-2 w-full mt-5">
+      <div className="flex gap-2 w-full mt-5 overflow-hidden">
         <Swiper
           spaceBetween={10}
           loop={false}
@@ -35,7 +37,7 @@ const PostComp = ({ post }) => {
           slidesPerView={post?.post_url.length > 1 ? 1.5 : 1}
           slidesPerGroup={1}
           modules={[Pagination]}
-          className="mySwiper h-[270px] sm:h-[300px]"
+          className="mySwiper overflow-hidden w-inherit h-[270px] sm:h-[300px]"
         >
           {post?.post_url.map((link, index) => (
             <SwiperSlide key={index}>
@@ -63,7 +65,16 @@ const PostComp = ({ post }) => {
         <button>
           <FaHeart className="text-gray-500 text-xl hover:text-red-500" />
         </button>
-        <button className="bg-gray-200 text-gray-600 flex items-center gap-1 rounded-[30px] py-2 px-5 text-lg shadow-sm hover:shadow-md transition-all hover:bg-gray-200">
+        <button
+          onClick={() =>
+            setSharePostData((prev) => ({
+              ...prev,
+              showDialog: true,
+              postData: post?.id,
+            }))
+          }
+          className="bg-gray-200 text-gray-600 flex items-center gap-1 rounded-[30px] py-2 px-5 text-lg shadow-sm hover:shadow-md transition-all hover:bg-gray-200"
+        >
           <IoPaperPlane size={20} />
           Share
         </button>

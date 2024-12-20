@@ -42,6 +42,15 @@ export default function ConfigFunc() {
     }
   };
 
+  // NOTE: function to get post by id
+  const getPost = async (id) => {
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*, users(photoUrl, name)")
+      .eq("id", id);
+    return { data, error };
+  };
+
   //NOTE: function for infinite scrolling component to fetch more feeds
   const fetchMoreFeeds = () => {
     setHasMore(true);
@@ -286,5 +295,6 @@ export default function ConfigFunc() {
     getUserInfoWithoutFeeds,
     fetchImage,
     fetchMoreFeeds,
+    getPost,
   };
 }

@@ -19,6 +19,10 @@ export default function SocialContextProvider({ children }) {
   const [feedViewInfo, setFeedViewInfo] = useState(null);
   const [page, setPage] = useState(1);
   const [showConfirmPostDialog, setShowConfirmPostDialog] = useState(false);
+  const [sharePostData, setSharePostData] = useState({
+    showDialog: false,
+    postData: null,
+  });
   // hook for keep count of posts
   const [totalPosts, setTotalPosts] = useState(0);
   const [hasMore, setHasMore] = useState(false);
@@ -159,6 +163,8 @@ export default function SocialContextProvider({ children }) {
         setShowConfirmPostDialog,
         loading,
         setLoading,
+        sharePostData,
+        setSharePostData,
       }}
     >
       {children}
