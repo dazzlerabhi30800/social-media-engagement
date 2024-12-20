@@ -3,21 +3,53 @@ import { supabase } from "../config/supabaseConfig";
 import { useSocialContext } from "./SocialContext";
 
 export default function ConfigFunc() {
-  const { setPosts, setUserInfo, setUserPosts, userInfo } = useSocialContext();
+  const {
+    setPosts,
+    setUserInfo,
+    setUserPosts,
+    setPage,
+    page,
+    setTotalPosts,
+    totalPosts,
+    setHasMore,
+  } = useSocialContext();
 
-  // NOTE: fucntion to fetch Post
+  // NOTE: function to fetch Post
   const fetchFeed = async () => {
+    const { data: countData, count } = await supabase
+      .from("posts")
+      .select("*", { count: "exact", head: true });
     const { data, error } = await supabase
       .from("posts")
       .select("*, users(photoUrl, name)")
       .order("created_at", { ascending: false })
-      .limit(20);
+      .limit(page * 2);
     if (data) {
       setPosts(data);
+      setTotalPosts(count);
     }
     if (error) {
       console.log(error);
     }
+  };
+
+  //NOTE: function for infinite scrolling component to fetch more feeds
+  const fetchMoreFeeds = () => {
+    let pageCount = getPages();
+    if (page >= pageCount) {
+      setHasMore(false);
+    } else {
+      setPage((prev) => prev + 1);
+      setHasMore(true);
+    }
+  };
+
+  // NOTE: get exact no of pages based on the length of posts
+  const getPages = () => {
+    let pageNo = totalPosts / 2;
+    let remainingPages = totalPosts % 2;
+    const totalPages = pageNo + remainingPages;
+    return totalPages;
   };
 
   // NOTE: function to fetch user info on profile page
@@ -226,5 +258,6 @@ export default function ConfigFunc() {
     saveUserEditedBio,
     getUserInfoWithoutFeeds,
     fetchImage,
+    fetchMoreFeeds,
   };
 }

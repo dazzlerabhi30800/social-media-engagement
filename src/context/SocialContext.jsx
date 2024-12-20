@@ -3,7 +3,7 @@ import { supabase } from "../config/supabaseConfig";
 import { useClerk, useUser } from "@clerk/clerk-react";
 import { checkFiles } from "../config/utilFunc";
 
-const socialContext = createContext();
+const socialContext = createContext({});
 
 export default function SocialContextProvider({ children }) {
   const { user } = useUser();
@@ -16,6 +16,12 @@ export default function SocialContextProvider({ children }) {
   const [userInfo, setUserInfo] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
   const [feedViewInfo, setFeedViewInfo] = useState(null);
+  const [page, setPage] = useState(1);
+  // hook for keep count of posts
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
+  // use effect
 
   // Functions
 
@@ -115,6 +121,9 @@ export default function SocialContextProvider({ children }) {
     setUserInfo([]);
     setPosts([]);
     setUserPosts([]);
+    setPage(1);
+    setTotalPosts(0);
+    setHasMore(true);
   };
 
   return (
@@ -131,10 +140,16 @@ export default function SocialContextProvider({ children }) {
         userInfo,
         setUserInfo,
         userPosts,
+        page,
+        setPage,
         setUserPosts,
         feedViewInfo,
         setFeedViewInfo,
         logoutSession,
+        totalPosts,
+        setTotalPosts,
+        hasMore,
+        setHasMore,
       }}
     >
       {children}
@@ -145,8 +160,8 @@ export default function SocialContextProvider({ children }) {
 export const useSocialContext = () => {
   const context = useContext(socialContext);
 
-  if (!context) {
-    throw new Error("context is null");
-  }
+  // if (!context) {
+  //   throw new Error("context is null");
+  // }
   return context;
 };

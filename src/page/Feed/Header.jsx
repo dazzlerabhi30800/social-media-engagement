@@ -7,12 +7,14 @@ const Header = () => {
   return (
     <header className="w-full flex items-center justify-between">
       <Link to={`/profile/${userInfo?.id}`} className="flex items-center gap-4">
-        {userInfo && (
+        {userInfo?.photoUrl ? (
           <img
             src={userInfo?.photoUrl?.fileUrl}
             className="w-12 h-12 rounded-[50%] object-cover"
             alt={userInfo.name}
           />
+        ) : (
+          <span className="w-12 h-12 rounded-[50%] bg-gray-500"></span>
         )}
         <div className="flex flex-col gap-0 group">
           <p className="text-gray-400 text-xs md:group-hover:underline">
