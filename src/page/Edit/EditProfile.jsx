@@ -19,7 +19,6 @@ const EditProfile = () => {
 
   const [profileImg, setProfileImg] = useState("");
   const [newProfileImg, setNewProfileImg] = useState("");
-  // console.log(bannerImg);
 
   useEffect(() => {
     id && fetchUserInfo(id);
@@ -36,7 +35,6 @@ const EditProfile = () => {
       setProfileImg(data?.photoUrl.fileUrl);
     }
   }
-  // console.log(profileImg);
   return (
     <div className="w-full flex-1 flex flex-col h-full">
       <div

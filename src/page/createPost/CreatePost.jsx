@@ -61,7 +61,6 @@ const CreatePost = () => {
                   for (let i = 0; i < newFiles.length; i++) {
                     filesArr.push(newFiles[i]);
                   }
-                  console.log(filesArr);
                   setFiles(filesArr);
                 }}
                 type="file"
@@ -90,7 +89,6 @@ const CreatePost = () => {
                   for (let i = 0; i < newFiles.length; i++) {
                     filesArr.push(newFiles[i]);
                   }
-                  console.log(filesArr);
                   setFiles(filesArr);
                 }}
               />

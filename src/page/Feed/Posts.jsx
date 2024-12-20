@@ -6,7 +6,7 @@ import ConfigFunc from "../../context/ConfigFunc";
 import { RiLoader3Fill } from "react-icons/ri";
 
 const Posts = () => {
-  const { posts, hasMore } = useSocialContext();
+  const { posts, hasMore, loading } = useSocialContext();
   const { fetchMoreFeeds } = ConfigFunc();
   return (
     <div className="mt-10">
@@ -17,7 +17,7 @@ const Posts = () => {
           next={fetchMoreFeeds}
           hasMore={hasMore}
           loader={
-            <div className="my-10 w-full flex justify-center items-center font-semibold text-lg">
+            <div className="my-10 w-full flex justify-center items-center">
               <RiLoader3Fill className="animate-spin" size={45} />
             </div>
           }
@@ -28,6 +28,10 @@ const Posts = () => {
             ))}
           </div>
         </InfiniteScroll>
+      ) : loading ? (
+        <div className="my-10 w-full flex justify-center items-center">
+          <RiLoader3Fill className="animate-spin" size={45} />
+        </div>
       ) : (
         <div className="flex w-full items-center justify-center text-xl font-medium mt-10">
           There are no posts to show!!

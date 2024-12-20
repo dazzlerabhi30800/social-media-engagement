@@ -9,20 +9,20 @@ export default function ConfigFunc() {
     setPosts,
     setUserInfo,
     setUserPosts,
-    userInfo,
     posts,
     setPage,
     page,
     setTotalPosts,
     totalPosts,
     setHasMore,
-    registerNewUser,
+    setLoading,
   } = useSocialContext();
   const navigate = useNavigate();
   const { user } = useUser();
 
   // NOTE: function to fetch Post
   const fetchFeed = async () => {
+    setLoading(true);
     const { data: countData, count } = await supabase
       .from("posts")
       .select("*", { count: "exact", head: true });
@@ -34,9 +34,11 @@ export default function ConfigFunc() {
     if (data) {
       setPosts(data);
       setTotalPosts(count);
+      setLoading(false);
     }
     if (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -44,7 +46,6 @@ export default function ConfigFunc() {
   const fetchMoreFeeds = () => {
     setHasMore(true);
     let pageCount = getPages();
-    console.log(pageCount);
     if (page >= pageCount) {
       setHasMore(false);
     } else if (posts.length === 1) {
@@ -98,7 +99,7 @@ export default function ConfigFunc() {
   const getUserPosts = async (id) => {
     const { data, error } = await supabase
       .from("posts")
-      .select("*")
+      .select("*, users(photoUrl, name)")
       .order("created_at", { ascending: false })
       .eq("user_id", id);
     if (error) {
@@ -158,7 +159,6 @@ export default function ConfigFunc() {
           path: newFile?.path,
           fileUrl: fileUrl?.publicUrl,
         };
-        console.log(fileUrl?.publicUrl);
         return info;
       }
     }
@@ -172,8 +172,8 @@ export default function ConfigFunc() {
     if (!newImg) {
       return currentImg;
     }
+    const fileName = `posts/${newImg.name}-${Date.now()}`;
     if (!currentImg.path) {
-      const fileName = `posts/${newImg.name}-${Date.now()}`;
       const { data, error } = await supabase.storage
         .from("post-imgs")
         .upload(fileName, newImg, {
@@ -195,19 +195,25 @@ export default function ConfigFunc() {
     } else {
       const { data, error } = await supabase.storage
         .from("post-imgs")
-        .update(currentImg.path, newImg, {
+        .remove([currentImg.path]);
+
+      const { data: newFile, error: newError } = await supabase.storage
+        .from("post-imgs")
+        .upload(fileName, newImg, {
           cacheControl: "0",
-          upsert: true,
         });
       if (error) {
         console.log(error);
-      } else {
-        console.log(data);
+      }
+      if (newError) {
+        console.log(newError);
+      }
+      if (newFile) {
         const { data: fileUrl } = supabase.storage
           .from("post-imgs")
-          .getPublicUrl(data?.path);
+          .getPublicUrl(newFile?.path);
         const info = {
-          path: data?.path,
+          path: newFile?.path,
           fileUrl: fileUrl?.publicUrl,
         };
         return info;
@@ -223,7 +229,7 @@ export default function ConfigFunc() {
     bannerFile,
     prevBanner,
     profileImg,
-    newProfileImg
+    newProfileImg,
   ) => {
     if (!id || !name || !bio) {
       alert("Please fill all the required fields");
@@ -245,8 +251,6 @@ export default function ConfigFunc() {
     if (error) {
       console.log(error);
     } else {
-      // console.log(data);
-      // alert("Profile Updated Succesfully");
       const userData = await getUserInfoWithoutFeeds(user?.id);
       if (userData) {
         navigate(`/feed`);
@@ -257,7 +261,6 @@ export default function ConfigFunc() {
   const formatTime = (time) => {
     if (!time) return;
     const formatted = moment(time).startOf("hour").fromNow();
-    // console.log(moment(time).format("YYYY hh:mm"));
     return formatted;
   };
 

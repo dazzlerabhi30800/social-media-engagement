@@ -25,12 +25,12 @@ const FeedView = () => {
         </button>
         <div className="flex items-center gap-2">
           <img
-            src={feedViewInfo?.user_photo}
-            alt={feedViewInfo?.created_by}
+            src={feedViewInfo?.users?.photoUrl.fileUrl}
+            alt={feedViewInfo?.users?.name}
             className="w-12 h-12 object-cover rounded-[50%]"
           />
           <div className="flex flex-col gap-1 text-xs">
-            <h3 className="text-base font-bold">{feedViewInfo?.created_by}</h3>
+            <h3 className="text-base font-bold">{feedViewInfo?.users?.name}</h3>
             <p className="text-gray-500">
               {formatTime(feedViewInfo?.created_at)}
             </p>
