@@ -29,7 +29,10 @@ function App() {
 
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/post/:postId" element={<PostViewPage />} />
-          <Route path="/feed" element={<FeedPage />} />
+          <Route
+            path="/feed"
+            element={user ? <FeedPage /> : <Navigate to={"/feed"} />}
+          />
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/profile/:id" element={<UserProfile />} />
           <Route path="/edit/:id" element={<EditProfile />} />

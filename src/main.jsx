@@ -18,9 +18,10 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ClerkProvider
       publishableKey={PUBLISHABLE_KEY}
-      signInFallbackRedirectUrl="/feed"
-      signUpFallbackRedirectUrl="/feed"
+      signInFallbackRedirectUrl="/"
+      signUpFallbackRedirectUrl="/"
       afterSignOutUrl="/"
+      signInForceRedirectUrl="/feed"
     >
       <BrowserRouter>
         <SocialContextProvider>
