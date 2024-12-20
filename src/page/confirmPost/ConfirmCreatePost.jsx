@@ -6,17 +6,20 @@ import { Pagination } from "swiper/modules";
 import HighlighHashtags from "../../components/HighlighHashtags";
 import { FaArrowLeft, FaFile, FaTrash } from "react-icons/fa";
 import { RiLoader3Fill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
-const ConfirmCreatePost = ({ handleAddPost }) => {
+const ConfirmCreatePost = () => {
   const {
     title,
     files,
-    showConfirmPostDialog,
-    setShowConfirmPostDialog,
     loading,
     setFiles,
+    setLoading,
+    saveToCloudStorage,
+    setTitle,
   } = useSocialContext();
   const { paddingStyles } = ConfigFunc();
+  const navigate = useNavigate();
   const handleRemoveFiles = (index) => {
     if (files.length === 1) {
       alert("you have to upload at least 1 file");
@@ -26,14 +29,26 @@ const ConfirmCreatePost = ({ handleAddPost }) => {
     fileArr.splice(index, 1);
     setFiles(fileArr);
   };
+
+  const handleAddPost = async () => {
+    if (!files || files.length === 0) return;
+    const { postError: error } = await saveToCloudStorage();
+    if (!error) {
+      navigate("/feed");
+      setLoading(false);
+      setTitle("");
+    }
+    if (error) {
+      alert(error.message);
+      setLoading(false);
+    }
+  };
   return (
     <div
-      className={`w-full flex-1 h-inherit gap-10 ${paddingStyles} ${
-        showConfirmPostDialog ? "flex flex-col z-40 justify-between" : "hidden"
-      } absolute top-0 left-0 h-full w-full bg-white`}
+      className={`flex flex-col flex-1 w-full h-inherit gap-10 ${paddingStyles} justify-between bg-white`}
     >
       <div className="flex flex-col gap-6 w-full">
-        <button onClick={() => setShowConfirmPostDialog(false)}>
+        <button onClick={() => navigate(-1)}>
           <FaArrowLeft />
         </button>
         {files.length > 0 && (
@@ -116,7 +131,8 @@ const ConfirmCreatePost = ({ handleAddPost }) => {
                 <FaFile size={25} className="text-red-400" />{" "}
                 {files.length > 0
                   ? files.length < 3
-                    ? files.length + " files, Add More"
+                    ? files.length +
+                      ` files, ${3 - files.length} more can be added`
                     : "You can't add more files"
                   : "Choose the file"}
               </label>

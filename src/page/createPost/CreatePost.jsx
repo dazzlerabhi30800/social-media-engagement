@@ -2,38 +2,13 @@ import { FaArrowLeft, FaCamera, FaFile } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSocialContext } from "../../context/SocialContext";
 import ConfigFunc from "../../context/ConfigFunc";
-import ConfirmCreatePost from "../confirmPost/ConfirmCreatePost";
 
 const CreatePost = () => {
-  const {
-    saveToCloudStorage,
-    files,
-    setFiles,
-    title,
-    setTitle,
-    setShowConfirmPostDialog,
-    showConfirmPostDialog,
-    setLoading,
-  } = useSocialContext();
+  const { files, setFiles, title, setTitle } = useSocialContext();
   const { paddingStyles } = ConfigFunc();
   const navigate = useNavigate();
 
   // save post
-
-  const handleAddPost = async () => {
-    if (!files || files.length === 0) return;
-    const { postError: error } = await saveToCloudStorage();
-    if (!error) {
-      navigate("/feed");
-      setLoading(false);
-      setShowConfirmPostDialog(false);
-      setTitle("");
-    }
-    if (error) {
-      alert(error.message);
-      setLoading(false);
-    }
-  };
 
   return (
     <div className={`${paddingStyles} w-full flex relative`}>
@@ -106,16 +81,13 @@ const CreatePost = () => {
             </div>
           </div>
           <button
-            onClick={() => setShowConfirmPostDialog(true)}
+            onClick={() => navigate("/confirm-post")}
             className="absolute bottom-0 mb-auto p-3 bg-black text-white w-full hover:bg-gray-800 rounded-3xl shadow-md font-bold md:text-lg"
           >
             Submit
           </button>
         </div>
       </div>
-      {showConfirmPostDialog && (
-        <ConfirmCreatePost handleAddPost={handleAddPost} />
-      )}
     </div>
   );
 };

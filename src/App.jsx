@@ -11,6 +11,7 @@ import CreateButton from "./components/CreateButton";
 import SharePostDialog from "./components/SharePostDialog";
 import { useSocialContext } from "./context/SocialContext";
 import PostViewPage from "./page/PostView/PostViewPage";
+import ConfirmCreatePost from "./page/confirmPost/ConfirmCreatePost";
 
 function App() {
   const { user } = useUser();
@@ -28,6 +29,7 @@ function App() {
           />
 
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/confirm-post" element={<ConfirmCreatePost />} />
           <Route path="/post/:postId" element={<PostViewPage />} />
           <Route
             path="/feed"

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../config/supabaseConfig";
 import { useClerk, useUser } from "@clerk/clerk-react";
 import { checkFiles } from "../config/utilFunc";
@@ -11,23 +11,31 @@ export default function SocialContextProvider({ children }) {
 
   // HOOKS
   const [loading, setLoading] = useState(false);
+  // hooks for creating new post
   const [files, setFiles] = useState([]);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(
+    JSON.parse(localStorage.getItem("postTitle")) || "",
+  );
+
+  //
   const [posts, setPosts] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
   const [feedViewInfo, setFeedViewInfo] = useState(null);
   const [page, setPage] = useState(1);
-  const [showConfirmPostDialog, setShowConfirmPostDialog] = useState(false);
+  // const [showConfirmPostDialog, setShowConfirmPostDialog] = useState(false);
   const [sharePostData, setSharePostData] = useState({
     showDialog: false,
     postData: null,
   });
   // hook for keep count of posts
   const [totalPosts, setTotalPosts] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   // use effect
+  useEffect(() => {
+    localStorage.setItem("postTitle", JSON.stringify(title));
+  }, [title]);
 
   // Functions
 
@@ -159,8 +167,6 @@ export default function SocialContextProvider({ children }) {
         setTotalPosts,
         hasMore,
         setHasMore,
-        showConfirmPostDialog,
-        setShowConfirmPostDialog,
         loading,
         setLoading,
         sharePostData,

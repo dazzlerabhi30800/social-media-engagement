@@ -2,7 +2,7 @@ import React from "react";
 import { useSocialContext } from "../../context/SocialContext";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaPlay } from "react-icons/fa";
 
 const ProfileInfo = () => {
   const { userInfo, userPosts, setFeedViewInfo } = useSocialContext();
@@ -64,10 +64,19 @@ const ProfileInfo = () => {
                 key={index}
               >
                 <div
-                  style={{ backgroundImage: `url(${post?.post_url[0]})` }}
+                  style={{
+                    backgroundImage: post?.post_url[0].includes(".mp4")
+                      ? "url('https://img.freepik.com/free-photo/grunge-black-concrete-textured-background_53876-124541.jpg')"
+                      : `url(${post?.post_url[0]})`,
+                  }}
                   className="w-full min-h-[180px] h-auto object-cover rounded-3xl bg-center bg-cover bg-no-repeat flex justify-center items-center  group-hover:brightness-75 transition-all"
                 >
-                  <div className="flex flex-col items-center bg-black/40 backdrop-blur-md gap-2 py-2 px-5 rounded-xl">
+                  <div className="flex flex-col items-center bg-black/40 backdrop-blur-md gap-3 py-3 px-5 rounded-xl">
+                    {post?.post_url[0].includes(".mp4") && (
+                      <p>
+                        <FaPlay size={15} className="text-white" />
+                      </p>
+                    )}
                     <p className="text-white flex items-center gap-1 font-medium">
                       {post.title}
                     </p>

@@ -57,7 +57,7 @@ export default function ConfigFunc() {
     let pageCount = getPages();
     if (page >= pageCount) {
       setHasMore(false);
-    } else if (posts.length === 1) {
+    } else if (posts.length === totalPosts) {
       setHasMore(false);
     } else {
       setPage((prev) => prev + 1);
