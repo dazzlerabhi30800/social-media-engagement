@@ -1,6 +1,6 @@
 # Social Media Engagement App
 
-## LIVE :- _[Social Media Engagement](https://social-media-engagement.vercel.app/)_
+## LIVE :- **_[Social Media Engagement](https://social-media-engagement.vercel.app/)_**
 
 ## Tech Used
 
