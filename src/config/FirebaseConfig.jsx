@@ -6,8 +6,10 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+const firebaseKey = import.meta.env.VITE_FIREBASE_KEY;
 const firebaseConfig = {
-  apiKey: "AIzaSyAfYNJDfie4tBbwbL0HxIU0e4c0TzXy2Z4",
+  apiKey: firebaseKey,
   authDomain: "social-media-engagement-app.firebaseapp.com",
   projectId: "social-media-engagement-app",
   storageBucket: "social-media-engagement-app.firebasestorage.app",
@@ -18,7 +20,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 
 export const provider = new GoogleAuthProvider();
 export const auth = getAuth(app);
