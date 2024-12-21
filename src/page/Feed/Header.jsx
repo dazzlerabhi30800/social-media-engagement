@@ -1,9 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSocialContext } from "../../context/SocialContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/FirebaseConfig";
 
 const Header = () => {
   const { userInfo, logoutSession } = useSocialContext();
+  const handleLogout = async () => {
+    await signOut(auth)
+      .then((_) => logoutSession())
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <header className="w-full flex items-center justify-between">
       <Link to={`/profile/${userInfo?.id}`} className="flex items-center gap-4">
@@ -25,12 +34,14 @@ const Header = () => {
           </h4>
         </div>
       </Link>
-      <button
-        onClick={logoutSession}
-        className="text-white bg-darkGrey py-2 px-6 rounded-md hover:bg-gray-600"
-      >
-        Logout
-      </button>
+      {userInfo && (
+        <button
+          onClick={handleLogout}
+          className="text-white bg-darkGrey py-2 px-6 rounded-md hover:bg-gray-600"
+        >
+          Logout
+        </button>
+      )}
     </header>
   );
 };

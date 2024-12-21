@@ -56,38 +56,44 @@ const ProfileInfo = () => {
         {/* Feeds */}
         <div className="w-full mt-5">
           <h4 className="font-semibold text-2xl">My Posts</h4>
-          <div className="grid grid-cols-2 gap-5 user--posts--wrapper mt-5">
-            {userPosts?.map((post, index) => (
-              <div
-                onClick={() => setFeedViewInfo(post)}
-                className="w-full h-auto group"
-                key={index}
-              >
+          {userPosts.length > 0 ? (
+            <div className="grid grid-cols-2 gap-5 user--posts--wrapper mt-5">
+              {userPosts?.map((post, index) => (
                 <div
-                  style={{
-                    backgroundImage: post?.post_url[0].includes(".mp4")
-                      ? "url('https://img.freepik.com/free-photo/grunge-black-concrete-textured-background_53876-124541.jpg')"
-                      : `url(${post?.post_url[0]})`,
-                  }}
-                  className="w-full min-h-[180px] h-auto object-cover rounded-3xl bg-center bg-cover bg-no-repeat flex justify-center items-center  group-hover:brightness-75 transition-all"
+                  onClick={() => setFeedViewInfo(post)}
+                  className="w-full h-auto group"
+                  key={index}
                 >
-                  <div className="flex flex-col items-center bg-black/40 backdrop-blur-md gap-3 py-3 px-5 rounded-xl">
-                    {post?.post_url[0].includes(".mp4") && (
-                      <p>
-                        <FaPlay size={15} className="text-white" />
+                  <div
+                    style={{
+                      backgroundImage: post?.post_url[0].includes(".mp4")
+                        ? "url('https://img.freepik.com/free-photo/grunge-black-concrete-textured-background_53876-124541.jpg')"
+                        : `url(${post?.post_url[0]})`,
+                    }}
+                    className="w-full min-h-[180px] h-auto object-cover rounded-3xl bg-center bg-cover bg-no-repeat flex justify-center items-center  group-hover:brightness-75 transition-all"
+                  >
+                    <div className="flex flex-col items-center bg-black/40 backdrop-blur-md gap-3 py-3 px-5 rounded-xl">
+                      {post?.post_url[0].includes(".mp4") && (
+                        <p>
+                          <FaPlay size={15} className="text-white" />
+                        </p>
+                      )}
+                      <p className="text-white flex items-center gap-1 font-medium">
+                        {post.title}
                       </p>
-                    )}
-                    <p className="text-white flex items-center gap-1 font-medium">
-                      {post.title}
-                    </p>
-                    <p className="text-white flex items-center gap-1">
-                      <FaHeart /> {post?.likes.length}
-                    </p>
+                      <p className="text-white flex items-center gap-1">
+                        <FaHeart /> {post?.likes.length}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="w-full mt-5 p-3 flex text-center justify-center text-xl font-bold">
+              There are no posts to show. Create One!!
+            </div>
+          )}
         </div>
       </div>
     </div>

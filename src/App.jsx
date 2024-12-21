@@ -2,8 +2,6 @@ import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./page/Home/HomePage";
 import FeedPage from "./page/Feed/Feed";
-import SignInPage from "./page/SignIn/SignIn";
-import { useUser } from "@clerk/clerk-react";
 import CreatePost from "./page/createPost/CreatePost";
 import UserProfile from "./page/Profile/UserProfile";
 import EditProfile from "./page/Edit/EditProfile";
@@ -14,28 +12,22 @@ import PostViewPage from "./page/PostView/PostViewPage";
 import ConfirmCreatePost from "./page/confirmPost/ConfirmCreatePost";
 
 function App() {
-  const { user } = useUser();
-  const { sharePostData } = useSocialContext();
+  const { sharePostData, userInfo } = useSocialContext();
   return (
     <>
       <main className="flex w-full flex-1 h-inherit relative">
         <CreateButton />
         {sharePostData?.showDialog === true && <SharePostDialog />}
-        {/* <SharePostDialog /> */}
         <Routes>
           <Route
             path="/"
-            element={user ? <Navigate to={"/feed"} /> : <Home />}
+            element={userInfo ? <Navigate to={"/feed"} /> : <Home />}
           />
 
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/confirm-post" element={<ConfirmCreatePost />} />
           <Route path="/post/:postId" element={<PostViewPage />} />
-          <Route
-            path="/feed"
-            element={user ? <FeedPage /> : <Navigate to={"/feed"} />}
-          />
-          <Route path="/sign-in" element={<SignInPage />} />
+          <Route path="/feed" element={<FeedPage />} />
           <Route path="/profile/:id" element={<UserProfile />} />
           <Route path="/edit/:id" element={<EditProfile />} />
         </Routes>

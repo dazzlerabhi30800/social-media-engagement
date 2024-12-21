@@ -2,12 +2,12 @@ import moment from "moment";
 import { supabase } from "../config/supabaseConfig";
 import { useSocialContext } from "./SocialContext";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "@clerk/clerk-react";
 
 export default function ConfigFunc() {
   const {
     setPosts,
     setUserInfo,
+    userInfo,
     setUserPosts,
     posts,
     setPage,
@@ -18,7 +18,6 @@ export default function ConfigFunc() {
     setLoading,
   } = useSocialContext();
   const navigate = useNavigate();
-  const { user } = useUser();
 
   // NOTE: function to fetch Post
   const fetchFeed = async () => {
@@ -100,6 +99,7 @@ export default function ConfigFunc() {
       console.log(error);
     }
     if (data) {
+      setUserInfo(data[0]);
       return data[0];
     }
   };
@@ -160,7 +160,6 @@ export default function ConfigFunc() {
       if (newError) {
         console.log(newError);
       } else {
-        console.log(newFile);
         const { data: fileUrl } = supabase.storage
           .from("post-imgs")
           .getPublicUrl(newFile?.path);
@@ -260,7 +259,7 @@ export default function ConfigFunc() {
     if (error) {
       console.log(error);
     } else {
-      const userData = await getUserInfoWithoutFeeds(user?.id);
+      const userData = await getUserInfoWithoutFeeds(userInfo?.id);
       if (userData) {
         navigate(`/feed`);
       }
