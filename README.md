@@ -1,8 +1,26 @@
-# React + Vite
+# Social Media Engagement App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Tech Used
 
-Currently, two official plugins are available:
+1. Framework - React
+2. React Icons - React Icons
+3. Tailwind CSS - CSS Framework
+4. Google Firebase - Google Authentication
+5. Supabase - For database & cloud storage
+6. Moment - to format timestamps
+7. React Router Dom - for page routes & navigation
+8. Swiper - smooth carousel
+9. React Infinite Scroll Component - For infinite post component loading
+10. Motion - to determine when the video element is in view inside post component.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to run locally
+
+1. first clone the repo or download the repo.
+2. then inside the root folder run the command `npm install` all the dependencies & after that make `.env.local` file in root dir.
+3. In the .env.local file paste this, for this project to run it locally you can use my api keys.
+```
+   VITE_SECRET_SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsdWF0YWVvb3drY3VjZHZsd2dsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczNDI3Nzk4OCwiZXhwIjoyMDQ5ODUzOTg4fQ.VUAvjvNe20ebViLo6FD2yRiF5UT5wfilCW36mFpaFEM
+   VITE_FIREBASE_KEY=AIzaSyAfYNJDfie4tBbwbL0HxIU0e4c0TzXy2Z4
+
+```
+4. After doing everything above mentioned, run the server using `npm run dev`.
