@@ -17,7 +17,7 @@
 
 ## How to run locally
 
-1. first clone the repo or download the repo.
+1. first clone or download the repo.
 2. then inside the root folder run the command `npm install` all the dependencies & after that make `.env.local` file in root dir.
 3. In the .env.local file paste this, for this project to run it locally you can use my api keys.
 ```
