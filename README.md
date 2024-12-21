@@ -18,8 +18,8 @@
 ## How to run locally
 
 1. first clone or download the repo.
-2. then inside the root folder run the command `npm install` all the dependencies & after that make `.env.local` file in root dir.
-3. In the .env.local file paste this, for this project to run it locally you can use my api keys.
+2. Inside the root folder run the command `npm install` to install all the dependencies & after that make `.env.local` file in root dir.
+3. In the .env.local file paste the code below, for this project to run it locally you can use my api keys.
 ```
    VITE_SECRET_SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsdWF0YWVvb3drY3VjZHZsd2dsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczNDI3Nzk4OCwiZXhwIjoyMDQ5ODUzOTg4fQ.VUAvjvNe20ebViLo6FD2yRiF5UT5wfilCW36mFpaFEM
    VITE_FIREBASE_KEY=AIzaSyAfYNJDfie4tBbwbL0HxIU0e4c0TzXy2Z4
@@ -33,4 +33,4 @@
 2. Create Post by posting images/video with title.
 3. Users can view &  edit their profile by updating their bio, name, profile & banner image.
 4. Logout functionality.
-5. Smooth navigation & interaction, plus all the post feed doesn't get loaded at any time, only when user scroll further.
+5. Smooth navigation & interaction, plus all the post feed doesn't get loaded at once, only when user scroll further.
