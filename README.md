@@ -1,5 +1,7 @@
 # Social Media Engagement App
 
+## LIVE :- _[Social Media Engagement](https://social-media-engagement.vercel.app/)_
+
 ## Tech Used
 
 1. Framework - React
@@ -24,3 +26,11 @@
 
 ```
 4. After doing everything above mentioned, run the server using `npm run dev`.
+
+
+## Features of this application
+1. Users can authenticate using google auth & data will be stored in the database.
+2. Create Post by posting images/video with title.
+3. Users can view &  edit their profile by updating their bio, name, profile & banner image.
+4. Logout functionality.
+5. Smooth navigation & interaction, plus all the post feed doesn't get loaded at any time, only when user scroll further.
