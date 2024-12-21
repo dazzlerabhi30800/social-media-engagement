@@ -6,6 +6,7 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import HighlighHashtags from "./HighlighHashtags";
 import { useSocialContext } from "../context/SocialContext";
+import VideoComp from "./VideoComp";
 
 const PostComp = ({ post }) => {
   const { formatTime } = ConfigFunc();
@@ -42,14 +43,7 @@ const PostComp = ({ post }) => {
           {post?.post_url.map((link, index) => (
             <SwiperSlide key={index}>
               {link.includes(".mp4") ? (
-                <video
-                  src={link}
-                  width="100%"
-                  className="w-full h-full rounded-xl object-cover"
-                  controls
-                  loop
-                  autoPlay={false}
-                />
+                <VideoComp link={link} />
               ) : (
                 <img
                   src={link}
