@@ -1,16 +1,15 @@
-// import { Link } from "react-router-dom";
-import { useSignIn } from "@clerk/clerk-react";
+import { auth, provider } from "../../config/FirebaseConfig";
+import { signInWithPopup, signOut } from "firebase/auth";
+import { useSocialContext } from "../../context/SocialContext";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const { signIn, isLoaded } = useSignIn();
-  const signInWithGoogle = () => {
-    if (!isLoaded) return;
-    signIn.authenticateWithRedirect({
-      strategy: "oauth_google",
-      redirectUrl: "/sso-callback",
-      redirectUrlComplete: "/",
-    });
+  const { userInfo } = useSocialContext();
+  const navigate = useNavigate();
+  const googleAuth = async () => {
+    await signInWithPopup(auth, provider).then((_) => navigate("/feed"));
   };
+  console.log(userInfo);
   return (
     <div className="h-screen relative bg-[url('/banner.png')] bg-center bg-cover md:bg-[length:100%_180%] md:bg-no-repeat w-full bg-red-200 text-darkGrey">
       {/* Google Signin Comp */}
@@ -28,20 +27,22 @@ const Home = () => {
             Moments That Matter, Shared Forever.
           </p>
         </div>
-        {/* <Link */}
-        {/*   to="/sign-in" */}
-        {/*   className="flex items-center gap-3 bg-darkGrey rounded-[30px] p-3 px-8 text-white font-semibold hover:brightness-125" */}
-        {/* > */}
-        {/*   <img src="./google.png" alt="google" /> */}
-        {/*   Continue with Google */}
-        {/* </Link> */}
-        <button
-          onClick={signInWithGoogle}
-          className="flex items-center gap-3 bg-darkGrey rounded-[30px] p-3 px-8 text-white font-semibold hover:brightness-125"
-        >
-          <img src="./google.png" alt="google" />
-          Continue with Google
-        </button>
+        {userInfo ? (
+          <button
+            onClick={() => signOut(auth)}
+            className="flex items-center gap-3 bg-darkGrey rounded-[30px] p-3 px-8 text-white font-semibold hover:brightness-125"
+          >
+            Logout - {userInfo?.name && userInfo?.name.split(/\s/)[0]}
+          </button>
+        ) : (
+          <button
+            onClick={googleAuth}
+            className="flex items-center gap-3 bg-darkGrey rounded-[30px] p-3 px-8 text-white font-semibold hover:brightness-125"
+          >
+            <img src="./google.png" alt="google" />
+            Continue with Google
+          </button>
+        )}
       </div>
     </div>
   );

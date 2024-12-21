@@ -1,14 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../config/supabaseConfig";
-import { useClerk, useUser } from "@clerk/clerk-react";
 import { checkFiles } from "../config/utilFunc";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../config/FirebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 const socialContext = createContext({});
 
 export default function SocialContextProvider({ children }) {
-  const { user } = useUser();
-  const { signOut } = useClerk();
-
   // HOOKS
   const [loading, setLoading] = useState(false);
   // hooks for creating new post
@@ -19,7 +18,7 @@ export default function SocialContextProvider({ children }) {
 
   //
   const [posts, setPosts] = useState([]);
-  const [userInfo, setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
   const [feedViewInfo, setFeedViewInfo] = useState(null);
   const [page, setPage] = useState(1);
@@ -31,8 +30,22 @@ export default function SocialContextProvider({ children }) {
   // hook for keep count of posts
   const [totalPosts, setTotalPosts] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const navigate = useNavigate();
 
   // use effect
+
+  useEffect(() => {
+    const unSub = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        await registerNewUser(user);
+      }
+      if (!user) {
+        console.log("it's null");
+      }
+    });
+    return () => unSub();
+  }, []);
+
   useEffect(() => {
     localStorage.setItem("postTitle", JSON.stringify(title));
   }, [title]);
@@ -40,23 +53,23 @@ export default function SocialContextProvider({ children }) {
   // Functions
 
   // Save New user to database
-  const registerNewUser = async () => {
+  const registerNewUser = async (user) => {
     const { data, error } = await supabase
       .from("users")
       .select("*")
-      .eq("email", user?.primaryEmailAddress?.emailAddress)
+      .eq("email", user?.email)
       .limit(1);
     if (data.length === 0) {
       const { error } = await supabase.from("users").insert([
         {
-          id: user?.id,
-          name: user?.fullName,
-          email: user?.primaryEmailAddress?.emailAddress,
-          photoUrl: { fileUrl: user?.imageUrl, path: null },
+          id: user?.uid,
+          name: user?.displayName,
+          email: user?.email,
+          photoUrl: { fileUrl: user?.photoURL, path: null },
         },
       ]);
       if (!error) {
-        await registerNewUser();
+        await registerNewUser(user);
       }
     } else {
       setUserInfo(data[0]);
@@ -121,11 +134,11 @@ export default function SocialContextProvider({ children }) {
       .insert([
         {
           title: title,
-          created_by: user?.fullName,
-          user_photo: user?.imageUrl,
+          created_by: userInfo?.name,
+          user_photo: userInfo?.photoUrl,
           likes: [],
           post_url: fileLinks,
-          user_id: user?.id,
+          user_id: userInfo?.id,
         },
       ])
       .select();
@@ -134,13 +147,13 @@ export default function SocialContextProvider({ children }) {
 
   // logout
   const logoutSession = async () => {
-    await signOut({ redirectUrl: "/" });
-    setUserInfo([]);
+    setUserInfo(null);
     setPosts([]);
     setUserPosts([]);
     setPage(1);
     setTotalPosts(0);
     setHasMore(true);
+    navigate("/");
   };
 
   return (
