@@ -3,7 +3,7 @@ import { FaPlus } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 
 const CreateButton = () => {
-  const blackList = ["/create-post", "/", "/sign-in"];
+  const blackList = ["/create-post", "/", "/sign-in", "/confirm-post"];
   const location = useLocation();
   return (
     <Link
