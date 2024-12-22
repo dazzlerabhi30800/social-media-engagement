@@ -14,6 +14,7 @@ import { Toaster } from "react-hot-toast";
 
 function App() {
   const { sharePostData, userInfo } = useSocialContext();
+  console.log(userInfo);
   return (
     <>
       <main className="flex w-full flex-1 h-inherit relative">
@@ -27,7 +28,10 @@ function App() {
           />
 
           <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/confirm-post" element={<ConfirmCreatePost />} />
+          <Route
+            path="/confirm-post"
+            element={userInfo ? <ConfirmCreatePost /> : <Navigate to={"/"} />}
+          />
           <Route path="/post/:postId" element={<PostViewPage />} />
           <Route path="/feed" element={<FeedPage />} />
           <Route path="/profile/:id" element={<UserProfile />} />
