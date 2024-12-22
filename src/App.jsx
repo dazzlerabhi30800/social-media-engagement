@@ -10,12 +10,14 @@ import SharePostDialog from "./components/SharePostDialog";
 import { useSocialContext } from "./context/SocialContext";
 import PostViewPage from "./page/PostView/PostViewPage";
 import ConfirmCreatePost from "./page/confirmPost/ConfirmCreatePost";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const { sharePostData, userInfo } = useSocialContext();
   return (
     <>
       <main className="flex w-full flex-1 h-inherit relative">
+        <Toaster />
         <CreateButton />
         {sharePostData?.showDialog === true && <SharePostDialog />}
         <Routes>

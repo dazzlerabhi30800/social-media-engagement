@@ -9,7 +9,6 @@ const Home = () => {
   const googleAuth = async () => {
     await signInWithPopup(auth, provider).then((_) => navigate("/feed"));
   };
-  console.log(userInfo);
   return (
     <div className="h-screen relative bg-[url('/banner.png')] bg-center bg-cover md:bg-[length:100%_180%] md:bg-no-repeat w-full bg-red-200 text-darkGrey">
       {/* Google Signin Comp */}

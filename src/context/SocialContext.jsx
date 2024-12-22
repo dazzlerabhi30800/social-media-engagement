@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../config/supabaseConfig";
-import { checkFiles } from "../config/utilFunc";
+import { checkFiles, compressFile } from "../config/utilFunc";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ export default function SocialContextProvider({ children }) {
   // hooks for creating new post
   const [files, setFiles] = useState([]);
   const [title, setTitle] = useState(
-    JSON.parse(localStorage.getItem("postTitle")) || "",
+    JSON.parse(localStorage.getItem("postTitle")) || ""
   );
 
   //
@@ -65,7 +65,11 @@ export default function SocialContextProvider({ children }) {
           id: user?.uid,
           name: user?.displayName,
           email: user?.email,
-          photoUrl: { fileUrl: user?.photoURL, path: null },
+          photoUrl: {
+            fileUrl:
+              "https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659652_640.png",
+            path: null,
+          },
         },
       ]);
       if (!error) {
@@ -104,10 +108,18 @@ export default function SocialContextProvider({ children }) {
 
     let fileLinks = [];
     for (let i = 0; i < files.length; i++) {
+      let fileShouldUpload;
       const fileName = files[i].name + "-" + Date.now();
+      if (files[i].type === "video/mp4") {
+        fileShouldUpload = files[i];
+      } else {
+        const compressedFile = await compressFile(files[i], 700);
+        fileShouldUpload = compressedFile;
+      }
+      // to check if the file is a video then we want the original file.
       const { data, error } = await supabase.storage
         .from("post-imgs")
-        .upload(`posts/${fileName}`, files[i]);
+        .upload(`posts/${fileName}`, fileShouldUpload);
       if (data) {
         const { data: fileUrl } = supabase.storage
           .from("post-imgs")
@@ -135,7 +147,6 @@ export default function SocialContextProvider({ children }) {
         {
           title: title,
           created_by: userInfo?.name,
-          user_photo: userInfo?.photoUrl,
           likes: [],
           post_url: fileLinks,
           user_id: userInfo?.id,

@@ -7,6 +7,7 @@ import HighlighHashtags from "../../components/HighlighHashtags";
 import { FaArrowLeft, FaFile, FaTrash } from "react-icons/fa";
 import { RiLoader3Fill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ConfirmCreatePost = () => {
   const {
@@ -34,9 +35,12 @@ const ConfirmCreatePost = () => {
     if (!files || files.length === 0) return;
     const { postError: error } = await saveToCloudStorage();
     if (!error) {
-      navigate("/feed");
+      toast.success("Post Created", {
+        duration: 5000,
+      });
       setLoading(false);
       setTitle("");
+      navigate("/feed");
     }
     if (error) {
       alert(error.message);
@@ -108,7 +112,6 @@ const ConfirmCreatePost = () => {
                 onChange={(e) => {
                   const newFiles = e.target.files;
                   const filesArr = [...files];
-                  console.log(filesArr);
                   for (let i = 0; i < newFiles.length; i++) {
                     filesArr.push(newFiles[i]);
                   }
@@ -116,7 +119,6 @@ const ConfirmCreatePost = () => {
                     alert("you can't upload more than 3 image files!!");
                     return;
                   }
-                  console.log(filesArr);
                   setFiles(filesArr);
                 }}
                 type="file"

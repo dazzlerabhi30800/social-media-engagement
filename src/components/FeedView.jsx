@@ -6,6 +6,7 @@ import { FaHeart } from "react-icons/fa";
 import { IoPaperPlane, IoClose } from "react-icons/io5";
 import ConfigFunc from "../context/ConfigFunc";
 import HighlighHashtags from "./HighlighHashtags";
+import toast from "react-hot-toast";
 
 const FeedView = () => {
   const { feedViewInfo, setFeedViewInfo } = useSocialContext();
@@ -78,7 +79,17 @@ const FeedView = () => {
           <button>
             <FaHeart className="text-gray-500 text-xl hover:text-red-500" />
           </button>
-          <button className="bg-gray-200 text-gray-600 flex items-center gap-1 rounded-[30px] py-2 px-5 text-lg shadow-sm hover:shadow-md transition-all hover:bg-gray-200">
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `${window.location.origin}/post/${feedViewInfo?.id}`
+              );
+              toast.success("Post link copied to clipboard", {
+                duration: 5000,
+              });
+            }}
+            className="bg-gray-200 text-gray-600 flex items-center gap-1 rounded-[30px] py-2 px-5 text-lg shadow-sm hover:shadow-md transition-all hover:bg-gray-200"
+          >
             <IoPaperPlane size={20} />
             Share
           </button>

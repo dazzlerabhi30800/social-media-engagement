@@ -2,6 +2,8 @@ import moment from "moment";
 import { supabase } from "../config/supabaseConfig";
 import { useSocialContext } from "./SocialContext";
 import { useNavigate } from "react-router-dom";
+import { compressFile } from "../config/utilFunc";
+import toast from "react-hot-toast";
 
 export default function ConfigFunc() {
   const {
@@ -54,14 +56,15 @@ export default function ConfigFunc() {
   const fetchMoreFeeds = () => {
     setHasMore(true);
     let pageCount = getPages();
-    if (page >= pageCount) {
-      setHasMore(false);
-    } else if (posts.length === totalPosts) {
-      setHasMore(false);
-    } else {
-      setPage((prev) => prev + 1);
-      setHasMore(true);
-    }
+    setPage((prev) => (prev + 1 >= pageCount ? prev : prev + 1));
+    // if (page >= pageCount) {
+    //   setHasMore(false);
+    // } else if (posts.length === totalPosts) {
+    //   setHasMore(false);
+    // } else {
+    //   setPage((prev) => prev + 1);
+    //   setHasMore(true);
+    // }
   };
 
   // NOTE: get exact no of pages based on the length of posts
@@ -124,11 +127,20 @@ export default function ConfigFunc() {
     if (!file) {
       return prevBanner;
     }
+    if (!file.type.includes("image/")) {
+      toast.error("You can only upload image files");
+      return false;
+    }
     const fileName = `posts/${file.name}-${Date.now()}`;
+    const compressedFile = await compressFile(file);
+    if (!compressedFile) {
+      toast.error("cannot compress file. Please try again");
+      return;
+    }
     if (!prevBanner) {
       const { data, error } = await supabase.storage
         .from("post-imgs")
-        .upload(fileName, file, {
+        .upload(fileName, compressedFile, {
           cacheControl: "0",
         });
       if (data) {
@@ -141,7 +153,7 @@ export default function ConfigFunc() {
         };
         return info;
       } else {
-        console.log(error);
+        toast.error(error.message);
         return false;
       }
     } else {
@@ -151,14 +163,14 @@ export default function ConfigFunc() {
 
       const { data: newFile, error: newError } = await supabase.storage
         .from("post-imgs")
-        .upload(fileName, file, {
+        .upload(fileName, compressedFile, {
           cacheControl: "0",
         });
       if (error) {
-        console.log(error);
+        toast.error(error.message);
       }
       if (newError) {
-        console.log(newError);
+        toast.error(newError.message);
       } else {
         const { data: fileUrl } = supabase.storage
           .from("post-imgs")
@@ -180,11 +192,20 @@ export default function ConfigFunc() {
     if (!newImg) {
       return currentImg;
     }
+    if (!newImg.type.includes("image/")) {
+      toast.error("You can only upload image files");
+      return false;
+    }
     const fileName = `posts/${newImg.name}-${Date.now()}`;
+    const compressedFile = await compressFile(newImg, 150);
+    if (!compressedFile) {
+      toast.error("cannot compress file. Please try again");
+      return;
+    }
     if (!currentImg.path) {
       const { data, error } = await supabase.storage
         .from("post-imgs")
-        .upload(fileName, newImg, {
+        .upload(fileName, compressedFile, {
           cacheControl: "0",
         });
       if (data) {
@@ -197,7 +218,7 @@ export default function ConfigFunc() {
         };
         return info;
       } else {
-        console.log(error);
+        toast.error(error.message);
         return false;
       }
     } else {
@@ -207,14 +228,14 @@ export default function ConfigFunc() {
 
       const { data: newFile, error: newError } = await supabase.storage
         .from("post-imgs")
-        .upload(fileName, newImg, {
+        .upload(fileName, compressedFile, {
           cacheControl: "0",
         });
       if (error) {
-        console.log(error);
+        toast.error(error.message);
       }
       if (newError) {
-        console.log(newError);
+        toast.error(newError.message);
       }
       if (newFile) {
         const { data: fileUrl } = supabase.storage
@@ -237,11 +258,12 @@ export default function ConfigFunc() {
     bannerFile,
     prevBanner,
     profileImg,
-    newProfileImg,
+    newProfileImg
   ) => {
     if (!id || !name || !bio) {
       alert("Please fill all the required fields");
     }
+    setLoading(true);
 
     const fileUrl = await saveToCloudStorage(bannerFile, prevBanner);
     const profileInfo = await updateUserProfileImg(profileImg, newProfileImg);
@@ -251,16 +273,19 @@ export default function ConfigFunc() {
       .update({
         name: name,
         bio: bio,
-        banner_img: fileUrl ? fileUrl : {},
+        banner_img: fileUrl ? fileUrl : prevBanner,
         photoUrl: profileInfo ? profileInfo : profileImg,
       })
       .eq("id", id)
       .select();
     if (error) {
       console.log(error);
+      setLoading(false);
     } else {
       const userData = await getUserInfoWithoutFeeds(userInfo?.id);
       if (userData) {
+        setLoading(false);
+        toast.success("profile updated succesfully", { duration: 5000 });
         navigate(`/feed`);
       }
     }

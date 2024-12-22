@@ -3,9 +3,10 @@ import { useSocialContext } from "../../context/SocialContext";
 import { FaArrowLeft, FaPencil } from "react-icons/fa6";
 import ConfigFunc from "../../context/ConfigFunc";
 import { useNavigate, useParams } from "react-router-dom";
+import { RiLoader3Fill } from "react-icons/ri";
 
 const EditProfile = () => {
-  const { userInfo, setUserInfo } = useSocialContext();
+  const { userInfo, setUserInfo, loading } = useSocialContext();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -126,6 +127,7 @@ const EditProfile = () => {
             </div>
           </div>
           <button
+            disabled={loading}
             onClick={() =>
               saveUserEditedBio(
                 id,
@@ -137,8 +139,9 @@ const EditProfile = () => {
                 newProfileImg
               )
             }
-            className="p-3 bg-black text-white w-full hover:bg-gray-800 rounded-3xl shadow-md font-bold md:text-lg"
+            className="flex items-center gap-5 justify-center p-3 bg-black text-white w-full hover:bg-gray-800 rounded-3xl shadow-md font-bold md:text-lg disabled:cursor-not-allowed disabled:opacity-70"
           >
+            {loading && <RiLoader3Fill className="animate-spin" size={30} />}
             Save
           </button>
         </div>

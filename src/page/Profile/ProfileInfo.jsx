@@ -9,6 +9,7 @@ const ProfileInfo = () => {
   const navigate = useNavigate();
   return (
     <div className="w-full">
+      {/* Banner Img */}
       <div
         className="w-full h-[200px] md:h-[250px] rounded-b-2xl p-5 bg-center bg-cover bg-no-repeat"
         style={{
