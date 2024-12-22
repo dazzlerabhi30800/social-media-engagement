@@ -6,21 +6,15 @@ import ConfigFunc from "../../context/ConfigFunc";
 import { RiLoader3Fill } from "react-icons/ri";
 
 const Posts = () => {
-  const { posts, loading, totalPosts, page } = useSocialContext();
+  const { posts, totalPosts } = useSocialContext();
   const { fetchMoreFeeds } = ConfigFunc();
   return (
     <div className="mt-10">
       <h2 className="font-bold text-black text-2xl">Feed</h2>
-      {loading && (
-        <div className="my-10 w-full flex justify-center items-center">
-          <RiLoader3Fill className="animate-spin" size={45} />
-        </div>
-      )}
       {posts.length > 0 ? (
         <InfiniteScroll
           dataLength={posts.length}
           next={fetchMoreFeeds}
-          // hasMore={hasMore}
           hasMore={posts.length !== totalPosts}
           loader={
             <div className="my-10 w-full flex justify-center items-center">
