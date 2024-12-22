@@ -40,7 +40,7 @@ export default function SocialContextProvider({ children }) {
         await registerNewUser(user);
       }
       if (!user) {
-        console.log("it's null");
+        return;
       }
     });
     return () => unSub();

@@ -6,10 +6,8 @@ import ConfigFunc from "../../context/ConfigFunc";
 import { RiLoader3Fill } from "react-icons/ri";
 
 const Posts = () => {
-  const { posts, hasMore, loading, totalPosts } = useSocialContext();
+  const { posts, loading, totalPosts, page } = useSocialContext();
   const { fetchMoreFeeds } = ConfigFunc();
-  console.log(totalPosts);
-  console.log(posts.length);
   return (
     <div className="mt-10">
       <h2 className="font-bold text-black text-2xl">Feed</h2>
