@@ -11,6 +11,11 @@ const Posts = () => {
   return (
     <div className="mt-10">
       <h2 className="font-bold text-black text-2xl">Feed</h2>
+      {loading && (
+        <div className="my-10 w-full flex justify-center items-center">
+          <RiLoader3Fill className="animate-spin" size={45} />
+        </div>
+      )}
       {posts.length > 0 ? (
         <InfiniteScroll
           dataLength={posts.length}
@@ -29,10 +34,6 @@ const Posts = () => {
             ))}
           </div>
         </InfiniteScroll>
-      ) : loading ? (
-        <div className="my-10 w-full flex justify-center items-center">
-          <RiLoader3Fill className="animate-spin" size={45} />
-        </div>
       ) : (
         <div className="flex w-full items-center justify-center text-xl font-medium mt-10">
           There are no posts to show!!
