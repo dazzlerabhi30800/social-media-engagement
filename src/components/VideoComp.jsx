@@ -20,7 +20,6 @@ const VideoComp = ({ link }) => {
         width="100%"
         className="w-full h-full rounded-xl object-cover"
         controls
-        loop
         ref={ref}
       >
         <source src={link} type="video/mp4" />
