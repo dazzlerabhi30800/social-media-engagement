@@ -56,7 +56,7 @@ export default function ConfigFunc() {
   const fetchMoreFeeds = () => {
     setHasMore(true);
     let pageCount = getPages();
-    setPage((prev) => (prev + 1 >= pageCount ? prev : prev + 1));
+    setPage((prev) => (prev + 1 > pageCount ? prev : prev + 1));
     // if (page >= pageCount) {
     //   setHasMore(false);
     // } else if (posts.length === totalPosts) {
