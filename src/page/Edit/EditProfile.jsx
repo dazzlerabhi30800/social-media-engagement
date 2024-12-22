@@ -4,6 +4,7 @@ import { FaArrowLeft, FaPencil } from "react-icons/fa6";
 import ConfigFunc from "../../context/ConfigFunc";
 import { useNavigate, useParams } from "react-router-dom";
 import { RiLoader3Fill } from "react-icons/ri";
+import toast from "react-hot-toast";
 
 const EditProfile = () => {
   const { userInfo, setUserInfo, loading } = useSocialContext();
@@ -65,8 +66,12 @@ const EditProfile = () => {
         >
           <input
             onChange={(e) => {
+              console.log(e.target.files[0].type);
+              if (!e.target.files[0].type.includes("image/")) {
+                toast.error("you can select only one image file");
+                return;
+              }
               const generated = URL.createObjectURL(e.target.files[0]);
-              console.log("hello");
               setProfileImg(generated);
               setNewProfileImg(e.target.files[0]);
             }}
@@ -95,6 +100,9 @@ const EditProfile = () => {
             className="hidden"
             accept="image/*"
             onChange={(e) => {
+              if (!e.target.files[0].type.includes("image/")) {
+                toast.error("you can select image files");
+              }
               const generated = URL.createObjectURL(e.target.files[0]);
               setBannerImg(generated);
               setBannerImageFile(e.target.files[0]);

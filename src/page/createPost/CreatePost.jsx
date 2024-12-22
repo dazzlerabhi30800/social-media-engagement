@@ -40,6 +40,7 @@ const CreatePost = () => {
                   }
                   setFiles(filesArr);
                 }}
+                accept="image/*,video/mp4"
                 type="file"
                 multiple
                 id="files"
@@ -53,11 +54,11 @@ const CreatePost = () => {
                 {files ? files.length + " files" : "Choose the file"}
               </label>
             </div>
-            <div className="w-full">
+            <div className="w-full md:hidden">
               <input
                 type="file"
                 id="cameraFile"
-                accept="image/*;capture=camera"
+                accept="image/*;capture=camera,video/mp4;capture=camera"
                 capture="environment"
                 className="hidden"
                 onChange={(e) => {
