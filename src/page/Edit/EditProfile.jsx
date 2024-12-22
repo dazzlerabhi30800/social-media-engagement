@@ -66,11 +66,13 @@ const EditProfile = () => {
           <input
             onChange={(e) => {
               const generated = URL.createObjectURL(e.target.files[0]);
+              console.log("hello");
               setProfileImg(generated);
               setNewProfileImg(e.target.files[0]);
             }}
             type="file"
             id="profileImg"
+            accept="image/*"
             className="hidden"
           />
           <label
@@ -91,6 +93,7 @@ const EditProfile = () => {
             type="file"
             id="bannerImg"
             className="hidden"
+            accept="image/*"
             onChange={(e) => {
               const generated = URL.createObjectURL(e.target.files[0]);
               setBannerImg(generated);

@@ -9,10 +9,11 @@ const Posts = () => {
   const { posts, totalPosts } = useSocialContext();
   const { fetchMoreFeeds } = ConfigFunc();
   return (
-    <div className="mt-10">
+    <div className="mt-10 w-full">
       <h2 className="font-bold text-black text-2xl">Feed</h2>
       {posts.length > 0 ? (
         <InfiniteScroll
+          className="w-full"
           dataLength={posts.length}
           next={fetchMoreFeeds}
           hasMore={posts.length !== totalPosts}

@@ -13,11 +13,13 @@ import {
 } from "react-icons/fa";
 import { FaCheckDouble } from "react-icons/fa6";
 import { MdOutlineContentCopy } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const SharePostDialog = () => {
   const { sharePostData, setSharePostData } = useSocialContext();
   const [copied, setCopied] = useState(false);
+  const navigate = useNavigate();
   const postUrls = [
     {
       icon: <FaTwitter />,
@@ -65,7 +67,7 @@ const SharePostDialog = () => {
     if (!copied) return;
     let timeout = setTimeout(() => {
       setCopied(false);
-    }, 4000);
+    }, 3000);
     return () => clearTimeout(timeout);
   }, [copied]);
   return (
@@ -74,13 +76,14 @@ const SharePostDialog = () => {
         <div className="flex items-center justify-between gap-3">
           <h1>Share Post</h1>
           <button
-            onClick={() =>
+            onClick={() => {
               setSharePostData((prev) => ({
                 ...prev,
                 showDialog: false,
                 postData: null,
-              }))
-            }
+              }));
+              navigate("/feed");
+            }}
             className="w-8 h-8 sm:w-10 sm:h-10 text-xl sm:text-2xl rounded-[50%] bg-blue-100 flex justify-center items-center hover:bg-blue-400"
           >
             <IoClose />
@@ -103,8 +106,11 @@ const SharePostDialog = () => {
           <button
             onClick={() => {
               navigator.clipboard.writeText(
-                `${window.location.origin}/post/${sharePostData.postData}`,
+                `${window.location.origin}/post/${sharePostData.postData}`
               );
+              toast.success("Post link copied to clipboard", {
+                duration: 3000,
+              });
               setCopied(true);
             }}
           >

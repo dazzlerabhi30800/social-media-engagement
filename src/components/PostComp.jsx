@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import { IoPaperPlane } from "react-icons/io5";
 import ConfigFunc from "../context/ConfigFunc";
@@ -7,12 +7,24 @@ import { Pagination } from "swiper/modules";
 import HighlighHashtags from "./HighlighHashtags";
 import { useSocialContext } from "../context/SocialContext";
 import VideoComp from "./VideoComp";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const PostComp = ({ post }) => {
   const { formatTime } = ConfigFunc();
   const { setSharePostData } = useSocialContext();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  let dialog = searchParams.get("showDialog");
+  useEffect(() => {
+    setSharePostData((prev) => ({
+      ...prev,
+      showDialog: dialog ? Boolean(dialog) : false,
+      postData: post?.id,
+    }));
+  }, [dialog]);
+
   return (
-    <div className="p-5 rounded-[26px] shadow-md bg-slate-100 flex flex-col">
+    <div className="p-5 rounded-[26px] shadow-md bg-slate-100 flex flex-col w-full">
       <div className="flex items-center gap-2">
         <img
           src={post?.users?.photoUrl?.fileUrl}
@@ -35,10 +47,11 @@ const PostComp = ({ post }) => {
           pagination={{
             clickable: true,
           }}
-          slidesPerView={post?.post_url.length > 1 ? 1.5 : 1}
-          slidesPerGroup={1}
+          // slidesPerView={post?.post_url.length > 1 ? 1.5 : 1}
+          slidesPerView={1}
+          // slidesPerGroup={1}
           modules={[Pagination]}
-          className="mySwiper overflow-hidden w-inherit h-[270px] sm:h-[300px]"
+          className="mySwiper overflow-hidden w-full h-[270px] sm:h-[300px]"
         >
           {post?.post_url.map((link, index) => (
             <SwiperSlide key={index}>
@@ -48,7 +61,7 @@ const PostComp = ({ post }) => {
                 <img
                   src={link}
                   alt={index}
-                  className="w-full h-full rounded-xl object-cover"
+                  className="flex w-full h-full rounded-xl object-cover"
                 />
               )}
             </SwiperSlide>
@@ -60,13 +73,7 @@ const PostComp = ({ post }) => {
           <FaHeart className="text-gray-500 text-xl hover:text-red-500" />
         </button>
         <button
-          onClick={() =>
-            setSharePostData((prev) => ({
-              ...prev,
-              showDialog: true,
-              postData: post?.id,
-            }))
-          }
+          onClick={() => navigate("/feed?showDialog=true")}
           className="bg-gray-200 text-gray-600 flex items-center gap-1 rounded-[30px] py-2 px-5 text-lg shadow-sm hover:shadow-md transition-all hover:bg-gray-200"
         >
           <IoPaperPlane size={20} />
