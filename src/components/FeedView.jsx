@@ -7,19 +7,23 @@ import { IoPaperPlane, IoClose } from "react-icons/io5";
 import ConfigFunc from "../context/ConfigFunc";
 import HighlighHashtags from "./HighlighHashtags";
 import toast from "react-hot-toast";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const FeedView = () => {
   const { feedViewInfo, setFeedViewInfo } = useSocialContext();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { formatTime } = ConfigFunc();
   return (
     <div
-      className={`h-auto min-w-[300px] w-[95%] max-w-[500px] absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2  ${
-        feedViewInfo ? "scale-100 z-40" : "scale-0 -z-40"
-      } transition-all`}
+      className={`h-auto min-w-[300px] w-[95%] max-w-[500px] absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 z-40  transition-all`}
     >
       <div className="p-5 rounded-[26px] h-full w-full shadow-md bg-slate-100 flex flex-col">
         <button
-          onClick={() => setFeedViewInfo(null)}
+          onClick={() => {
+            setFeedViewInfo(null);
+            navigate(location.pathname.replace("?feedView=true"));
+          }}
           className="text-gray-500 self-end mb-3 hover:text-gray-800"
         >
           <IoClose size={30} />{" "}

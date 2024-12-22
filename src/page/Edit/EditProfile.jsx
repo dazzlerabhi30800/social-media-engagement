@@ -49,7 +49,7 @@ const EditProfile = () => {
       >
         <div className="flex items-center gap-4">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(`/profile/${id}`)}
             className="text-white hover:text-gray-300"
           >
             <FaArrowLeft size={23} />

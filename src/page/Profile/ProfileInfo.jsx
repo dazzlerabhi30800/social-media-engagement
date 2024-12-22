@@ -1,12 +1,17 @@
 import React from "react";
 import { useSocialContext } from "../../context/SocialContext";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { FaHeart, FaPlay } from "react-icons/fa";
+import FeedView from "../../components/FeedView";
 
 const ProfileInfo = () => {
-  const { userInfo, userPosts, setFeedViewInfo } = useSocialContext();
+  const { userInfo, userPosts, setFeedViewInfo, feedViewInfo } =
+    useSocialContext();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const isShowFeed = searchParams.get("feedView");
+  const location = useLocation();
   return (
     <div className="w-full">
       {/* Banner Img */}
@@ -19,7 +24,7 @@ const ProfileInfo = () => {
         }}
       >
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/feed")}
           className="text-white hover:text-gray-300"
         >
           <FaArrowLeftLong size={23} />
@@ -61,7 +66,10 @@ const ProfileInfo = () => {
             <div className="grid grid-cols-2 gap-5 user--posts--wrapper mt-5">
               {userPosts?.map((post, index) => (
                 <div
-                  onClick={() => setFeedViewInfo(post)}
+                  onClick={() => {
+                    setFeedViewInfo(post);
+                    navigate(`${location.pathname}?feedView=true`);
+                  }}
                   className="w-full h-auto group"
                   key={index}
                 >
@@ -97,6 +105,7 @@ const ProfileInfo = () => {
           )}
         </div>
       </div>
+      {feedViewInfo && isShowFeed === "true" && <FeedView />}
     </div>
   );
 };
