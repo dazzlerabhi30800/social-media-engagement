@@ -54,6 +54,6 @@
 2. But I just need to checkout the documentation & stack overflow, it was smooth as butter.
 3. Then the problem came with compressing image files because some image files can be huge, maybe more than `5 mbs` & the compression should be done on client side. I used compressor js for it but the problem arised that I can't get `compressorjs` to return the compressed file. I tried with functions, making another component & using hooks like `useState` & `useEffect` but nothing works. That is when the promise came to play, it solved the problem entire, I just have to return resolve on success of compression.
 
-### It's a puzzle
+<span style="color:red">### It's a puzzle</span>
 
 1. Why did I say that making something from scratch is like solving a `puzzle`, you have to put piece together in a way that it looks right & meaningful.
