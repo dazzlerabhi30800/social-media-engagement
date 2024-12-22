@@ -21,7 +21,6 @@ const VideoComp = ({ link }) => {
         className="w-full h-full rounded-xl object-cover"
         controls
         loop
-        muted
         ref={ref}
       >
         <source src={link} type="video/mp4" />
