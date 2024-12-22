@@ -11,7 +11,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 const PostComp = ({ post }) => {
   const { formatTime } = ConfigFunc();
-  const { setSharePostData } = useSocialContext();
+  const { setSharePostData, sharePostData } = useSocialContext();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   let dialog = searchParams.get("showDialog");
@@ -19,10 +19,9 @@ const PostComp = ({ post }) => {
     setSharePostData((prev) => ({
       ...prev,
       showDialog: dialog ? Boolean(dialog) : false,
-      postData: post?.id,
+      postData: dialog ? prev.postData : null,
     }));
   }, [dialog]);
-
   return (
     <div className="p-5 rounded-[26px] shadow-md bg-slate-100 flex flex-col w-full">
       <div className="flex items-center gap-2">
@@ -73,7 +72,10 @@ const PostComp = ({ post }) => {
           <FaHeart className="text-gray-500 text-xl hover:text-red-500" />
         </button>
         <button
-          onClick={() => navigate("/feed?showDialog=true")}
+          onClick={() => {
+            setSharePostData((prev) => ({ ...prev, postData: post?.id }));
+            navigate("/feed?showDialog=true");
+          }}
           className="bg-gray-200 text-gray-600 flex items-center gap-1 rounded-[30px] py-2 px-5 text-lg shadow-sm hover:shadow-md transition-all hover:bg-gray-200"
         >
           <IoPaperPlane size={20} />
