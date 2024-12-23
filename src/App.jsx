@@ -26,11 +26,11 @@ function App() {
             element={userInfo ? <Navigate to={"/feed"} /> : <Home />}
           />
 
-          <Route path="/create-post" element={<CreatePost />} />
           <Route
-            path="/confirm-post"
-            element={userInfo ? <ConfirmCreatePost /> : <Navigate to={"/"} />}
+            path="/create-post"
+            element={userInfo ? <CreatePost /> : <Navigate to={"/"} />}
           />
+          <Route path="/confirm-post" element={<ConfirmCreatePost />} />
           <Route path="/post/:postId" element={<PostViewPage />} />
           <Route path="/feed" element={<FeedPage />} />
           <Route path="/profile/:id" element={<UserProfile />} />
