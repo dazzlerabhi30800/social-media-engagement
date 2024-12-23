@@ -13,7 +13,7 @@ export default function SocialContextProvider({ children }) {
   // hooks for creating new post
   const [files, setFiles] = useState([]);
   const [title, setTitle] = useState(
-    JSON.parse(localStorage.getItem("postTitle")) || ""
+    JSON.parse(localStorage.getItem("postTitle")) || "",
   );
 
   //
@@ -129,6 +129,7 @@ export default function SocialContextProvider({ children }) {
       if (error) {
         alert(error.message);
         setLoading(false);
+        return;
       }
     }
     setFiles([]);
