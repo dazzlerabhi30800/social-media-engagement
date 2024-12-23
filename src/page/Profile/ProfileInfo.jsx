@@ -70,7 +70,7 @@ const ProfileInfo = () => {
                     setFeedViewInfo(post);
                     navigate(`${location.pathname}?feedView=true`);
                   }}
-                  className="w-full h-auto group text-center"
+                  className="w-full h-auto group text-center cursor-pointer"
                   key={index}
                 >
                   <div
@@ -79,7 +79,7 @@ const ProfileInfo = () => {
                         ? "url('https://img.freepik.com/free-photo/grunge-black-concrete-textured-background_53876-124541.jpg')"
                         : `url(${post?.post_url[0]})`,
                     }}
-                    className="w-full min-h-[180px] h-auto object-cover rounded-3xl bg-center bg-cover bg-no-repeat flex justify-center items-center  group-hover:brightness-75 transition-all"
+                    className="w-full min-h-[180px] h-auto object-cover rounded-3xl bg-center bg-cover bg-no-repeat flex justify-center items-center  group-hover:brightness-75 transition-all p-4"
                   >
                     <div className="flex flex-col items-center bg-black/40 backdrop-blur-md gap-3 py-3 px-5 rounded-xl">
                       {post?.post_url[0].includes(".mp4") && (
@@ -87,10 +87,10 @@ const ProfileInfo = () => {
                           <FaPlay size={15} className="text-white" />
                         </p>
                       )}
-                      <p className="text-white flex items-center gap-1 font-medium">
+                      <p className="text-white flex text-[11px] sm:text-[13px] items-center gap-1 font-medium">
                         {post.title}
                       </p>
-                      <p className="text-white flex items-center gap-1">
+                      <p className="text-white flex items-center gap-1 text-[11px] sm:text-[13px]">
                         <FaHeart /> {post?.likes.length}
                       </p>
                     </div>
