@@ -1,9 +1,9 @@
 import Header from "./Header";
 import { useEffect } from "react";
 import { useSocialContext } from "../../context/SocialContext";
-import ConfigFunc from "../../context/ConfigFunc";
 import Posts from "./Posts";
 import { RiLoader3Fill } from "react-icons/ri";
+import ConfigFunc from "../../config/ConfigFunc";
 
 const FeedPage = () => {
   const { userInfo, page } = useSocialContext();

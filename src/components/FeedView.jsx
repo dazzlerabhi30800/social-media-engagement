@@ -4,10 +4,10 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { FaHeart } from "react-icons/fa";
 import { IoPaperPlane, IoClose } from "react-icons/io5";
-import ConfigFunc from "../context/ConfigFunc";
 import HighlighHashtags from "./HighlighHashtags";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
+import ConfigFunc from "../config/ConfigFunc";
 
 const FeedView = () => {
   const { feedViewInfo, setFeedViewInfo } = useSocialContext();

@@ -1,9 +1,9 @@
 import moment from "moment";
 import { supabase } from "../config/supabaseConfig";
-import { useSocialContext } from "./SocialContext";
 import { useNavigate } from "react-router-dom";
 import { compressFile } from "../config/utilFunc";
 import toast from "react-hot-toast";
+import { useSocialContext } from "../context/SocialContext";
 
 export default function ConfigFunc() {
   const {
@@ -114,8 +114,11 @@ export default function ConfigFunc() {
     }
   };
 
-  // save file to cloud storage
+  // update banner image to cloud storage
   const saveToCloudStorage = async (file, prevBanner) => {
+    if (!file || !prevBanner) {
+      return false;
+    }
     if (!file) {
       return prevBanner;
     }
@@ -176,7 +179,7 @@ export default function ConfigFunc() {
     }
   };
 
-  // check the user profile photo url
+  // update the user profile photo url
   const updateUserProfileImg = async (currentImg, newImg) => {
     if (!currentImg || !newImg) {
       return false;
@@ -278,29 +281,21 @@ export default function ConfigFunc() {
       if (userData) {
         setLoading(false);
         toast.success("profile updated succesfully", { duration: 5000 });
-        navigate(`/feed`);
+        navigate(-1);
       }
     }
   };
 
+  // format post timestamps
   const formatTime = (time) => {
     if (!time) return;
-    const formatted = moment(time).startOf("hour").fromNow();
+    // const formatted = moment(time).startOf(time).fromNow();
+    const formatted = moment(time).format("h:mm a -- ddd -- Do MMM'YY");
     return formatted;
   };
 
+  // padding styles for main screen
   const paddingStyles = "p-6 md:px-10";
-
-  const fetchImage = (image) => {
-    if (!image) {
-      return false;
-    }
-    let imageData = JSON.parse(image);
-    if (typeof imageData === "object") {
-      return imageData?.fileUrl;
-    }
-    return imageData;
-  };
 
   return {
     fetchFeed,
@@ -309,7 +304,6 @@ export default function ConfigFunc() {
     paddingStyles,
     saveUserEditedBio,
     getUserInfoWithoutFeeds,
-    fetchImage,
     fetchMoreFeeds,
     getPost,
   };

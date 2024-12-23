@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSocialContext } from "../../context/SocialContext";
 import { FaArrowLeft, FaPencil } from "react-icons/fa6";
-import ConfigFunc from "../../context/ConfigFunc";
 import { useNavigate, useParams } from "react-router-dom";
 import { RiLoader3Fill } from "react-icons/ri";
 import toast from "react-hot-toast";
+import ConfigFunc from "../../config/ConfigFunc";
 
 const EditProfile = () => {
   const { userInfo, setUserInfo, loading } = useSocialContext();

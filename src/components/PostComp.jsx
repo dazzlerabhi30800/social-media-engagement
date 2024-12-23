@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import { IoPaperPlane } from "react-icons/io5";
-import ConfigFunc from "../context/ConfigFunc";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import HighlighHashtags from "./HighlighHashtags";
 import { useSocialContext } from "../context/SocialContext";
 import VideoComp from "./VideoComp";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import ConfigFunc from "../config/ConfigFunc";
 
 const PostComp = ({ post }) => {
   const { formatTime } = ConfigFunc();

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ConfigFunc from "../../context/ConfigFunc";
 import ProfileInfo from "./ProfileInfo";
+import ConfigFunc from "../../config/ConfigFunc";
 
 const UserProfile = () => {
   const { id } = useParams();

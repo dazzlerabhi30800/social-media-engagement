@@ -1,7 +1,7 @@
 import { FaArrowLeft, FaCamera, FaFile } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSocialContext } from "../../context/SocialContext";
-import ConfigFunc from "../../context/ConfigFunc";
+import ConfigFunc from "../../config/ConfigFunc";
 
 const CreatePost = () => {
   const { files, setFiles, title, setTitle } = useSocialContext();

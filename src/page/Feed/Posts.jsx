@@ -2,8 +2,8 @@ import React from "react";
 import { useSocialContext } from "../../context/SocialContext";
 import PostComp from "../../components/PostComp";
 import InfiniteScroll from "react-infinite-scroll-component";
-import ConfigFunc from "../../context/ConfigFunc";
 import { RiLoader3Fill } from "react-icons/ri";
+import ConfigFunc from "../../config/ConfigFunc";
 
 const Posts = () => {
   const { posts, totalPosts } = useSocialContext();

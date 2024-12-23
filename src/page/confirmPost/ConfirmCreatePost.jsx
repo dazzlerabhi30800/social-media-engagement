@@ -1,6 +1,5 @@
 import React from "react";
 import { useSocialContext } from "../../context/SocialContext";
-import ConfigFunc from "../../context/ConfigFunc";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import HighlighHashtags from "../../components/HighlighHashtags";
@@ -8,6 +7,7 @@ import { FaArrowLeft, FaFile, FaTrash } from "react-icons/fa";
 import { RiLoader3Fill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import ConfigFunc from "../../config/ConfigFunc";
 
 const ConfirmCreatePost = () => {
   const {

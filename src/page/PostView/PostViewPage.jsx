@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import ConfigFunc from "../../context/ConfigFunc";
 import { RiLoader3Fill } from "react-icons/ri";
 import { useParams } from "react-router-dom";
 import PostComp from "../../components/PostComp";
+import ConfigFunc from "../../config/ConfigFunc";
 
 const PostViewPage = () => {
   const { paddingStyles, getPost } = ConfigFunc();
