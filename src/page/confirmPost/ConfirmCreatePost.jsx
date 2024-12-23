@@ -19,25 +19,26 @@ const ConfirmCreatePost = () => {
     saveToCloudStorage,
     setTitle,
   } = useSocialContext();
-  const { paddingStyles } = ConfigFunc();
+  const { paddingStyles, fetchFeed } = ConfigFunc();
   const navigate = useNavigate();
   const handleRemoveFiles = (index) => {
-    if (files.length === 1) {
-      alert("you have to upload at least 1 file");
-      return;
-    }
     const fileArr = [...files];
     fileArr.splice(index, 1);
     setFiles(fileArr);
   };
 
   const handleAddPost = async () => {
-    if (!files || files.length === 0) return;
+    if (!files || files.length === 0) {
+      toast.error(
+        "You have no files to upload. Please select at least one file!!",
+      );
+    }
     const { postError: error } = await saveToCloudStorage();
     if (!error) {
       toast.success("Post Created", {
         duration: 5000,
       });
+      await fetchFeed();
       setLoading(false);
       setTitle("");
       navigate("/feed");
@@ -72,14 +73,22 @@ const ConfirmCreatePost = () => {
               {files?.map((file, index) => (
                 <SwiperSlide key={index} className="w-full">
                   {file.type.includes("video") ? (
-                    <video
-                      src={URL.createObjectURL(file)}
-                      width="100%"
-                      className="w-full h-full rounded-xl object-cover"
-                      controls
-                      loop
-                      autoPlay={false}
-                    />
+                    <div className="relative h-full w-full">
+                      <video
+                        src={URL.createObjectURL(file)}
+                        width="100%"
+                        className="w-full h-full rounded-xl object-cover"
+                        controls
+                        loop
+                        autoPlay={false}
+                      />
+                      <button
+                        onClick={() => handleRemoveFiles(index)}
+                        className="absolute bottom-3 right-3 bg-black/60 rounded-[50%] p-2 text-lg text-white"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
                   ) : (
                     <div className="h-full w-full relative">
                       <span className="absolute top-5 right-5 text-sm font-bold text-black bg-white py-1 px-3 rounded-2xl">
