@@ -1,30 +1,36 @@
-import React, { useEffect, useRef } from "react";
-import { useInView } from "motion/react";
+import React, { useEffect, useRef, useState } from "react";
+import ReactPlayer from "react-player";
+import VisibleElement from "./VisibleElement";
 
 const VideoComp = ({ link }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
   const ref = useRef(null);
-  const visible = useInView(ref);
+  const visible = VisibleElement(ref);
 
   useEffect(() => {
     if (!ref?.current) return;
+    const videoEl = ref.current.querySelector("video");
+    if (!videoEl) return;
     if (visible) {
-      ref.current.play();
+      setIsPlaying(true);
     } else {
-      ref.current.pause();
+      setIsPlaying(false);
     }
   }, [visible]);
 
   return (
-    <div className="h-full w-full">
-      <video
-        width="100%"
-        className="w-full h-full rounded-xl object-cover"
-        controls
-        ref={ref}
-        autoPlay
-      >
-        <source src={link} type="video/mp4" />
-      </video>
+    <div className="h-full w-full rounded-xl" ref={ref}>
+      <ReactPlayer
+        url={link}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+        playing={isPlaying}
+        width={"100%"}
+        height={"100%"}
+        controls={true}
+      />
     </div>
   );
 };
