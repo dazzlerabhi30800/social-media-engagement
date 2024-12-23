@@ -84,24 +84,38 @@ export default function SocialContextProvider({ children }) {
   // Save uploaded files to cloud storage
   const saveToCloudStorage = async () => {
     if (!files || files.length === 0) {
-      alert("You've not uploaded any file");
-      return;
+      return {
+        postError: { message: "you haven't uploaded any file" },
+      };
     }
 
     if (title.length < 5) {
-      alert("your title is too short!");
-      return;
+      return {
+        postError: { message: "your title is too short!" },
+      };
+    }
+    if (files.length === 1 && files[0].type.includes("video/")) {
+      const size = Math.round(files[0].size / 1024);
+      const validSize = 1024 * 40;
+      if (size > validSize) {
+        return {
+          postError: { message: "You can't upload file more than 40 mb" },
+        };
+      }
     }
 
     // check if files doesn't contain more than one Video;
     const isFileOkay = checkFiles(files);
     if (!isFileOkay) {
-      alert("You can't upload more than 1 files with video");
-      return;
+      return {
+        postError: { message: "You can't upload more than 1 files with video" },
+      };
     }
 
     if (files.length >= 4) {
-      alert("You can't post more than 3 files");
+      return {
+        postError: { message: "You can't upload more than 3 image files" },
+      };
     }
 
     setLoading(true);

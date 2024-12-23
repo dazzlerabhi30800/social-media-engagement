@@ -28,11 +28,6 @@ const ConfirmCreatePost = () => {
   };
 
   const handleAddPost = async () => {
-    if (!files || files.length === 0) {
-      toast.error(
-        "You have no files to upload. Please select at least one file!!",
-      );
-    }
     const { postError: error } = await saveToCloudStorage();
     if (!error) {
       toast.success("Post Created", {
@@ -44,7 +39,7 @@ const ConfirmCreatePost = () => {
       navigate("/feed");
     }
     if (error) {
-      alert(error.message);
+      toast.error(error?.message, { duration: 5000 });
       setLoading(false);
     }
   };
@@ -125,7 +120,9 @@ const ConfirmCreatePost = () => {
                     filesArr.push(newFiles[i]);
                   }
                   if (filesArr.length > 3) {
-                    alert("you can't upload more than 3 image files!!");
+                    toast.error("you can't upload more than 3 image files!!", {
+                      duration: 3000,
+                    });
                     return;
                   }
                   setFiles(filesArr);
