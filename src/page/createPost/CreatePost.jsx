@@ -14,7 +14,12 @@ const CreatePost = () => {
     <div className={`${paddingStyles} w-full flex relative`}>
       <div className={`flex flex-col gap-1 w-full relative`}>
         <div className="flex items-center gap-5 text-black">
-          <button onClick={() => navigate(-1)}>
+          <button
+            onClick={() => {
+              navigate(-1);
+              setTitle("");
+            }}
+          >
             <FaArrowLeft />
           </button>
           <h2 className="font-bold text-xl">New Post</h2>
