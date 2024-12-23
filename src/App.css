@@ -19,6 +19,7 @@
 
 body {
   display: flex;
+  scroll-behavior: smooth;
   background: rgb(243, 225, 227);
 }
 .cl-avatarBox {
