@@ -6,20 +6,16 @@ export const checkFiles = (files) => {
   return videoFiles.length > 1
     ? false
     : videoFiles.length === 1 && files.length > 1
-    ? false
-    : true;
+      ? false
+      : true;
 };
 
 export async function compressFile(file, width) {
   return await new Promise((resolve, reject) => {
     new Compressor(file, {
-      quality: 0.6,
+      quality: 0.7,
       maxWidth: width ? width : 500,
       success: (result) => {
-        // console.log(`file:`);
-        // console.log(file);
-        // console.log(`result:`);
-        // console.log(result);
         resolve(result);
       },
       error(err) {

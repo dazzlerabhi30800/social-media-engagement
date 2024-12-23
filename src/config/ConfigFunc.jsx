@@ -117,7 +117,7 @@ export default function ConfigFunc() {
 
   // update banner image to cloud storage
   const saveToCloudStorage = async (file, prevBanner) => {
-    if (!file || !prevBanner) {
+    if (!file && !prevBanner) {
       return false;
     }
     if (!file) {
@@ -182,7 +182,7 @@ export default function ConfigFunc() {
 
   // update the user profile photo url
   const updateUserProfileImg = async (currentImg, newImg) => {
-    if (!currentImg || !newImg) {
+    if (!currentImg && !newImg) {
       return false;
     }
     if (!newImg) {
@@ -254,7 +254,7 @@ export default function ConfigFunc() {
     bannerFile,
     prevBanner,
     profileImg,
-    newProfileImg
+    newProfileImg,
   ) => {
     if (!id || !name || !bio) {
       alert("Please fill all the required fields");

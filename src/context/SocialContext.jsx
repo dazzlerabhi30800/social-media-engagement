@@ -147,7 +147,7 @@ export default function SocialContextProvider({ children }) {
       .insert([
         {
           title: title,
-          created_by: userInfo?.name,
+          created_by: userInfo?.email,
           likes: [],
           post_url: fileLinks,
           user_id: userInfo?.id,
