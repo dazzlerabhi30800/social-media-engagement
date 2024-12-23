@@ -2,6 +2,7 @@ import { FaArrowLeft, FaCamera, FaFile } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSocialContext } from "../../context/SocialContext";
 import ConfigFunc from "../../config/ConfigFunc";
+import toast from "react-hot-toast";
 
 const CreatePost = () => {
   const { files, setFiles, title, setTitle } = useSocialContext();
@@ -42,6 +43,10 @@ const CreatePost = () => {
                   const filesArr = [];
                   for (let i = 0; i < newFiles.length; i++) {
                     filesArr.push(newFiles[i]);
+                  }
+                  if (filesArr.length > 3) {
+                    toast.error("You can't upload more than 3 image files!!");
+                    return;
                   }
                   setFiles(filesArr);
                 }}
