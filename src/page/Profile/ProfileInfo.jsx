@@ -70,7 +70,7 @@ const ProfileInfo = () => {
                     setFeedViewInfo(post);
                     navigate(`${location.pathname}?feedView=true`);
                   }}
-                  className="w-full h-auto group"
+                  className="w-full h-auto group text-center"
                   key={index}
                 >
                   <div
