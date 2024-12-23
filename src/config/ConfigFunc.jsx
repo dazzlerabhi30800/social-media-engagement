@@ -11,7 +11,6 @@ export default function ConfigFunc() {
     setUserInfo,
     userInfo,
     setUserPosts,
-    posts,
     setPage,
     page,
     setTotalPosts,
@@ -20,6 +19,7 @@ export default function ConfigFunc() {
     setLoading,
   } = useSocialContext();
   const navigate = useNavigate();
+  const limit = 20;
 
   // NOTE: function to fetch Post
   const fetchFeed = async () => {
@@ -31,7 +31,7 @@ export default function ConfigFunc() {
       .from("posts")
       .select("*, users(photoUrl, name)")
       .order("created_at", { ascending: false })
-      .limit(page * 2);
+      .limit(page * limit);
     if (data) {
       setPosts(data);
       setTotalPosts(count);
@@ -56,13 +56,14 @@ export default function ConfigFunc() {
   const fetchMoreFeeds = () => {
     setHasMore(true);
     let pageCount = getPages();
+    console.log(pageCount);
     setPage((prev) => (prev + 1 > pageCount ? prev : prev + 1));
   };
 
   // NOTE: get exact no of pages based on the length of posts
   const getPages = () => {
-    let pageNo = Math.floor(totalPosts / 2);
-    let remainingPages = totalPosts % 2;
+    let pageNo = Math.floor(totalPosts / limit);
+    let remainingPages = totalPosts % limit;
     const totalPages = pageNo + remainingPages;
     return totalPages;
   };
