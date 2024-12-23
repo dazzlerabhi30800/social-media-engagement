@@ -19,6 +19,7 @@ const CreatePost = () => {
             onClick={() => {
               navigate(-1);
               setTitle("");
+              setFiles([]);
             }}
           >
             <FaArrowLeft />
