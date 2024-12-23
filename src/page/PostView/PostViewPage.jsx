@@ -31,7 +31,7 @@ const PostViewPage = () => {
     );
   return (
     <div
-      className={`${paddingStyles} w-full flex flex-1 mt-10 overflow-hidden`}
+      className={`${paddingStyles} w-full flex h-fit flex-1 mt-10 overflow-hidden`}
     >
       <PostComp post={postInfo} />
     </div>
