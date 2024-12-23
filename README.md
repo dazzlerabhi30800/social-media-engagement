@@ -54,6 +54,12 @@
 2. But I just need to checkout the documentation & stack overflow, it was smooth as butter.
 3. Then the problem came with compressing image files because some image files can be huge, maybe more than `5 mbs` & the compression should be done on client side. I used compressor js for it but the problem arised that I can't get `compressorjs` to return the compressed file. I tried with functions, making another component & using hooks like `useState` & `useEffect` but nothing works. That is when the promise came to play, it solved the problem entire, I just have to return resolve on success of compression.
 
+## Updating user profile
+
+1. At first the approach I was looking to take for updating profile was to first delete the existing img file & add the new one, but then I find in the supabase documentation that we can replace an existing file in cloud storage.
+2. I tried it & got success, but the problem when we upload the file for the first time in cloud storage it caches it, so even after replacing it with another one still shows the old `cached` image file.
+3. Therefore I decided to go with my first approach & it worked as I expected.
+
 ## It's a puzzle
 
 1. Why did I say that making something from scratch is like solving a `puzzle`, you have to put piece together in a way that it looks right & meaningful.
