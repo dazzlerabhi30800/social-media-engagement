@@ -21,6 +21,7 @@ const VideoComp = ({ link }) => {
         className="w-full h-full rounded-xl object-cover"
         controls
         ref={ref}
+        autoPlay
       >
         <source src={link} type="video/mp4" />
       </video>
