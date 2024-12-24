@@ -115,7 +115,7 @@ export default function ConfigFunc() {
     }
   };
 
-  // update banner image to cloud storage
+  //NOTE: update banner image to cloud storage
   const saveToCloudStorage = async (file, prevBanner) => {
     if (!file && !prevBanner) {
       return false;
