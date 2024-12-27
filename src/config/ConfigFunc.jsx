@@ -297,7 +297,6 @@ export default function ConfigFunc() {
     setPostAnimate(postId);
     const updatedLikesArr = [...likesArr];
     const findUserIndex = updatedLikesArr.findIndex((user) => user === userId);
-    console.log(findUserIndex);
     if (findUserIndex < 0) {
       updatedLikesArr.push(userId);
     } else {
