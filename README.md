@@ -13,9 +13,8 @@
 7. React Router Dom - for page routes & navigation
 8. Swiper - smooth carousel
 9. React Infinite Scroll Component - For infinite post component loading
-10. Motion - to determine when the video element is in view inside post component.
-11. Compressor js - to compress image files.
-12. React Hot Toast - for toast notifications.
+10. Compressor js - to compress image files.
+11. React Hot Toast - for toast notifications.
 
 ## How to run locally
 
