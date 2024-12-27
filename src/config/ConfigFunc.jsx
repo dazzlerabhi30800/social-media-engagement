@@ -254,7 +254,7 @@ export default function ConfigFunc() {
     bannerFile,
     prevBanner,
     profileImg,
-    newProfileImg,
+    newProfileImg
   ) => {
     if (!id || !name || !bio) {
       alert("Please fill all the required fields");
