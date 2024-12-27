@@ -90,8 +90,8 @@ const ProfileInfo = () => {
                       <p className="text-white flex text-[11px] sm:text-[13px] items-center gap-1 font-medium">
                         {post.title}
                       </p>
-                      <p className="text-white flex items-center gap-1 text-[11px] sm:text-[13px]">
-                        <FaHeart /> {post?.likes.length}
+                      <p className="text-white flex items-center text-[11px] sm:text-[13px]">
+                        <FaHeart /> <span className="ml-1 mt-1">{post?.likes.length}</span>
                       </p>
                     </div>
                   </div>

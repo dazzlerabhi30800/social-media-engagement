@@ -80,13 +80,19 @@ const FeedView = () => {
           </Swiper>
         </div>
         <div className="mt-5 flex items-center justify-between">
-          <button>
-            <FaHeart className="text-gray-500 text-xl hover:text-red-500" />
-          </button>
+          <p
+            className={`flex items-center ${feedViewInfo?.likes.length > 0 ? "text-red-500" : "text-gray-400"}`}
+          >
+            <FaHeart className="text-xl" />
+            {feedViewInfo?.likes.length > 0 && (
+              <span className="ml-1 mt-1 text-lg font-semibold">{feedViewInfo?.likes.length}</span>
+            )}
+          </p>
+
           <button
             onClick={() => {
               navigator.clipboard.writeText(
-                `${window.location.origin}/post/${feedViewInfo?.id}`
+                `${window.location.origin}/post/${feedViewInfo?.id}`,
               );
               toast.success("Post link copied to clipboard", {
                 duration: 5000,
