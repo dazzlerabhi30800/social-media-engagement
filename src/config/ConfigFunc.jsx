@@ -290,8 +290,8 @@ export default function ConfigFunc() {
   // format post timestamps
   const formatTime = (time) => {
     if (!time) return;
-    // const formatted = moment(time).startOf(time).fromNow();
-    const formatted = moment(time).format("h:mm a -- ddd -- Do MMM'YY");
+    // const formatted = moment(time).format("h:mm a -- ddd -- Do MMM'YY");
+    const formatted = moment(time).fromNow();
     return formatted;
   };
 
