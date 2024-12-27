@@ -69,17 +69,17 @@ const PostComp = ({ post }) => {
         </Swiper>
       </div>
       <div className="mt-4 flex items-center justify-between">
-        <div className="flex items-center">
+        <div className={ `flex items-center ${post?.likes.includes(userInfo?.id) ? "text-red-500 text-2xl" : "text-gray-500"}` }>
           <button
             disabled={loading}
             onClick={() => handlePostLikes(post?.id, post?.likes, userInfo?.id)}
           >
             <FaHeart
-              className={` text-xl hover:text-red-500 ${post?.likes.includes(userInfo?.id) ? "text-red-500 text-2xl" : "text-gray-500"} ${loading && postAnimate === post?.id && "animate-ping"} `}
+              className={` text-xl hover:text-red-500  ${loading && postAnimate === post?.id && "animate-ping"} `}
             />
           </button>
           {post?.likes.length > 0 && (
-            <span className="text-red-500 font-bold text-lg ml-2 mt-1">
+            <span className="font-bold text-lg ml-2 mt-1">
               {post?.likes.length}
             </span>
           )}
