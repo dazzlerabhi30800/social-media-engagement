@@ -17,6 +17,7 @@ export default function ConfigFunc() {
     totalPosts,
     setHasMore,
     setLoading,
+    setPostAnimate,
   } = useSocialContext();
   const navigate = useNavigate();
   const limit = 20;
@@ -254,7 +255,7 @@ export default function ConfigFunc() {
     bannerFile,
     prevBanner,
     profileImg,
-    newProfileImg
+    newProfileImg,
   ) => {
     if (!id || !name || !bio) {
       alert("Please fill all the required fields");
@@ -287,6 +288,38 @@ export default function ConfigFunc() {
     }
   };
 
+  // NOTE: Managing Likes
+  const handlePostLikes = async (postId, likesArr, userId) => {
+    if (!userInfo) {
+      navigate("/");
+      return;
+    }
+    if (!postId || !likesArr || !userId) return;
+    setPostAnimate(postId);
+    const updatedLikesArr = [...likesArr];
+    const findUserIndex = updatedLikesArr.findIndex((user) => user === userId);
+    console.log(findUserIndex);
+    if (findUserIndex < 0) {
+      updatedLikesArr.push(userId);
+    } else {
+      updatedLikesArr.splice(findUserIndex, 1);
+    }
+    const { data, error } = await supabase
+      .from("posts")
+      .update({
+        likes: updatedLikesArr,
+      })
+      .select("likes")
+      .eq("id", postId);
+    if (error) {
+      toast.error(error.message);
+      setPostAnimate("");
+    } else {
+      await fetchFeed();
+      setPostAnimate("");
+    }
+  };
+
   // format post timestamps
   const formatTime = (time) => {
     if (!time) return;
@@ -307,5 +340,6 @@ export default function ConfigFunc() {
     getUserInfoWithoutFeeds,
     fetchMoreFeeds,
     getPost,
+    handlePostLikes,
   };
 }

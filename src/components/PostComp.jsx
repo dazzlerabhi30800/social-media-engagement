@@ -10,8 +10,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ConfigFunc from "../config/ConfigFunc";
 
 const PostComp = ({ post }) => {
-  const { formatTime } = ConfigFunc();
-  const { setSharePostData, sharePostData } = useSocialContext();
+  const { formatTime, handlePostLikes } = ConfigFunc();
+  const { setSharePostData, userInfo, loading, postAnimate } =
+    useSocialContext();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   let dialog = searchParams.get("showDialog");
@@ -68,9 +69,21 @@ const PostComp = ({ post }) => {
         </Swiper>
       </div>
       <div className="mt-4 flex items-center justify-between">
-        <button>
-          <FaHeart className="text-gray-500 text-xl hover:text-red-500" />
-        </button>
+        <div className="flex items-center">
+          <button
+            disabled={loading}
+            onClick={() => handlePostLikes(post?.id, post?.likes, userInfo?.id)}
+          >
+            <FaHeart
+              className={` text-xl hover:text-red-500 ${post?.likes.includes(userInfo?.id) ? "text-red-500 text-2xl" : "text-gray-500"} ${loading && postAnimate === post?.id && "animate-ping"} `}
+            />
+          </button>
+          {post?.likes.length > 0 && (
+            <span className="text-red-500 font-bold text-lg ml-2 mt-1">
+              {post?.likes.length}
+            </span>
+          )}
+        </div>
         <button
           onClick={() => {
             setSharePostData((prev) => ({ ...prev, postData: post?.id }));

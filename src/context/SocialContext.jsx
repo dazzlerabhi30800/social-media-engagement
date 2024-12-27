@@ -10,6 +10,7 @@ const socialContext = createContext({});
 export default function SocialContextProvider({ children }) {
   // HOOKS
   const [loading, setLoading] = useState(false);
+  const [postAnimate, setPostAnimate] = useState("");
   // hooks for creating new post
   const [files, setFiles] = useState([]);
   const [title, setTitle] = useState(
@@ -187,6 +188,8 @@ export default function SocialContextProvider({ children }) {
       value={{
         registerNewUser,
         saveToCloudStorage,
+        setPostAnimate,
+        postAnimate,
         setFiles,
         files,
         title,
