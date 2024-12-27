@@ -179,6 +179,8 @@ export default function SocialContextProvider({ children }) {
     setUserPosts([]);
     setPage(1);
     setTotalPosts(0);
+    setFiles([]);
+    setTitle("");
     setHasMore(true);
     navigate("/");
   };
