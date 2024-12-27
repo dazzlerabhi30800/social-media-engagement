@@ -109,8 +109,7 @@ export default function ConfigFunc() {
       .order("created_at", { ascending: false })
       .eq("user_id", id);
     if (error) {
-      // console.log(error);
-      aler(error.message);
+      alert(error.message);
     } else {
       setUserPosts(data);
     }
