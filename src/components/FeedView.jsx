@@ -66,7 +66,7 @@ const FeedView = () => {
                     className="w-full h-full"
                     controls
                     loop
-                    autoPlay={false}
+                    autoPlay={true}
                   />
                 ) : (
                   <img
