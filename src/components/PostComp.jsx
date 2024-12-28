@@ -3,6 +3,7 @@ import { FaHeart } from "react-icons/fa";
 import { IoPaperPlane } from "react-icons/io5";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import { RiLoader3Fill } from "react-icons/ri";
 import HighlighHashtags from "./HighlighHashtags";
 import { useSocialContext } from "../context/SocialContext";
 import VideoComp from "./VideoComp";
@@ -69,7 +70,9 @@ const PostComp = ({ post }) => {
         </Swiper>
       </div>
       <div className="mt-4 flex items-center justify-between">
-        <div className={ `flex items-center ${post?.likes.includes(userInfo?.id) ? "text-red-500 text-2xl" : "text-gray-500"}` }>
+        <div
+          className={`flex items-center ${post?.likes.includes(userInfo?.id) ? "text-red-500 text-2xl" : "text-gray-500"}`}
+        >
           <button
             disabled={loading}
             onClick={() => handlePostLikes(post?.id, post?.likes, userInfo?.id)}
@@ -78,8 +81,9 @@ const PostComp = ({ post }) => {
               className={` text-xl hover:text-red-500  ${loading && postAnimate === post?.id && "animate-ping"} `}
             />
           </button>
+          {loading && <RiLoader3Fill size={25} className="animate-spin ml-1" />}
           {post?.likes.length > 0 && (
-            <span className="font-bold text-lg ml-2 mt-1">
+            <span className="font-bold text-lg ml-1 mt-1">
               {post?.likes.length}
             </span>
           )}
