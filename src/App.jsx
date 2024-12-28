@@ -12,9 +12,18 @@ import PostViewPage from "./page/PostView/PostViewPage";
 import ConfirmCreatePost from "./page/confirmPost/ConfirmCreatePost";
 import { Toaster } from "react-hot-toast";
 import ScrollToTopBtn from "./components/ScrollToTopBtn";
+import { useEffect } from "react";
 
 function App() {
   const { sharePostData, userInfo } = useSocialContext();
+  const handleReload = () => {
+    window.reload();
+  };
+
+  useEffect(() => {
+    window.addEventListener("vite:preloadError", handleReload);
+    return () => window.addEventListener("vite:preloadError", handleReload);
+  }, []);
   return (
     <>
       <main className="flex w-full flex-1 h-inherit relative">
