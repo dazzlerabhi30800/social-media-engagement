@@ -36,7 +36,8 @@
 2. Create Post by posting images/video with title.
 3. Users can view & edit their profile by updating their bio, name, profile & banner image.
 4. Logout functionality.
-5. Smooth navigation & interaction, plus all the post feed doesn't get loaded at once, only when user scroll further.
+5. Users can like another and their own post.
+6. Smooth navigation & interaction, plus all the post feed doesn't get loaded at once, only when user scroll further.
 
 ## Challenge I've faced
 
