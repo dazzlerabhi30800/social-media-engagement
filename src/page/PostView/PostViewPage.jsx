@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { RiLoader3Fill } from "react-icons/ri";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PostComp from "../../components/PostComp";
 import ConfigFunc from "../../config/ConfigFunc";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const PostViewPage = () => {
   const { paddingStyles, getPost } = ConfigFunc();
@@ -31,8 +32,11 @@ const PostViewPage = () => {
     );
   return (
     <div
-      className={`${paddingStyles} w-full flex h-fit flex-1 mt-10 overflow-hidden`}
+      className={`${paddingStyles} w-full flex flex-col gap-10 h-fit flex-1 overflow-hidden`}
     >
+      <Link to="/" className="bg-darkGrey p-3 w-fit rounded-[50%] text-white hover:bg-gray-600">
+        <FaArrowLeftLong size={17} />
+      </Link>
       <PostComp post={postInfo} />
     </div>
   );
