@@ -33,7 +33,7 @@ const HighlighHashtags = ({ title }) => {
     }
   });
   return (
-    <div className="flex text-lg font-medium items-center gap-[5px]">
+    <div className="flex text-base md:text-lg font-medium flex-wrap gap-[5px]">
       {highlightComp}
     </div>
   );
