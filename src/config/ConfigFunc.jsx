@@ -57,14 +57,16 @@ export default function ConfigFunc() {
   const fetchMoreFeeds = () => {
     setHasMore(true);
     let pageCount = getPages();
-    console.log(pageCount);
     setPage((prev) => (prev + 1 > pageCount ? prev : prev + 1));
   };
 
   // NOTE: get exact no of pages based on the length of posts
   const getPages = () => {
     let pageNo = Math.floor(totalPosts / limit);
-    let remainingPages = totalPosts % limit;
+    let remainingPages =
+      Math.floor((totalPosts % limit) / 20) > 0
+        ? Math.floor((totalPosts % limit) / 20)
+        : 1;
     const totalPages = pageNo + remainingPages;
     return totalPages;
   };
