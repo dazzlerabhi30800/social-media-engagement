@@ -13,7 +13,7 @@ const Posts = () => {
       <h2 className="font-bold text-black text-2xl">Feed</h2>
       {posts.length > 0 ? (
         <InfiniteScroll
-          className="w-full"
+          className="w-full overflow-x-hidden"
           dataLength={posts.length}
           next={fetchMoreFeeds}
           hasMore={posts.length !== totalPosts}
@@ -23,7 +23,7 @@ const Posts = () => {
             </div>
           }
         >
-          <div className="flex flex-col gap-10 mt-8">
+          <div className="flex flex-col gap-10 mt-8 overflow-x-hidden">
             {posts?.map((post, index) => (
               <PostComp post={post} key={index} />
             ))}

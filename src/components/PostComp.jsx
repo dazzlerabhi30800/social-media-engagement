@@ -50,7 +50,6 @@ const PostComp = ({ post }) => {
           }}
           // slidesPerView={post?.post_url.length > 1 ? 1.5 : 1}
           slidesPerView={1}
-          // slidesPerGroup={1}
           modules={[Pagination]}
           className="mySwiper overflow-hidden w-full h-[270px] sm:h-[300px]"
         >
