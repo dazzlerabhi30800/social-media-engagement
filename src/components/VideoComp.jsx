@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import VisibleElement from "./VisibleElement";
+import PropTypes from "prop-types";
 
 const VideoComp = ({ link }) => {
   const [isPlaying, setIsPlaying] = useState(false);

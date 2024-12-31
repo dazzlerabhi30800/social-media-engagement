@@ -18,6 +18,8 @@ export default function ConfigFunc() {
     setHasMore,
     setLoading,
     setPostAnimate,
+    setFiles,
+    files,
   } = useSocialContext();
   const navigate = useNavigate();
   const limit = 20;
@@ -320,6 +322,23 @@ export default function ConfigFunc() {
     }
   };
 
+  // NOTE: to upload files
+
+  const uploadFiles = (e) => {
+    const newFiles = e.target.files;
+    const filesArr = [...files];
+    for (let i = 0; i < newFiles.length; i++) {
+      filesArr.push(newFiles[i]);
+    }
+    if (filesArr.length > 3) {
+      toast.error("you can't upload more than 3 image files!!", {
+        duration: 3000,
+      });
+      return;
+    }
+    setFiles(filesArr);
+  };
+
   // format post timestamps
   const formatTime = (time) => {
     if (!time) return;
@@ -341,5 +360,6 @@ export default function ConfigFunc() {
     fetchMoreFeeds,
     getPost,
     handlePostLikes,
+    uploadFiles,
   };
 }

@@ -2,11 +2,10 @@ import { FaArrowLeft, FaCamera, FaFile } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSocialContext } from "../../context/SocialContext";
 import ConfigFunc from "../../config/ConfigFunc";
-import toast from "react-hot-toast";
 
 const CreatePost = () => {
   const { files, setFiles, title, setTitle } = useSocialContext();
-  const { paddingStyles } = ConfigFunc();
+  const { paddingStyles, uploadFiles } = ConfigFunc();
   const navigate = useNavigate();
 
   // save post
@@ -39,18 +38,7 @@ const CreatePost = () => {
           <div className="flex flex-col mt-12 gap-8 text-xl font-bold">
             <div className="w-full">
               <input
-                onChange={(e) => {
-                  const newFiles = e.target.files;
-                  const filesArr = [];
-                  for (let i = 0; i < newFiles.length; i++) {
-                    filesArr.push(newFiles[i]);
-                  }
-                  if (filesArr.length > 3) {
-                    toast.error("You can't upload more than 3 image files!!");
-                    return;
-                  }
-                  setFiles(filesArr);
-                }}
+                onChange={uploadFiles}
                 accept="image/*,video/mp4"
                 type="file"
                 multiple

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const HighlighHashtags = ({ title }) => {
   if (!title) return;
@@ -39,7 +40,7 @@ const HighlighHashtags = ({ title }) => {
   );
 };
 
-HighlightHashtags.propTypes = {
+HighlighHashtags.propTypes = {
   title: PropTypes.string.isRequired,
 };
 

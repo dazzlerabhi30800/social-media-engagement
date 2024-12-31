@@ -19,7 +19,7 @@ const ConfirmCreatePost = () => {
     saveToCloudStorage,
     setTitle,
   } = useSocialContext();
-  const { paddingStyles, fetchFeed } = ConfigFunc();
+  const { paddingStyles, fetchFeed, uploadFiles } = ConfigFunc();
   const navigate = useNavigate();
   const handleRemoveFiles = (index) => {
     const fileArr = [...files];
@@ -113,20 +113,7 @@ const ConfirmCreatePost = () => {
           files.length !== 3 && (
             <div className="w-full">
               <input
-                onChange={(e) => {
-                  const newFiles = e.target.files;
-                  const filesArr = [...files];
-                  for (let i = 0; i < newFiles.length; i++) {
-                    filesArr.push(newFiles[i]);
-                  }
-                  if (filesArr.length > 3) {
-                    toast.error("you can't upload more than 3 image files!!", {
-                      duration: 3000,
-                    });
-                    return;
-                  }
-                  setFiles(filesArr);
-                }}
+                onChange={uploadFiles}
                 type="file"
                 multiple
                 id="updateFiles"
@@ -153,7 +140,7 @@ const ConfirmCreatePost = () => {
       </div>
       <button
         onClick={handleAddPost}
-        disabled={loading}
+        disabled={loading || files.length > 3}
         className="flex items-center gap-5 justify-center py-3 px-6 rounded-[30px] bg-darkGrey text-white w-full text-lg hover:bg-gray-700 disabled:opacity-70"
       >
         {loading && <RiLoader3Fill className="animate-spin" size={30} />}
