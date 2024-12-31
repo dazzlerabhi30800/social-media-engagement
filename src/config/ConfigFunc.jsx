@@ -27,7 +27,7 @@ export default function ConfigFunc() {
   // NOTE: function to fetch Post
   const fetchFeed = async () => {
     setLoading(true);
-    const { data: countData, count } = await supabase
+    const { count } = await supabase
       .from("posts")
       .select("*", { count: "exact", head: true });
     const { data, error } = await supabase
@@ -119,73 +119,8 @@ export default function ConfigFunc() {
     }
   };
 
-  //NOTE: update banner image to cloud storage
-  const saveToCloudStorage = async (file, prevBanner) => {
-    if (!file && !prevBanner) {
-      return false;
-    }
-    if (!file) {
-      return prevBanner;
-    }
-    if (!file.type.includes("image/")) {
-      toast.error("You can only upload image files");
-      return false;
-    }
-    const fileName = `posts/${file.name}-${Date.now()}`;
-    const compressedFile = await compressFile(file);
-    if (!compressedFile) {
-      toast.error("cannot compress file. Please try again");
-      return;
-    }
-    if (!prevBanner) {
-      const { data, error } = await supabase.storage
-        .from("post-imgs")
-        .upload(fileName, compressedFile, {
-          cacheControl: "0",
-        });
-      if (data) {
-        const { data: fileUrl } = supabase.storage
-          .from("post-imgs")
-          .getPublicUrl(data?.path);
-        const info = {
-          path: data?.path,
-          fileUrl: fileUrl?.publicUrl,
-        };
-        return info;
-      } else {
-        toast.error(error.message);
-        return false;
-      }
-    } else {
-      const { data, error } = await supabase.storage
-        .from("post-imgs")
-        .remove([prevBanner.path]);
-
-      const { data: newFile, error: newError } = await supabase.storage
-        .from("post-imgs")
-        .upload(fileName, compressedFile, {
-          cacheControl: "0",
-        });
-      if (error) {
-        toast.error(error.message);
-      }
-      if (newError) {
-        toast.error(newError.message);
-      } else {
-        const { data: fileUrl } = supabase.storage
-          .from("post-imgs")
-          .getPublicUrl(newFile?.path);
-        const info = {
-          path: newFile?.path,
-          fileUrl: fileUrl?.publicUrl,
-        };
-        return info;
-      }
-    }
-  };
-
-  // update the user profile photo url
-  const updateUserProfileImg = async (currentImg, newImg) => {
+  // update the user profile & banner photo url
+  const updateUserProfileImg = async (currentImg, newImg, width) => {
     if (!currentImg && !newImg) {
       return false;
     }
@@ -197,12 +132,12 @@ export default function ConfigFunc() {
       return false;
     }
     const fileName = `posts/${newImg.name}-${Date.now()}`;
-    const compressedFile = await compressFile(newImg, 150);
+    const compressedFile = await compressFile(newImg, width);
     if (!compressedFile) {
       toast.error("cannot compress file. Please try again");
       return;
     }
-    if (!currentImg.path) {
+    if (!currentImg.path || !currentImg) {
       const { data, error } = await supabase.storage
         .from("post-imgs")
         .upload(fileName, compressedFile, {
@@ -222,7 +157,7 @@ export default function ConfigFunc() {
         return false;
       }
     } else {
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from("post-imgs")
         .remove([currentImg.path]);
 
@@ -265,10 +200,15 @@ export default function ConfigFunc() {
     }
     setLoading(true);
 
-    const fileUrl = await saveToCloudStorage(bannerFile, prevBanner);
-    const profileInfo = await updateUserProfileImg(profileImg, newProfileImg);
+    // const fileUrl = await saveToCloudStorage(bannerFile, prevBanner);
+    const fileUrl = await updateUserProfileImg(prevBanner, bannerFile, 600);
+    const profileInfo = await updateUserProfileImg(
+      profileImg,
+      newProfileImg,
+      150,
+    );
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("users")
       .update({
         name: name,
