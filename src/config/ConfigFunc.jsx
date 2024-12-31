@@ -137,7 +137,7 @@ export default function ConfigFunc() {
       toast.error("cannot compress file. Please try again");
       return;
     }
-    if (!currentImg.path || !currentImg) {
+    if (!currentImg || !currentImg.path) {
       const { data, error } = await supabase.storage
         .from("post-imgs")
         .upload(fileName, compressedFile, {
