@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 const VisibleElement = (ref) => {
   const [visible, setVisible] = useState(false);
   const callbackFunc = (entries) => {
-    // if (visible === true) return;
     const [entry] = entries;
     if (entry.isIntersecting) {
       setVisible(true);
@@ -14,9 +13,6 @@ const VisibleElement = (ref) => {
   };
   useEffect(() => {
     if (!ref.current) return;
-    // if (visible === true) {
-    //   return;
-    // }
     const observer = new IntersectionObserver(callbackFunc, {
       root: null,
       rootMargin: "0px",

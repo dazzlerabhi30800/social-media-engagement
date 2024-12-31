@@ -9,6 +9,7 @@ import { useSocialContext } from "../context/SocialContext";
 import VideoComp from "./VideoComp";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ConfigFunc from "../config/ConfigFunc";
+import PropTypes from "prop-types";
 
 const PostComp = ({ post }) => {
   const { formatTime, handlePostLikes } = ConfigFunc();
@@ -48,8 +49,8 @@ const PostComp = ({ post }) => {
           pagination={{
             clickable: true,
           }}
-          // slidesPerView={post?.post_url.length > 1 ? 1.5 : 1}
-          slidesPerView={1}
+          slidesPerView={post?.post_url.length > 1 ? 1.2 : 1}
+          // slidesPerView={1}
           modules={[Pagination]}
           className="mySwiper overflow-hidden w-full h-[270px] sm:h-[300px]"
         >
@@ -100,6 +101,10 @@ const PostComp = ({ post }) => {
       </div>
     </div>
   );
+};
+
+PostComp.propTypes = {
+  post: PropTypes.object.isRequired,
 };
 
 export default PostComp;

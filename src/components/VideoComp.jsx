@@ -35,4 +35,8 @@ const VideoComp = ({ link }) => {
   );
 };
 
+VideoComp.propTypes = {
+  link: PropTypes.string.isRequired,
+};
+
 export default VideoComp;

@@ -39,4 +39,8 @@ const HighlighHashtags = ({ title }) => {
   );
 };
 
+HighlightHashtags.propTypes = {
+  title: PropTypes.string.isRequired,
+};
+
 export default HighlighHashtags;
