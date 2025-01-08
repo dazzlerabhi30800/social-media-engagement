@@ -15,10 +15,9 @@ import CommentFuncs from "../config/CommentFuncs";
 
 const PostComp = ({ post }) => {
   const [showComments, setShowComments] = useState(false);
-  const [commentCount, setCommentCount] = useState(0);
 
   const { formatTime, handlePostLikes } = ConfigFunc();
-  const { getCommentCount } = CommentFuncs();
+  const { fetchComments } = CommentFuncs();
   const { setSharePostData, userInfo, loading, postAnimate } =
     useSocialContext();
   const navigate = useNavigate();
@@ -33,9 +32,6 @@ const PostComp = ({ post }) => {
       postData: dialog ? prev.postData : null,
     }));
   }, [dialog]);
-  useEffect(() => {
-    getCommentCount(post.id).then((count) => setCommentCount(count));
-  }, [post]);
   return (
     <div className="p-5 rounded-[26px] shadow-md bg-slate-100 flex flex-col w-full">
       <div className="flex items-center gap-2">
@@ -82,14 +78,20 @@ const PostComp = ({ post }) => {
       </div>
       <div className="mt-4 flex items-center justify-between">
         <div
-          className={`flex items-center ${post?.likes.includes(userInfo?.id) ? "text-red-500 text-2xl" : "text-gray-500"}`}
+          className={`flex items-center ${
+            post?.likes.includes(userInfo?.id)
+              ? "text-red-500 text-2xl"
+              : "text-gray-500"
+          }`}
         >
           <button
             disabled={loading}
             onClick={() => handlePostLikes(post?.id, post?.likes, userInfo?.id)}
           >
             <FaHeart
-              className={` text-xl hover:text-red-500  ${loading && postAnimate === post?.id && "animate-ping"} `}
+              className={` text-xl hover:text-red-500  ${
+                loading && postAnimate === post?.id && "animate-ping"
+              } `}
             />
           </button>
           {loading && <RiLoader3Fill size={25} className="animate-spin ml-1" />}
@@ -99,7 +101,9 @@ const PostComp = ({ post }) => {
             </span>
           )}
           <button
-            className={`${showComments ? "text-green-500" : "text-gray-500"} hover:text-green-500 ml-5 flex items-center text-lg gap-1`}
+            className={`${
+              showComments ? "text-green-500" : "text-gray-500"
+            } hover:text-green-500 ml-5 flex items-center text-lg gap-1`}
             onClick={() => setShowComments((prev) => !prev)}
           >
             {showComments ? (
@@ -107,7 +111,7 @@ const PostComp = ({ post }) => {
             ) : (
               <FaRegComment size={20} />
             )}
-            <span className="mt-1">{commentCount}</span>
+            <span className="mt-1">{post.comments[0].count}</span>
           </button>
         </div>
         <button
@@ -122,7 +126,12 @@ const PostComp = ({ post }) => {
         </button>
       </div>
       {/* NOTE: Comments */}
-      {showComments && <Comments postId={post?.id} />}
+      {showComments && (
+        <Comments
+          id={post?.id}
+          fetchFunc={fetchComments}
+        />
+      )}
     </div>
   );
 };

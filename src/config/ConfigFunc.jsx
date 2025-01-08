@@ -32,7 +32,7 @@ export default function ConfigFunc() {
       .select("*", { count: "exact", head: true });
     const { data, error } = await supabase
       .from("posts")
-      .select("*, users(photoUrl, name)")
+      .select("*, users(photoUrl, name),comments:comments(count)")
       .order("created_at", { ascending: false })
       .limit(page * limit);
     if (data) {
@@ -193,7 +193,7 @@ export default function ConfigFunc() {
     bannerFile,
     prevBanner,
     profileImg,
-    newProfileImg,
+    newProfileImg
   ) => {
     if (!id || !name || !bio) {
       alert("Please fill all the required fields");
@@ -205,7 +205,7 @@ export default function ConfigFunc() {
     const profileInfo = await updateUserProfileImg(
       profileImg,
       newProfileImg,
-      150,
+      150
     );
 
     const { error } = await supabase

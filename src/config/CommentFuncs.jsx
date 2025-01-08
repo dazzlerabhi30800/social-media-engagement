@@ -10,7 +10,8 @@ const CommentFuncs = () => {
     const { data, error } = await supabase
       .from("comments")
       .select("*, users(photoUrl, name)")
-      .eq("postId", id);
+      .eq("postId", id)
+      .order("created_at", { ascending: false });
     if (!error) {
       return data;
     }
@@ -37,16 +38,33 @@ const CommentFuncs = () => {
     return true;
   };
 
-  // NOTE: to get no fo comments for a post
-  const getCommentCount = async (postId) => {
-    const { count } = await supabase
+  const postReply = async (id, replyString, replies) => {
+    if (!userInfo) {
+      toast.error("You are not logged in");
+      return;
+    }
+    const newReplies = [...replies];
+    newReplies.push({
+      id: id,
+      replyString: replyString,
+      users: userInfo,
+      date: Date.now(),
+    });
+    const { error } = await supabase
       .from("comments")
-      .select("id", { count: "exact", head: true })
-      .eq("postId", postId);
-    return count;
+      .update({
+        replies: newReplies,
+      })
+      .eq("id", id);
+    if (error) {
+      console.log(error);
+      toast.error(error.message);
+      return;
+    }
+    return true;
   };
 
-  return { fetchComments, postComment, getCommentCount };
+  return { fetchComments, postComment, postReply };
 };
 
 export default CommentFuncs;
