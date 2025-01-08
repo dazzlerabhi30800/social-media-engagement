@@ -23,9 +23,8 @@
 3. In the .env.local file paste the code below, for this project to run it locally you can use my api keys.
 
 ```
-   VITE_SECRET_SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsdWF0YWVvb3drY3VjZHZsd2dsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczNDI3Nzk4OCwiZXhwIjoyMDQ5ODUzOTg4fQ.VUAvjvNe20ebViLo6FD2yRiF5UT5wfilCW36mFpaFEM
-   VITE_FIREBASE_KEY=AIzaSyAfYNJDfie4tBbwbL0HxIU0e4c0TzXy2Z4
-
+   VITE_SECRET_SUPABASE_KEY= YOUR SUPABASE SECRET KEY
+   VITE_FIREBASE_KEY= YOUR FIREBASE API KEY
 ```
 
 4. After doing everything above mentioned, run the server using `npm run dev`.
