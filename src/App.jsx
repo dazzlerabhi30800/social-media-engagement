@@ -12,7 +12,6 @@ import PostViewPage from "./page/PostView/PostViewPage";
 import ConfirmCreatePost from "./page/confirmPost/ConfirmCreatePost";
 import { Toaster } from "react-hot-toast";
 import ScrollToTopBtn from "./components/ScrollToTopBtn";
-
 function App() {
   const { sharePostData, userInfo } = useSocialContext();
   return (

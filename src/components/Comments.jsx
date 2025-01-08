@@ -6,7 +6,7 @@ import HighOrderComment from "./HighOrderComment";
 import PropTypes from "prop-types";
 import CommentFuncs from "../config/CommentFuncs";
 
-const Comments = ({ id, fetchFunc }) => {
+const Comments = ({ id, setCommentCount, fetchFunc }) => {
   const [comments, setComments] = useState([]);
   const [fetching, setFetching] = useState(fetchFunc ? true : false);
   const { postComment } = CommentFuncs();
@@ -16,6 +16,7 @@ const Comments = ({ id, fetchFunc }) => {
       fetchFunc(id).then((res) => {
         setComments(res);
         setFetching(false);
+        setCommentCount(res.length);
       });
   }, [fetching]);
   return (

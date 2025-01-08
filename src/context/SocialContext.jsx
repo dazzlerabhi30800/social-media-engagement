@@ -74,7 +74,7 @@ export default function SocialContextProvider({ children }) {
         },
       ]);
       if (!error) {
-        await registerNewUser(user);
+      await registerNewUser(user);  
       }
     } else {
       setUserInfo(data[0]);

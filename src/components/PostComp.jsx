@@ -15,6 +15,7 @@ import CommentFuncs from "../config/CommentFuncs";
 
 const PostComp = ({ post }) => {
   const [showComments, setShowComments] = useState(false);
+  const [commentCount, setCommentCount] = useState(post?.comments[0].count);
 
   const { formatTime, handlePostLikes } = ConfigFunc();
   const { fetchComments } = CommentFuncs();
@@ -32,6 +33,7 @@ const PostComp = ({ post }) => {
       postData: dialog ? prev.postData : null,
     }));
   }, [dialog]);
+
   return (
     <div className="p-5 rounded-[26px] shadow-md bg-slate-100 flex flex-col w-full">
       <div className="flex items-center gap-2">
@@ -111,7 +113,7 @@ const PostComp = ({ post }) => {
             ) : (
               <FaRegComment size={20} />
             )}
-            <span className="mt-1">{post.comments[0].count}</span>
+            {commentCount > 0 && <span className="mt-1">{commentCount}</span>}
           </button>
         </div>
         <button
@@ -129,6 +131,7 @@ const PostComp = ({ post }) => {
       {showComments && (
         <Comments
           id={post?.id}
+          setCommentCount={setCommentCount}
           fetchFunc={fetchComments}
         />
       )}
