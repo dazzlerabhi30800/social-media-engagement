@@ -14,7 +14,7 @@ const ReplyComp = ({ reply }) => {
           <h3 className="font-medium text-xs text-darkGrey leading-none">
             {reply.users?.name}
           </h3>
-          <p className="text-[10px] text-gray-600">{formatTime(reply.date)}</p>
+          <p className="text-[8px] text-gray-600">{formatTime(reply.date)}</p>
         </div>
       </div>
       <div className="p-1 text-xs mt-1 border-b border-gray-300 font-medium text-darkGrey">

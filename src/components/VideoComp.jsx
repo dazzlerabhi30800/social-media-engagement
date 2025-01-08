@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import VisibleElement from "./VisibleElement";
 import PropTypes from "prop-types";
+import { useInView } from "motion/react";
 
 const VideoComp = ({ link }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const ref = useRef(null);
-  const visible = VisibleElement(ref);
+  const visible = useInView(ref);
 
   useEffect(() => {
     if (!ref?.current) return;
