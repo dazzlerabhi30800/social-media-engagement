@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { FaHeart } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaComment, FaHeart, FaRegComment } from "react-icons/fa";
 import { IoPaperPlane } from "react-icons/io5";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Pagination } from "swiper/modules";
@@ -10,14 +10,22 @@ import VideoComp from "./VideoComp";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ConfigFunc from "../config/ConfigFunc";
 import PropTypes from "prop-types";
+import Comments from "./Comments";
+import CommentFuncs from "../config/CommentFuncs";
 
 const PostComp = ({ post }) => {
+  const [showComments, setShowComments] = useState(false);
+  const [commentCount, setCommentCount] = useState(0);
+
   const { formatTime, handlePostLikes } = ConfigFunc();
+  const { getCommentCount } = CommentFuncs();
   const { setSharePostData, userInfo, loading, postAnimate } =
     useSocialContext();
   const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
   let dialog = searchParams.get("showDialog");
+
   useEffect(() => {
     setSharePostData((prev) => ({
       ...prev,
@@ -25,6 +33,9 @@ const PostComp = ({ post }) => {
       postData: dialog ? prev.postData : null,
     }));
   }, [dialog]);
+  useEffect(() => {
+    getCommentCount(post.id).then((count) => setCommentCount(count));
+  }, [post]);
   return (
     <div className="p-5 rounded-[26px] shadow-md bg-slate-100 flex flex-col w-full">
       <div className="flex items-center gap-2">
@@ -87,6 +98,17 @@ const PostComp = ({ post }) => {
               {post?.likes.length}
             </span>
           )}
+          <button
+            className={`${showComments ? "text-green-500" : "text-gray-500"} hover:text-green-500 ml-5 flex items-center text-lg gap-1`}
+            onClick={() => setShowComments((prev) => !prev)}
+          >
+            {showComments ? (
+              <FaComment size={20} />
+            ) : (
+              <FaRegComment size={20} />
+            )}
+            <span className="mt-1">{commentCount}</span>
+          </button>
         </div>
         <button
           onClick={() => {
@@ -99,6 +121,8 @@ const PostComp = ({ post }) => {
           Share
         </button>
       </div>
+      {/* NOTE: Comments */}
+      {showComments && <Comments postId={post?.id} />}
     </div>
   );
 };
