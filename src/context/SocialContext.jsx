@@ -36,11 +36,14 @@ export default function SocialContextProvider({ children }) {
   // use effect
 
   useEffect(() => {
+    setLoading(true);
     const unSub = onAuthStateChanged(auth, async (user) => {
       if (user) {
         await registerNewUser(user);
+        setLoading(false);
       }
       if (!user) {
+        setLoading(false);
         return;
       }
     });
@@ -55,30 +58,34 @@ export default function SocialContextProvider({ children }) {
 
   // Save New user to database
   const registerNewUser = async (user) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("users")
       .select("*")
       .eq("email", user?.email)
       .limit(1);
     if (data.length === 0) {
-      const { error } = await supabase.from("users").insert([
-        {
-          id: user?.uid,
-          name: user?.displayName,
-          email: user?.email,
-          photoUrl: {
-            fileUrl:
-              "https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659652_640.png",
-            path: null,
+      const { data, error } = await supabase
+        .from("users")
+        .insert([
+          {
+            id: user?.uid,
+            name: user?.displayName,
+            email: user?.email,
+            photoUrl: {
+              fileUrl:
+                "https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659652_640.png",
+              path: null,
+            },
           },
-        },
-      ]);
-      if (!error) {
-      await registerNewUser(user);  
+        ])
+        .select("*");
+      if (data && !error) {
+        setUserInfo(data[0]);
+        // return data[0];
       }
     } else {
       setUserInfo(data[0]);
-      return data[0];
+      // return data[0];
     }
   };
 

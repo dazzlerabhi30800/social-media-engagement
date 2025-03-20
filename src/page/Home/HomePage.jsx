@@ -2,9 +2,10 @@ import { auth, provider } from "../../config/FirebaseConfig";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { useSocialContext } from "../../context/SocialContext";
 import { useNavigate } from "react-router-dom";
+import { RiLoader3Fill } from "react-icons/ri";
 
 const Home = () => {
-  const { userInfo } = useSocialContext();
+  const { userInfo, loading } = useSocialContext();
   const navigate = useNavigate();
   const googleAuth = async () => {
     await signInWithPopup(auth, provider).then((_) => navigate("/feed"));
@@ -26,22 +27,18 @@ const Home = () => {
             Moments That Matter, Shared Forever.
           </p>
         </div>
-        {userInfo ? (
-          <button
-            onClick={() => signOut(auth)}
-            className="flex items-center gap-3 bg-darkGrey rounded-[30px] p-3 px-8 text-white font-semibold hover:brightness-125"
-          >
-            Logout - {userInfo?.name && userInfo?.name.split(/\s/)[0]}
-          </button>
-        ) : (
-          <button
-            onClick={googleAuth}
-            className="flex items-center gap-3 bg-darkGrey rounded-[30px] p-3 px-8 text-white font-semibold hover:brightness-125"
-          >
-            <img src="./google.png" alt="google" />
-            Continue with Google
-          </button>
-        )}
+        <button
+          disabled={loading}
+          onClick={googleAuth}
+          className="flex items-center gap-3 bg-darkGrey rounded-[30px] p-3 px-8 text-white font-semibold hover:brightness-125 disabled:opacity-70"
+        >
+          <img src="./google.png" alt="google" />
+          {loading ? (
+            <RiLoader3Fill className="animate-spin text-2xl" />
+          ) : (
+            "Continue with Google"
+          )}
+        </button>
       </div>
     </div>
   );
