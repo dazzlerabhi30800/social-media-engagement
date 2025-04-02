@@ -1,15 +1,22 @@
 import { auth, provider } from "../../config/FirebaseConfig";
-import { signInWithPopup, signOut } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 import { useSocialContext } from "../../context/SocialContext";
 import { useNavigate } from "react-router-dom";
 import { RiLoader3Fill } from "react-icons/ri";
+import { useLayoutEffect } from "react";
 
 const Home = () => {
-  const { userInfo, loading } = useSocialContext();
+  const { loading } = useSocialContext();
   const navigate = useNavigate();
   const googleAuth = async () => {
     await signInWithPopup(auth, provider).then((_) => navigate("/feed"));
   };
+
+  useLayoutEffect(() => {
+    const image = new Image();
+    image.src = "./banner.png";
+  }, []);
+
   return (
     <div className="h-screen relative bg-[url('/banner.png')] bg-center bg-cover md:bg-[length:100%_180%] md:bg-no-repeat w-full bg-red-200 text-darkGrey">
       {/* Google Signin Comp */}
