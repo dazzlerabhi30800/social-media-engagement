@@ -6,12 +6,12 @@ import { RiLoader3Fill } from "react-icons/ri";
 import ConfigFunc from "../../config/ConfigFunc";
 
 const Posts = () => {
-  const { posts, totalPosts } = useSocialContext();
+  const { posts, totalPosts, loading } = useSocialContext();
   const { fetchMoreFeeds } = ConfigFunc();
   return (
     <div className="mt-10 w-full">
       <h2 className="font-bold text-black text-2xl">Feed</h2>
-      {posts.length > 0 ? (
+      {posts.length > 0 && !loading ? (
         <InfiniteScroll
           className="w-full overflow-x-hidden"
           dataLength={posts.length}
@@ -25,7 +25,7 @@ const Posts = () => {
         >
           <div className="flex flex-col gap-10 mt-8 overflow-x-hidden">
             {posts?.map((post, index) => (
-              <PostComp post={post} key={index} />
+              <PostComp comments={true} post={post} key={index} />
             ))}
           </div>
         </InfiniteScroll>

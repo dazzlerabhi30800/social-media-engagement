@@ -23,6 +23,7 @@ const PostViewPage = () => {
       console.log(error);
     }
   };
+  console.log(postInfo);
 
   if (!postInfo)
     return (
@@ -34,10 +35,13 @@ const PostViewPage = () => {
     <div
       className={`${paddingStyles} w-full flex flex-col gap-10 h-fit flex-1 overflow-hidden`}
     >
-      <Link to="/" className="bg-darkGrey p-3 w-fit rounded-[50%] text-white hover:bg-gray-600">
+      <Link
+        to="/"
+        className="bg-darkGrey p-3 w-fit rounded-[50%] text-white hover:bg-gray-600"
+      >
         <FaArrowLeftLong size={17} />
       </Link>
-      <PostComp post={postInfo} />
+      <PostComp post={postInfo} comments={false} />
     </div>
   );
 };

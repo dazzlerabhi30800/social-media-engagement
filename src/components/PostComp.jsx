@@ -13,9 +13,11 @@ import PropTypes from "prop-types";
 import Comments from "./Comments";
 import CommentFuncs from "../config/CommentFuncs";
 
-const PostComp = ({ post }) => {
+const PostComp = ({ post, comments }) => {
   const [showComments, setShowComments] = useState(false);
-  const [commentCount, setCommentCount] = useState(post?.comments[0].count);
+  const [commentCount, setCommentCount] = useState(
+    comments ? post?.comments[0]?.count : 0,
+  );
 
   const { formatTime, handlePostLikes } = ConfigFunc();
   const { fetchComments } = CommentFuncs();
