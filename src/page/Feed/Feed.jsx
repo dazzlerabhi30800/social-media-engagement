@@ -1,5 +1,5 @@
 import Header from "./Header";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useSocialContext } from "../../context/SocialContext";
 import Posts from "./Posts";
 import { RiLoader3Fill } from "react-icons/ri";
@@ -9,7 +9,7 @@ const FeedPage = () => {
   const { userInfo, page } = useSocialContext();
   const { fetchFeed, paddingStyles } = ConfigFunc();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchFeed();
   }, [page]);
 

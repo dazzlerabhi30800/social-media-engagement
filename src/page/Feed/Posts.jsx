@@ -11,7 +11,7 @@ const Posts = () => {
   return (
     <div className="mt-10 w-full">
       <h2 className="font-bold text-black text-2xl">Feed</h2>
-      {posts.length > 0 && !loading ? (
+      {posts.length > 0 && !loading && (
         <InfiniteScroll
           className="w-full overflow-x-hidden"
           dataLength={posts.length}
@@ -29,7 +29,8 @@ const Posts = () => {
             ))}
           </div>
         </InfiniteScroll>
-      ) : (
+      )}
+      {posts.length === 0 && !loading && (
         <div className="flex w-full items-center justify-center text-xl font-medium mt-10">
           There are no posts to show!!
         </div>
